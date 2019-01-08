@@ -5,18 +5,27 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
+/**
+ * Limelight vision processing and high FOV driver camera subsystem. Contains
+ * methods necessary to accessing data from and controlling Limelight camera
+ * This class is to be used in conjunction with other subsystems and/or commands
+ * in order achieve automation
+ * 
+ * @author Reece Holmdahl
+ * @version 1/8/19
+ */
 public class Limelight extends Subsystem {
-
 
     /* INSTANCE VARIABLES */
 
     // Network table for limelight, has camera data
     private final NetworkTable limelight = NetworkTableInstance.getDefault().getTable("limelight");
 
-
     /* SUBSYSTEM CONSTRUCTOR */
 
-    // Limelight subsystem constructor, no args necessary
+    /**
+     * Limelight subsystem constructor. No arguments necessary or present
+     */
     public Limelight() {
         // Set camera mode to use vision processing
         setCameraMode(CameraMode.VISION_PROCESSING);
@@ -31,71 +40,110 @@ public class Limelight extends Subsystem {
         limelight.getEntry("snapshot").setNumber(0);
     }
 
+    /* LIMELIGHT DATA GETTERS */
 
-    /* LIMELIGHT DATA ACCESSORS */
-    
-    // True or false for if can see target
+    /**
+     * Checks if the Limelight can currently see the calibrated target
+     * 
+     * @return Returns a boolean value for if the Limelight can see target (true) or
+     *         not (false)
+     */
     public boolean seeTarget() {
-        NetworkTableEntry tv = limelight.getEntry("tv");
-        double tvVal = tv.getDouble(0);
-        boolean seeTarget = tvVal == 1;
+        NetworkTableEntry targetViewable = limelight.getEntry("tv");
+        double val = targetViewable.getDouble(0);
+        boolean seeTarget = (val == 1);
         return seeTarget;
     }
 
-    // Horizontal offset from target, range={-27, 27} degrees TODO Do you prefer Tx, or something like HOffset
-    public double getTx() {
-        NetworkTableEntry tx = limelight.getEntry("tx");
-        double txVal = tx.getDouble(0);
-        return txVal;
+    /**
+     * Horizontal offset from target visible from Limelight
+     * 
+     * @return Returns raw double value from Limelight with range of {-27, 27}
+     *         degrees
+     */
+    public double getHOffset() {
+        NetworkTableEntry targetX = limelight.getEntry("tx");
+        double val = targetX.getDouble(0);
+        return val;
     }
 
-    // Vertical offset from target, range={-20.5, 20.5} degrees TODO Same thing here, Ty or like VOffset
-    public double getTy() {
-        NetworkTableEntry ty = limelight.getEntry("ty");
-        double tyVal = ty.getDouble(0);
-        return tyVal;
+    /**
+     * Vertical offset from target visible from Limelight
+     * 
+     * @return Returns raw double value from Limelight with range of {-20.5, 20.5}
+     *         degrees
+     */
+    public double getVOffset() {
+        NetworkTableEntry targetY = limelight.getEntry("ty");
+        double val = targetY.getDouble(0);
+        return val;
     }
 
-    // Size of target in % of screen size
+    /**
+     * Size of target in % of screen size visible from Limelight
+     * 
+     * @return Returns double value from {0, 100} representing percent of screen
+     *         space target takes up
+     */
     public double getTargetSize() {
-        NetworkTableEntry ta = limelight.getEntry("ta");
-        double percent = ta.getDouble(0);
-        return percent;
+        NetworkTableEntry targetArea = limelight.getEntry("ta");
+        double val = targetArea.getDouble(0);
+        return val;
     }
 
-    // Target skew in degrees, range={-90, 0} degrees TODO I'm not immediately sure what this does, so I'll read docs
+    /**
+     * Skew of target, or its rotation visible from Limelight
+     * 
+     * @return Returns the skew of visible target with range of {-90, 0} degrees
+     */
     public double getTargetSkew() {
-        NetworkTableEntry ts = limelight.getEntry("ts");
-        double skew = ts.getDouble(0);
-        return skew;
+        NetworkTableEntry targetSkew = limelight.getEntry("ts");
+        double val = targetSkew.getDouble(0);
+        return val;
     }
 
+    /* LIMELIGHT MEMBER SETTERS */
 
-    /* LIMELIGHT MEMBER MUTATORS */
-
-    // Set mode of camera
+    /**
+     * Set the mode of the camera on the Limelight. Options specified in CameraMode
+     * enum
+     * 
+     * @param mode The desired camera mode on Limelight
+     */
     public void setCameraMode(CameraMode mode) {
         int modeVal = mode.getVal();
         limelight.getEntry("camMode").setNumber(modeVal);
     }
 
-    // Set mode of LED
+    /**
+     * Set the LED mode of the Limelight. Options specified in LEDMode enum
+     * 
+     * @param mode The desired mode of LEDs on Limelight
+     */
     public void setLEDMode(LEDMode mode) {
         int modeVal = mode.getVal();
         limelight.getEntry("ledMode").setNumber(modeVal);
     }
 
-    // Set streaming mode
+    /**
+     * Set the streaming mode of the camera. Available options listed in StreamMode
+     * enum
+     * 
+     * @param mode The desired streaming mode of the camera
+     */
     public void setStreamMode(StreamMode mode) {
         int modeVal = mode.getVal();
         limelight.getEntry("stream").setNumber(modeVal);
     }
 
-    // Set limelight pipeline
+    /**
+     * TODO Figure out what pipeline means for Limelight
+     * 
+     * @param pipeline Set ID of Limelight vision pipeline
+     */
     public void setPipeline(int pipeline) {
         limelight.getEntry("pipeline").setNumber(pipeline);
     }
-
 
     /* LIMELIGHT OP MODE ENUMERATION */
 
@@ -129,7 +177,7 @@ public class Limelight extends Subsystem {
         }
     }
 
-    // Stream modes enumeration
+    // Stream modes enumeration, PiP stands for picture in picture
     enum StreamMode {
         STANDARD(0), PIP_MAIN(1), PIP_SECONDARY(2);
 
@@ -143,7 +191,6 @@ public class Limelight extends Subsystem {
             return val;
         }
     }
-
 
     /* EXTRANEOUS METHODS */
 
