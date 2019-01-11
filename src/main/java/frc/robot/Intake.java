@@ -1,8 +1,8 @@
-package frc.robot;
+package frc.robot; 
 
-import edu.wpi.first.wpilibj.command.Subsystem;
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.command.Subsystem; 
+import com.ctre.phoenix.motorcontrol.ControlMode; 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX; 
 
 /**
  * Intake subsystem for the robot to intake cargo. Contains all necessary
