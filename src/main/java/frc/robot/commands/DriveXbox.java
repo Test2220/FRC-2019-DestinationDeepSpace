@@ -1,7 +1,9 @@
 package frc.robot.commands;
 
 
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.OI;
 import frc.robot.Robot;
 
 
@@ -23,8 +25,8 @@ public class DriveXbox extends Command {
     @Override
     protected void execute() {
 
-        double move = -frc.robot.Robot.m_oi.stick.getY();
-        double turn = frc.robot.Robot.m_oi.stick.getX();
+        double move = -OI.driverController.getY(Hand.kRight);
+        double turn = OI.driverController.getX(Hand.kRight);
         Robot.m_driveTrain.curvatureDrive(move, turn);
 
     }
