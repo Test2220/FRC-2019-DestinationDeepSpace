@@ -1,22 +1,21 @@
-package frc.robot.commands;
+package frc.robot.commands; 
 
-import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.RobotMap;
-import frc.robot.subsystems.SpringHPPrototype;;
+import edu.wpi.first.wpilibj.command.Command; 
+import frc.robot.RobotMap; 
+import frc.robot.subsystems.SpringHPPrototype; ; 
 
 /**
  * Command that runs the spring hatch panel prototype
  * 
  * @author Dhruv Balasubramanian
- * @version 1/12/2019
- */
+ * @version 1/12/2019 */
 public class SpringHPCommand extends Command {
 
     // Instance Variables
-    boolean isRunning = true;
-    int direction;
-    SpringHPPrototype springHPObject = new SpringHPPrototype(RobotMap.SPRING_HP_PROTOTYPE_FORWARD,
-            RobotMap.SPRING_HP_PROTOTYPE_REVERSE);
+    boolean isRunning = true; 
+    int direction; 
+    SpringHPPrototype springHPObject = new SpringHPPrototype(RobotMap.SPRING_HP_PROTOTYPE_FORWARD, 
+            RobotMap.SPRING_HP_PROTOTYPE_REVERSE); 
 
     /**
      * Constructor that initializes the direction to set the pistons
@@ -24,22 +23,22 @@ public class SpringHPCommand extends Command {
      * @param direction: the direction to set to the pistons
      */
     public SpringHPCommand(int direction) {
-        requires(springHPObject);
-        this.direction = direction;
+        requires(springHPObject); 
+        this.direction = direction; 
     }
 
     /**
      * Sets the piston in the correct direction while command is active
      */
     public void execute() {
-        springHPObject.setPiston(direction);
+        springHPObject.setPiston(direction); 
     }
 
     /**
      * When called, ends the command by setting the isRunning boolean false
      */
     public void terminate() {
-        isRunning = false;
+        isRunning = false; 
     }
 
     /**
@@ -48,6 +47,6 @@ public class SpringHPCommand extends Command {
      * @return !isrunning: returns false if the command is running, true otherwise.
      */
     public boolean isFinished() {
-        return !isRunning;
+        return ! isRunning; 
     }
 }
