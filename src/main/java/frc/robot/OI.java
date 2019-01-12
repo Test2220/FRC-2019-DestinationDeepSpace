@@ -7,11 +7,7 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
-import frc.robot.commands.DriveXbox;
-
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -19,9 +15,10 @@ import frc.robot.commands.DriveXbox;
  */
 public class OI {
 
-  public static XboxController driverController = new XboxController(0); 
+  public XboxController driverController = new XboxController(0);
+
   public OI() {
-    new DriveXbox();
+
   }
   //// CREATING BUTTONS
   // One type of button is a joystick button which is any button on a
