@@ -8,7 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
+
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.XboxController;
  */
 public class OI {
 
-  private static final int _0 = 0;
+  
   //// CREATING BUTTONS
   // One type of button is a joystick button which is any button on a
   //// joystick.
