@@ -19,7 +19,10 @@ import frc.robot.commands.DriveXbox;
  */
 public class OI {
 
-  public static XboxController driverController = new XboxController(0);
+  public static XboxController driverController = new XboxController(0); 
+  public OI() {
+    new DriveXbox();
+  }
   //// CREATING BUTTONS
   // One type of button is a joystick button which is any button on a
   //// joystick.
@@ -48,8 +51,4 @@ public class OI {
   // Start the command when the button is released and let it run the command
   // until it is finished as determined by it's isFinished method.
   // button.whenReleased(new ExampleCommand());
-
-  public OI() {
-    
-  }
 }

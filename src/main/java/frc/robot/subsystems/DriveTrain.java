@@ -9,10 +9,10 @@ import frc.robot.commands.*;
 
 public class DriveTrain extends Subsystem {
 
-    public WPI_TalonSRX leftMaster = new WPI_TalonSRX(RobotMap.leftMaster);
-    public WPI_TalonSRX leftslave = new WPI_TalonSRX(RobotMap.leftSlave);
-    public WPI_TalonSRX rightMaster = new WPI_TalonSRX(RobotMap.rightMaster);
-    public WPI_TalonSRX rightslave = new WPI_TalonSRX(RobotMap.rightSlave);
+    public WPI_TalonSRX leftMaster = new WPI_TalonSRX(RobotMap.LEFT_MASTER);
+    public WPI_TalonSRX leftslave = new WPI_TalonSRX(RobotMap.LEFT_SLAVE);
+    public WPI_TalonSRX rightMaster = new WPI_TalonSRX(RobotMap.RIGHT_MASTER);
+    public WPI_TalonSRX rightslave = new WPI_TalonSRX(RobotMap.RIGHT_SLAVE);
 
     public DifferentialDrive drive = new DifferentialDrive(leftMaster, rightMaster);
 

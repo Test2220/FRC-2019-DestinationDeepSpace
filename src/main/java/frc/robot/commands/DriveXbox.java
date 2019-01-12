@@ -25,8 +25,8 @@ public class DriveXbox extends Command {
     @Override
     protected void execute() {
 
-        double move = -OI.driverController.getY(Hand.kRight);
-        double turn = OI.driverController.getX(Hand.kRight);
+        double move = -OI.driverController.getY();
+        double turn = OI.driverController.getX();
         Robot.m_driveTrain.curvatureDrive(move, turn);
 
     }
