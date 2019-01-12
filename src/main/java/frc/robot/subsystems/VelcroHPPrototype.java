@@ -7,7 +7,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * Subsystem for testing Velcro Hatch Panel Protoype
  * 
  * @author Dhruv Balasubramanian
- * @version 1/12/2019 */
+ * @version 1/12/2019 
+ */
 class VelcroHPPrototype extends Subsystem {
 
     // Instance variables
