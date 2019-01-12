@@ -4,13 +4,13 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- * Subsystem for testing Hatch Panel Protoypes
+ * Subsystem for testing Spring Hatch Panel Protoype
  * 
  * @author Dhruv Balasubramanian
  * @version 1/12/2019
  */
 
-public class SpringHatchPanelTest extends Subsystem {
+public class SpringHPPrototype extends Subsystem {
 
     // Instance variables
     private DoubleSolenoid piston;
@@ -21,7 +21,7 @@ public class SpringHatchPanelTest extends Subsystem {
      * @param forwardChannel: the channel that sets the piston forward
      * @param reverseChannel: the channel that sets the piston reverse
      */
-    public SpringHatchPanelTest(int forwardChannel, int reverseChannel) {
+    public SpringHPPrototype(int forwardChannel, int reverseChannel) {
         piston = new DoubleSolenoid(forwardChannel, reverseChannel);
     }
 
