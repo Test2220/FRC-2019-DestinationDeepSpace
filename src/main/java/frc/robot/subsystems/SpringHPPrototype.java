@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * @author Dhruv Balasubramanian
  * @version 1/12/2019
  */
-
 public class SpringHPPrototype extends Subsystem {
 
     // Instance variables

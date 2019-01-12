@@ -6,6 +6,12 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.*;
 
+/**
+ * Command that runs the Active Intake.
+ * 
+ * @author Dhruv Balasubramanian
+ * @version 1/12/2019
+ */
 public class ActiveIntake extends Command {
 
     // Instance variables
@@ -33,9 +39,9 @@ public class ActiveIntake extends Command {
     @Override
     public void execute() {
         if (isRunning) {
-            // Takes the speed to the 2.5th power in order to improve control
+            // Takes the speed to the 1.75th power in order to improve control
             speed = stick.getY();
-            speed = Math.pow(speed, 2.5);
+            speed = Math.pow(speed, 1.75);
             intakeObject.spin(ControlMode.PercentOutput, speed);
         }
     }
