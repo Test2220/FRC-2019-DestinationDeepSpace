@@ -23,8 +23,8 @@ public class TwilightXboxController {
     public final Button BACK_BUTTON ;
     public final Button START_BUTTON;
 
-    public TwilightXboxController() {
-        controller = new XboxController(0);
+    public TwilightXboxController(int port) {
+        controller = new XboxController(port);
         A_BUTTON = new JoystickButton(controller, 1);
         B_BUTTON = new JoystickButton(controller, 2);
         X_BUTTON = new JoystickButton(controller, 3);

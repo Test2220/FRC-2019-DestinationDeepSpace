@@ -26,8 +26,8 @@ public class OI {
    * controller
    */
   public OI() {
-    hatchPanelTestController1 = new TwilightXboxController(); 
-    hatchPanelTestController2 = new TwilightXboxController(); 
+    hatchPanelTestController1 = new TwilightXboxController(0); 
+    hatchPanelTestController2 = new TwilightXboxController(1); 
     hatchPanelTestController1.A_BUTTON.whenPressed(new MoveSpringHP(0)); 
     hatchPanelTestController1.B_BUTTON.whenPressed(new MoveSpringHP(1)); 
 
