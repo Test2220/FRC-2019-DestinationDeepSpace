@@ -1,18 +1,17 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems; 
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.DoubleSolenoid; 
+import edu.wpi.first.wpilibj.command.Subsystem; 
 
 /**
  * Subsystem for testing Spring Hatch Panel Protoype
  * 
  * @author Dhruv Balasubramanian
- * @version 1/12/2019
- */
+ * @version 1/12/2019 */
 public class SpringHPPrototype extends Subsystem {
 
     // Instance variables
-    private DoubleSolenoid piston;
+    private DoubleSolenoid piston; 
 
     /**
      * Constructor that initializes piston object
@@ -21,7 +20,7 @@ public class SpringHPPrototype extends Subsystem {
      * @param reverseChannel: the channel that sets the piston reverse
      */
     public SpringHPPrototype(int forwardChannel, int reverseChannel) {
-        piston = new DoubleSolenoid(forwardChannel, reverseChannel);
+        piston = new DoubleSolenoid(forwardChannel, reverseChannel); 
     }
 
     /**
@@ -32,9 +31,9 @@ public class SpringHPPrototype extends Subsystem {
      */
     public void setPiston(int direction) {
         if (direction == 0)
-            piston.set(DoubleSolenoid.Value.kForward);
+            piston.set(DoubleSolenoid.Value.kForward); 
         else if (direction == 1)
-            piston.set(DoubleSolenoid.Value.kReverse);
+            piston.set(DoubleSolenoid.Value.kReverse); 
     }
 
     @Override

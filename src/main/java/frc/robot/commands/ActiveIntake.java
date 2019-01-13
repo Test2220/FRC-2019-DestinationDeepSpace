@@ -1,24 +1,23 @@
-package frc.robot.commands;
+package frc.robot.commands; 
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.ControlMode; 
 
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.*;
+import edu.wpi.first.wpilibj.Joystick; 
+import edu.wpi.first.wpilibj.command.Command; 
+import frc.robot.subsystems. * ; 
 
 /**
  * Command that runs the Active Intake.
  * 
  * @author Dhruv Balasubramanian
- * @version 1/12/2019
- */
+ * @version 1/12/2019 */
 public class ActiveIntake extends Command {
 
     // Instance variables
-    private boolean isRunning = true;
-    private double speed;
-    Intake intakeObject = new Intake();
-    Joystick stick;
+    private boolean isRunning = true; 
+    private double speed; 
+    Intake intakeObject = new Intake(); 
+    Joystick stick; 
 
     /**
      * Constructor for the ActiveIntake Command, initializes this class's Joystick
