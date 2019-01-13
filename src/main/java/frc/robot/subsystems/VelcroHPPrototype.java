@@ -7,9 +7,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * Subsystem for testing Velcro Hatch Panel Protoype
  * 
  * @author Dhruv Balasubramanian
- * @version 1/12/2019 
- */
-class VelcroHPPrototype extends Subsystem {
+ * @version 1/12/2019 */
+public class VelcroHPPrototype extends Subsystem {
 
     // Instance variables
     private DoubleSolenoid piston1; 
@@ -18,12 +17,12 @@ class VelcroHPPrototype extends Subsystem {
     /**
      * Constructor that initializes piston objects
      * 
-     * @param forwardChannel1: the channel that sets piston1 forward
-     * @param reverseChannel1: the channel that sets piston1 reverse
-     * @param forwardChannel2: the channel that sets piston2 forward
-     * @param reverseChannel2: the channel that sets piston2 reverse
+     * @param forwardChannel1 the channel that sets piston1 forward
+     * @param reverseChannel1 the channel that sets piston1 reverse
+     * @param forwardChannel2 the channel that sets piston2 forward
+     * @param reverseChannel2 the channel that sets piston2 reverse
      */
-    public VelcroHPPrototype(int forwardChannel1, int reverseChannel1, int forwardChannel2, int reverseChannel2) {
+    public VelcroHPPrototype(int forwardChannel1, int forwardChannel2, int reverseChannel1, int reverseChannel2) {
         piston1 = new DoubleSolenoid(forwardChannel1, reverseChannel1); 
         piston2 = new DoubleSolenoid(forwardChannel2, reverseChannel2); 
     }
@@ -31,7 +30,7 @@ class VelcroHPPrototype extends Subsystem {
     /**
      * Method to set the direction of piston 1.
      * 
-     * @param direction: direction to set the piston to: 0 for forward, 1 for
+     * @param direction direction to set the piston to: 0 for forward, 1 for
      *        reverse
      */
     public void setPiston1(int direction) {
@@ -44,7 +43,7 @@ class VelcroHPPrototype extends Subsystem {
     /**
      * Method to set the direction of piston 2.
      * 
-     * @param direction: direction to set the piston to: 0 for forward, 1 for
+     * @param direction direction to set the piston to: 0 for forward, 1 for
      *        reverse
      */
     public void setPiston2(int direction) {

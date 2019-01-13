@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot; 
+package frc.robot;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -15,13 +15,21 @@ package frc.robot;
  */
 public class RobotMap {
 
-  // TODO: Figure out proper values to put here
-  // Intake talons
-  public static final int INTAKE_LEFT_BOTTOM = 0; 
-  public static final int INTAKE_LEFT_TOP = 1; 
-  public static final int INTAKE_RIGHT_BOTTOM = 2; 
-  public static final int INTAKE_RIGHT_TOP = 3; 
+  // TODO: Figure out proper values to put here:
 
+  // Intake talons
+  public static final int INTAKE_LEFT_BOTTOM = 0;
+  public static final int INTAKE_LEFT_TOP = 1;
+  public static final int INTAKE_RIGHT_BOTTOM = 2;
+  public static final int INTAKE_RIGHT_TOP = 3;
+
+  // Spring Hatch Panel Prototype
   public static final int SPRING_HP_PROTOTYPE_FORWARD = 4;
   public static final int SPRING_HP_PROTOTYPE_REVERSE = 5;
+
+  // Velcro Hatch Panel Prototype
+  public static final int VELCRO_HP_PROTOTYPE_FORWARD_1 = 6;
+  public static final int VELCRO_HP_PROTOTYPE_REVERSE_1 = 7;
+  public static final int VELCRO_HP_PROTOTYPE_FORWARD_2 = 8;
+  public static final int VELCRO_HP_PROTOTYPE_REVERSE_2 = 9;
 }
