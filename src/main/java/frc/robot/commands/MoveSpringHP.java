@@ -29,6 +29,7 @@ public class MoveSpringHP extends Command {
     /**
      * Sets the piston in the correct direction and ends command
      */
+    @Override
     public void execute() {
         Robot.springHPPrototype.setPiston(direction); 
         terminate(); 
@@ -47,6 +48,7 @@ public class MoveSpringHP extends Command {
      * 
      * @return : returns false if the command is running, true otherwise.
      */
+    @Override
     public boolean isFinished() {
         return ! isRunning; 
     }
