@@ -11,12 +11,12 @@ public class DriveXbox extends Command {
     }
 
     public DriveXbox() {
-        requires(frc.robot.Robot.m_driveTrain);
+        requires(Robot.m_driveTrain);
     }
 
     @Override
     protected void initialize() {
-
+        
     }
 
     @Override
@@ -25,7 +25,6 @@ public class DriveXbox extends Command {
         double move = -Robot.m_oi.driverController.getY(Hand.kRight);
         double turn = Robot.m_oi.driverController.getY(Hand.kRight);
         Robot.m_driveTrain.curvatureDrive(move, turn);
-
     }
 
     @Override
