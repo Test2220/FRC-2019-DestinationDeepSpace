@@ -5,10 +5,10 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot; 
+package frc.robot;
 
-import frc.robot.utils. * ; 
-import frc.robot.commands. * ; 
+import frc.robot.utils.*;
+import frc.robot.commands.*;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -26,14 +26,14 @@ public class OI {
    * controller
    */
   public OI() {
-    hatchPanelTestController1 = new TwilightXboxController(0); 
-    hatchPanelTestController2 = new TwilightXboxController(1); 
-    hatchPanelTestController1.A_BUTTON.whenPressed(new MoveSpringHP(0)); 
-    hatchPanelTestController1.B_BUTTON.whenPressed(new MoveSpringHP(1)); 
+    hatchPanelTestController1 = new TwilightXboxController(0);
+    hatchPanelTestController2 = new TwilightXboxController(1);
+    hatchPanelTestController1.getAButton().whenPressed(new MoveSpringHP(0));
+    hatchPanelTestController1.getBButton().whenPressed(new MoveSpringHP(1));
 
-    hatchPanelTestController2.A_BUTTON.whenPressed(new MoveVelcroHP(1, 0));
-    hatchPanelTestController2.B_BUTTON.whenPressed(new MoveVelcroHP(1, 1));
-    hatchPanelTestController2.X_BUTTON.whenPressed(new MoveVelcroHP(2, 0));
-    hatchPanelTestController2.Y_BUTTON.whenPressed(new MoveVelcroHP(2, 1));
+    hatchPanelTestController2.getAButton().whenPressed(new MoveVelcroHP(1, 0));
+    hatchPanelTestController2.getBButton().whenPressed(new MoveVelcroHP(1, 1));
+    hatchPanelTestController2.getXButton().whenPressed(new MoveVelcroHP(2, 0));
+    hatchPanelTestController2.getYButton().whenPressed(new MoveVelcroHP(2, 1));
   }
 }
