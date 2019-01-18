@@ -10,16 +10,16 @@ import frc.robot.commands.DriveXbox;
 public class DriveTrain extends Subsystem {
 
     public WPI_TalonSRX leftMaster = new WPI_TalonSRX(RobotMap.LEFT_MASTER);
-    public WPI_TalonSRX leftslave = new WPI_TalonSRX(RobotMap.LEFT_SLAVE);
+    public WPI_TalonSRX leftSlave = new WPI_TalonSRX(RobotMap.LEFT_SLAVE);
     public WPI_TalonSRX rightMaster = new WPI_TalonSRX(RobotMap.RIGHT_MASTER);
-    public WPI_TalonSRX rightslave = new WPI_TalonSRX(RobotMap.RIGHT_SLAVE);
+    public WPI_TalonSRX rightSlave = new WPI_TalonSRX(RobotMap.RIGHT_SLAVE);
 
     public DifferentialDrive drive;
 
     public DriveTrain() {
 
-        leftslave.follow(leftMaster);
-        rightslave.follow(rightMaster);
+        leftSlave.follow(leftMaster);
+        rightSlave.follow(rightMaster);
 
         // This invertes the right master motor
         rightMaster.setInverted(false); 
@@ -30,7 +30,6 @@ public class DriveTrain extends Subsystem {
     }
 
     public void curvatureDrive(double move, double turn) {
-
         drive.curvatureDrive(move, turn, true);
     }
 

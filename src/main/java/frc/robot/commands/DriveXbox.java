@@ -6,12 +6,8 @@ import frc.robot.Robot;
 
 public class DriveXbox extends Command {
 
-    public boolean isFinished() {
-        return false;
-    }
-
     public DriveXbox() {
-        requires(Robot.m_driveTrain);
+        requires(Robot.drivetrain);
     }
 
     @Override
@@ -21,14 +17,12 @@ public class DriveXbox extends Command {
 
     @Override
     protected void execute() {
-
-        double move = Robot.m_oi.driverController.getY(Hand.kLeft);
-        double turn = Robot.m_oi.driverController.getX(Hand.kLeft);
-        Robot.m_driveTrain.curvatureDrive(move, turn);
+        double move = -Robot.oi.getDC().getY(Hand.kLeft);
+        double turn = Robot.oi.getDC().getY(Hand.kLeft);
+        Robot.drivetrain.curvatureDrive(move, turn);
     }
 
-    @Override
-    protected void end() {
-        
+    public boolean isFinished() {
+        return false;
     }
 }
