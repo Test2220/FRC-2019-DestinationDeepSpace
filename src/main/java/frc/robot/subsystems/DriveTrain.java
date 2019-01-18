@@ -21,6 +21,11 @@ public class DriveTrain extends Subsystem {
         leftslave.follow(leftMaster);
         rightslave.follow(rightMaster);
 
+        // This invertes the right master motor
+        rightMaster.setInverted(false); 
+        leftMaster.setInverted(true);
+        
+
         drive = new DifferentialDrive(leftMaster, rightMaster);
     }
 

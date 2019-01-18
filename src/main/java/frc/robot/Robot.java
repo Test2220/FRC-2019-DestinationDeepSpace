@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -124,10 +126,14 @@ public class Robot extends TimedRobot {
     Scheduler.getInstance().run();
   }
 
+  public WPI_TalonSRX leftMaster = new WPI_TalonSRX(1);
+
   /**
    * This function is called periodically during test mode.
    */
   @Override
   public void testPeriodic() {
+    leftMaster.set(.3);
+    
   }
 }
