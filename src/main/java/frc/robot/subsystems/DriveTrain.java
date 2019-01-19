@@ -7,25 +7,34 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.RobotMap;
 import frc.robot.commands.DriveXbox;
 
+
+
 public class DriveTrain extends Subsystem {
+
+  // This initaliaze the talons 
 
     public WPI_TalonSRX leftMaster = new WPI_TalonSRX(RobotMap.LEFT_MASTER);
     public WPI_TalonSRX leftSlave = new WPI_TalonSRX(RobotMap.LEFT_SLAVE);
     public WPI_TalonSRX rightMaster = new WPI_TalonSRX(RobotMap.RIGHT_MASTER);
     public WPI_TalonSRX rightSlave = new WPI_TalonSRX(RobotMap.RIGHT_SLAVE);
-
+/**
+ * @param 
+ * 
+ */
     public DifferentialDrive drive;
 
     public DriveTrain() {
 
-        leftSlave.follow(leftMaster);
+        leftSlave.follow(leftMaster);  // This makes sure the slave motors follow the
         rightSlave.follow(rightMaster);
 
         // This invertes the right master motor
-        rightMaster.setInverted(false); 
-        leftMaster.setInverted(true);
         
-
+        leftMaster.setInverted(true);
+        rightMaster.setInverted(false);
+        leftSlave.setInverted(true);
+        rightSlave.setInverted(false);
+        
         drive = new DifferentialDrive(leftMaster, rightMaster);
     }
 
