@@ -15,18 +15,13 @@ import edu.wpi.first.wpilibj.XboxController;
  */
 public class OI {
 
+  private XboxController driverController;
+
   public OI() {
-
+    driverController = new XboxController(0);
   }
-
-  private XboxController driverController = new XboxController(0);
-  // private XboxController manipulatorController = new XboxController(1);
 
   public XboxController getDC() {
     return driverController;
   }
-
-  // public XboxController getMC() {
-  //   return manipulatorController;
-  // }
 }
