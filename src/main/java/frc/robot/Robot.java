@@ -7,7 +7,11 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -29,6 +33,10 @@ public class Robot extends TimedRobot {
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
+  //DoubleSolenoid pusher;
+
+  XboxController con;
+
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
@@ -39,6 +47,9 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
+
+    con = new XboxController(0);
+    //pusher = new DoubleSolenoid(0, 1);
   }
 
   /**
@@ -122,10 +133,25 @@ public class Robot extends TimedRobot {
     Scheduler.getInstance().run();
   }
 
+  DoubleSolenoid ds1 = new DoubleSolenoid(0, 1);
+  DoubleSolenoid ds2 = new DoubleSolenoid(2, 3);
+  DoubleSolenoid ds3 = new DoubleSolenoid(4, 5);
+  DoubleSolenoid ds4 = new DoubleSolenoid(6, 7);
+
   /**
    * This function is called periodically during test mode.
    */
   @Override
   public void testPeriodic() {
+    // if (con.getAButtonPressed()) {
+    //   pusher.set(Value.kForward);
+    // }
+    // else if (con.getBButtonPressed()) {
+    //   pusher.set(Value.kReverse);
+    // }
+    ds1.set(Value.kForward);
+    ds2.set(Value.kForward);
+    ds3.set(Value.kForward);
+    ds4.set(Value.kForward);
   }
 }
