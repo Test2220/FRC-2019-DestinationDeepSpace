@@ -5,16 +5,21 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
 
 public class SetHarles extends InstantCommand {
-   
-    private static Runnable func = new Runnable() {
-        @Override
-        public void run() {
-            Robot.harles.setPusher(Value.kForward);
-            Robot.harles.setThruster(Value.kForward);
-        }
-    };
 
-    public SetHarles() {
-        super(Robot.harles, func);
+    private Value direction;
+    private int piston;
+
+    public SetHarles(Value direction, int piston) {
+        this.direction = direction;
+        this.piston = piston;
+        requires(Robot.harles);
+    }
+
+    public void execute() {
+        if (piston == 1) {
+            Robot.harles.setPusher(direction);
+        } else {
+            Robot.harles.setThruster(direction);
+        }
     }
 }

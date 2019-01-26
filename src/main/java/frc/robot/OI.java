@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.*;
 
@@ -38,10 +39,10 @@ public class OI {
   JoystickButton yButton = new JoystickButton(controller, 4);
 
   public OI() {
-    aButton.whenPressed(new SetHarles());
-    bButton.whenPressed(new SetHarles());
-    xButton.whenPressed(new SetHarles());
-    yButton.whenPressed(new SetHarles());
+    aButton.whenPressed(new SetHarles(Value.kForward, 1));
+    bButton.whenPressed(new SetHarles(Value.kReverse, 1));
+    xButton.whenPressed(new SetHarles(Value.kForward, 2));
+    yButton.whenPressed(new SetHarles(Value.kReverse, 2));
   }
 
   //// CREATING BUTTONS

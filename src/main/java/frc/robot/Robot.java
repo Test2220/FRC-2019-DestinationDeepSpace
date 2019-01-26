@@ -26,7 +26,7 @@ import frc.robot.subsystems.Harles;
 public class Robot extends TimedRobot {
 
   public static ExampleSubsystem m_subsystem = new ExampleSubsystem();
-  public static Harles harles = new Harles(RobotMap.PUSHER_FORWARD, RobotMap.PUSHER_REVERSE, RobotMap.THRUSTER_FORWARD, RobotMap.THRUSTER_REVERSE);
+  public static Harles harles = new Harles();
 
   public static OI oi;
 
