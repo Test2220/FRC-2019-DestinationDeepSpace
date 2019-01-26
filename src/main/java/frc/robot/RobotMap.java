@@ -15,8 +15,8 @@ package frc.robot;
  */
 public class RobotMap {
 
-  public static final int PUSHER_FORWARD = 2;
-  public static final int PUSHER_REVERSE = 3;
+  public static final int PUSHER_FORWARD = 4;
+  public static final int PUSHER_REVERSE = 5;
   public static final int THRUSTER_FORWARD = 0;
   public static final int THRUSTER_REVERSE = 1;
 
