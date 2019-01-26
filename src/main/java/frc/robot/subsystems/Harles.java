@@ -11,12 +11,12 @@ public class Harles extends Subsystem {
     private DoubleSolenoid thruster;
 
     public Harles() {
-        //pusher = new DoubleSolenoid(RobotMap.PUSHER_FORWARD, RobotMap.PUSHER_REVERSE);
+        pusher = new DoubleSolenoid(RobotMap.PUSHER_FORWARD, RobotMap.PUSHER_REVERSE);
         thruster = new DoubleSolenoid(RobotMap.THRUSTER_FORWARD, RobotMap.THRUSTER_REVERSE);
     }
 
     public void setPusher(Value val) {
-        //pusher.set(val);
+        pusher.set(val);
     }
 
     public void setThruster(Value val) {

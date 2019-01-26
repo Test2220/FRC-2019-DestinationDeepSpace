@@ -37,12 +37,14 @@ public class OI {
   JoystickButton bButton = new JoystickButton(controller, 2);
   JoystickButton xButton = new JoystickButton(controller, 3);
   JoystickButton yButton = new JoystickButton(controller, 4);
+  JoystickButton rightBumper = new JoystickButton(controller, 6);
 
   public OI() {
     aButton.whenPressed(new SetHarles(Value.kForward, 1));
     bButton.whenPressed(new SetHarles(Value.kReverse, 1));
     xButton.whenPressed(new SetHarles(Value.kForward, 2));
     yButton.whenPressed(new SetHarles(Value.kReverse, 2));
+    rightBumper.whenPressed(new PlaceHatchPanel());
   }
 
   //// CREATING BUTTONS

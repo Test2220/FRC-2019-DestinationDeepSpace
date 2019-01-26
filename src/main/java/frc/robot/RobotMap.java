@@ -15,10 +15,10 @@ package frc.robot;
  */
 public class RobotMap {
 
-  public static final int PUSHER_FORWARD = 4;
-  public static final int PUSHER_REVERSE = 5;
-  public static final int THRUSTER_FORWARD = 0;
-  public static final int THRUSTER_REVERSE = 1;
+  public static final int PUSHER_FORWARD = 0;
+  public static final int PUSHER_REVERSE = 1;
+  public static final int THRUSTER_FORWARD = 2;
+  public static final int THRUSTER_REVERSE = 3;
 
   // For example to map the left and right motors, you could define the
   // following variables to use with your drivetrain subsystem.
