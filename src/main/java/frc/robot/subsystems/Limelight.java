@@ -4,6 +4,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.RobotMap;
 
 /**
  * Limelight vision processing and high FOV driver camera subsystem. Contains
@@ -12,14 +13,13 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * in order achieve automation
  * 
  * @author Reece Holmdahl
- * @version 1/8/19
  */
 public class Limelight extends Subsystem {
 
     /* INSTANCE VARIABLES */
 
     // Network table for limelight, has camera data
-    private final NetworkTable limelight = NetworkTableInstance.getDefault().getTable("limelight");
+    private final NetworkTable limelight = NetworkTableInstance.getDefault().getTable(RobotMap.LIMELIGHT_TABLE_NAME);
 
     /* SUBSYSTEM CONSTRUCTOR */
 
@@ -137,7 +137,7 @@ public class Limelight extends Subsystem {
     }
 
     /**
-     * TODO Figure out what pipeline means for Limelight
+     * Set which image manipulation pipeline the limelight is currently running
      * 
      * @param pipeline Set ID of Limelight vision pipeline
      */
@@ -197,6 +197,6 @@ public class Limelight extends Subsystem {
     // Default subsystem command
     @Override
     public void initDefaultCommand() {
-        // setDefaultCommand(TODO Limelight Command);
+        // No default limelight command
     }
 }

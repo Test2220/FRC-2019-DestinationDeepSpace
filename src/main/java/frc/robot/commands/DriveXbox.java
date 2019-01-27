@@ -11,22 +11,28 @@ import frc.robot.Robot;
  * 
  * @author Muaad, Reece
  */
-
 public class DriveXbox extends Command {
 
-    // Power to raise forward and backward movement to (handles all powers)
-    private static final double EXP_DRIVE_POWER = 1.4;
+    /* CONSTANTS */
+
+    // Power to raise driving and turning to (handles all powers)
+    private static final double EXP_DRIVE_POWER = 1.4; // TODO Choose final value for driving and turning exp power
+    private static final double EXP_TURN_POWER = 1.6;
+
+    /* COMMAND CONSTRUCTOR */
 
     /**
      * Drive with xbox command constructor, nothing necessary here besides requiring
      * drivetrain subsystem
      */
     public DriveXbox() {
-        requires(Robot.drivetrain);
+        super(Robot.drivetrain);
     }
 
-    /**
-     * Executes code to run drivetrain in loop, uses exponential drive with
+    /*
+     * IMPLEMENTED METHODS
+     * 
+     * /** Executes code to run drivetrain in loop, uses exponential drive with
      * specified power above
      */
     @Override
@@ -36,6 +42,8 @@ public class DriveXbox extends Command {
         double turn = Robot.oi.getDC().getX(Hand.kRight);
         // Exponential drive for forward and backward movement
         move = Math.pow(Math.abs(move), EXP_DRIVE_POWER) * Math.signum(move);
+        // Exponential turning for more control or speed
+        turn = Math.pow(Math.abs(move), EXP_TURN_POWER) * Math.signum(turn);
         // Run curvature drive off of drivetrain subsystem
         Robot.drivetrain.curvatureDrive(move, turn);
     }

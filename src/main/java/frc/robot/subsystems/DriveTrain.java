@@ -8,7 +8,16 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.RobotMap;
 import frc.robot.commands.DriveXbox;
 
+/**
+ * The drivetrain subsystem sets up all the hardware relating to the physical
+ * drivetrain and implements the DifferentialDrive class to control driving
+ * using curvature drive.
+ * 
+ * @author Muaad, Reece
+ */
 public class DriveTrain extends Subsystem {
+
+    /* INSTANCE VARIABLES */
 
     // Instantiate and intialize drivetrain Talon members
     public WPI_TalonSRX leftMaster = new WPI_TalonSRX(RobotMap.LEFT_MASTER);
@@ -18,6 +27,8 @@ public class DriveTrain extends Subsystem {
 
     // Drivetrain controller member
     public DifferentialDrive drive;
+
+    /* SUBSYSTEM CONSTRUCTOR */
 
     /**
      * Drivetrain subsystem constructor configures motor and sets up drivetrain
@@ -35,6 +46,8 @@ public class DriveTrain extends Subsystem {
         // Initialize drivetrain controller member (our robot uses differential drive)
         drive = new DifferentialDrive(leftMaster, rightMaster);
     }
+
+    /* CONTROL DRIVETRAIN METHODS */
 
     /**
      * Control drivetrain with curvature drive
@@ -63,6 +76,11 @@ public class DriveTrain extends Subsystem {
         setAllPower(0);
     }
 
+    /* IMPLEMENTED METHODS */
+
+    /**
+     * Sets drivetrain default command to drive with xbox
+     */
     @Override
     public void initDefaultCommand() {
         setDefaultCommand(new DriveXbox());
