@@ -1,10 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
@@ -13,27 +6,42 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.*;
 
 /**
- * This class is the glue that binds the controls on the physical operator
- * interface to the commands and command groups that allow control of the robot.
+ * Stands for Operator Interface, this class is where code relating the gamepad
+ * to programmed functions on the robot are placed.
+ * 
+ * @author Programming Team
  */
 public class OI {
 
-  XboxController manipulator = new XboxController(0);
+  private XboxController driverController;
 
-  JoystickButton aButton = new JoystickButton(manipulator, 1);
-  JoystickButton bButton = new JoystickButton(manipulator, 2);
-  JoystickButton xButton = new JoystickButton(manipulator, 3);
-  JoystickButton yButton = new JoystickButton(manipulator, 4);
-  JoystickButton rightBumper = new JoystickButton(manipulator, 6);
+  private XboxController manipulatorController = new XboxController(0);
+
+  private JoystickButton aButton;
+  private JoystickButton bButton;
+  private JoystickButton xButton;
+  private JoystickButton yButton;
 
   /**
    * Constructor that initializes the function of each button
    */
   public OI() {
+    driverController = new XboxController(0);
+    manipulatorController = new XboxController(0);
+    
+    aButton = new JoystickButton(manipulatorController, 1);
+    bButton = new JoystickButton(manipulatorController, 2);
+    xButton = new JoystickButton(manipulatorController, 3);
+    yButton = new JoystickButton(manipulatorController, 4);
+
     aButton.whenPressed(new SetHarles(Value.kForward, 1));
     bButton.whenPressed(new SetHarles(Value.kReverse, 1));
     xButton.whenPressed(new SetHarles(Value.kForward, 2));
     yButton.whenPressed(new SetHarles(Value.kReverse, 2));
+  }
+
+  public XboxController getDC() {
+    return driverController;
   }
 
   /*
