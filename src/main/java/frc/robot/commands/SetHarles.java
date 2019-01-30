@@ -15,7 +15,12 @@ public class SetHarles extends InstantCommand {
 
     // Instance Vars
     private Value direction;
-    private int piston;
+    private Piston piston;
+
+    public enum Piston {
+        THRUSTER,
+        PUSHER;
+    }
 
     /**
      * Constructor that initializes direction and determines which piston to move.
@@ -23,7 +28,7 @@ public class SetHarles extends InstantCommand {
      * @param direction the direction to set the pistons to
      * @param piston    which piston to move: 1 for the pusher, 2 for the thruster.
      */
-    public SetHarles(Value direction, int piston) {
+    public SetHarles(Value direction, Piston piston) {
         this.direction = direction;
         this.piston = piston;
         requires(Robot.harles);
@@ -34,9 +39,9 @@ public class SetHarles extends InstantCommand {
      * command ends.
      */
     public void execute() {
-        if (piston == 1) {
+        if (piston == Piston.PUSHER) {
             Robot.harles.setPusher(direction);
-        } else if (piston == 2) {
+        } else if (piston == Piston.THRUSTER) {
             Robot.harles.setThruster(direction);
         }
     }
