@@ -26,7 +26,7 @@ public class SetHarles extends InstantCommand {
      * Constructor that initializes direction and determines which piston to move.
      * 
      * @param direction the direction to set the pistons to
-     * @param piston    which piston to move: 1 for the pusher, 2 for the thruster.
+     * @param piston    which piston to move -- a constant of the enum Pistons
      */
     public SetHarles(Value direction, Piston piston) {
         this.direction = direction;

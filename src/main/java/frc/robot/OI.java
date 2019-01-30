@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.*;
+import frc.robot.commands.SetHarles.Piston;
 
 /**
  * Stands for Operator Interface, this class is where code relating the gamepad
@@ -34,10 +35,10 @@ public class OI {
     xButton = new JoystickButton(manipulatorController, 3);
     yButton = new JoystickButton(manipulatorController, 4);
 
-    aButton.whenPressed(new SetHarles(Value.kForward, 1));
-    bButton.whenPressed(new SetHarles(Value.kReverse, 1));
-    xButton.whenPressed(new SetHarles(Value.kForward, 2));
-    yButton.whenPressed(new SetHarles(Value.kReverse, 2));
+    aButton.whenPressed(new SetHarles(Value.kForward, Piston.PUSHER));
+    bButton.whenPressed(new SetHarles(Value.kReverse, Piston.PUSHER));
+    xButton.whenPressed(new SetHarles(Value.kForward, Piston.THRUSTER));
+    yButton.whenPressed(new SetHarles(Value.kReverse, Piston.THRUSTER));
   }
 
   public XboxController getDC() {
