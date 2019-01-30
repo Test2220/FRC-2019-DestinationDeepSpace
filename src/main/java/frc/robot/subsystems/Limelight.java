@@ -192,7 +192,7 @@ public class Limelight extends Subsystem {
         }
     }
 
-    /* EXTRANEOUS METHODS */
+    /* IMPLEMENTED METHODS */
 
     // Default subsystem command
     @Override
