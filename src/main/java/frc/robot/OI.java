@@ -14,10 +14,11 @@ import frc.robot.subsystems.Harles.Piston;
  */
 public class OI {
 
-  // Xbox Controllers
+  // Xbox controllers
   private XboxController driverController;
   private XboxController manipulatorController;
 
+  // Joystick buttons
   private JoystickButton aButton;
   private JoystickButton bButton;
   private JoystickButton xButton;

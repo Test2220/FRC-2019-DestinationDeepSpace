@@ -8,7 +8,7 @@ package frc.robot;
  * @author Programming Team
  */
 public class RobotMap {
-  
+
   /* HARLES SUBSYSTEM IDS */
   public static final int THRUSTER_FORWARD = 0;
   public static final int THRUSTER_REVERSE = 1;
@@ -24,4 +24,3 @@ public class RobotMap {
   /* LIMELIGHT SUBSYSTEM IDS */
   public static final String LIMELIGHT_TABLE_NAME = "limelight";
 }
-
