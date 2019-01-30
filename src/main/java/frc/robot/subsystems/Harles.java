@@ -13,9 +13,12 @@ import frc.robot.RobotMap;
  */
 public class Harles extends Subsystem {
 
-    // Instance Vars
+    /* INSTANCE VARIABLES */
+
     private DoubleSolenoid pusher;
     private DoubleSolenoid thruster;
+
+    /* CONSTRUCTOR */
 
     /**
      * Constructor that initializes both pistons. No parameters necessary or taken.
@@ -24,6 +27,8 @@ public class Harles extends Subsystem {
         pusher = new DoubleSolenoid(RobotMap.PUSHER_FORWARD, RobotMap.PUSHER_REVERSE);
         thruster = new DoubleSolenoid(RobotMap.THRUSTER_FORWARD, RobotMap.THRUSTER_REVERSE);
     }
+
+    /* CONTROL METHODS */
 
     /**
      * Sets the direction of the pusher piston based on the value given.
@@ -43,7 +48,12 @@ public class Harles extends Subsystem {
         thruster.set(direction);
     }
 
-    // Extra methods:
+    // Subsystem piston enumeration
+    public enum Piston {
+        THRUSTER, PUSHER;
+    }
+
+    /* IMPLEMENTED METHODS */
 
     @Override
     public void initDefaultCommand() {

@@ -2,8 +2,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Harles;
 import frc.robot.subsystems.DriveTrain;
 
@@ -21,7 +19,7 @@ public class Robot extends TimedRobot {
   public static OI oi;
   public static DriveTrain drivetrain;
 
-  //DoubleSolenoid pusher;
+  // DoubleSolenoid pusher;
 
   /**
    * Runs once when robot is started, use it for subsystem init
@@ -29,9 +27,9 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     oi = new OI();
-    //m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
+    // m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
     // chooser.addOption("My Auto", new MyAutoCommand());
-    //SmartDashboard.putData("Auto mode", m_chooser);
+    // SmartDashboard.putData("Auto mode", m_chooser);
     drivetrain = new DriveTrain();
   }
 

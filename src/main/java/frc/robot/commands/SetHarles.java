@@ -3,6 +3,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
+import frc.robot.subsystems.Harles.Piston;
 
 /**
  * Command that pushes a piston of the HARLES subsystem based on parameters
@@ -17,11 +18,6 @@ public class SetHarles extends InstantCommand {
     private Value direction;
     private Piston piston;
 
-    public enum Piston {
-        THRUSTER,
-        PUSHER;
-    }
-
     /**
      * Constructor that initializes direction and determines which piston to move.
      * 
@@ -29,9 +25,9 @@ public class SetHarles extends InstantCommand {
      * @param piston    which piston to move -- a constant of the enum Pistons
      */
     public SetHarles(Value direction, Piston piston) {
+        super(Robot.harles);
         this.direction = direction;
         this.piston = piston;
-        requires(Robot.harles);
     }
 
     /**
