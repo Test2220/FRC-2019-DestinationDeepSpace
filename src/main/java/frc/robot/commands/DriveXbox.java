@@ -43,7 +43,7 @@ public class DriveXbox extends Command {
         // Exponential drive for forward and backward movement
         move = Math.pow(Math.abs(move), EXP_DRIVE_POWER) * Math.signum(move);
         // Exponential turning for more control or speed
-        turn = Math.pow(Math.abs(move), EXP_TURN_POWER) * Math.signum(turn);
+        turn = Math.pow(Math.abs(turn), EXP_TURN_POWER) * Math.signum(turn);
         // Run curvature drive off of drivetrain subsystem
         Robot.drivetrain.curvatureDrive(move, turn);
     }
