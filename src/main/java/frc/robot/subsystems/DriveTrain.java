@@ -20,13 +20,13 @@ public class DriveTrain extends Subsystem {
     /* INSTANCE VARIABLES */
 
     // Instantiate and intialize drivetrain Talon members
-    public WPI_TalonSRX leftMaster = new WPI_TalonSRX(RobotMap.LEFT_MASTER);
-    public WPI_TalonSRX leftSlave = new WPI_TalonSRX(RobotMap.LEFT_SLAVE);
-    public WPI_TalonSRX rightMaster = new WPI_TalonSRX(RobotMap.RIGHT_MASTER);
-    public WPI_TalonSRX rightSlave = new WPI_TalonSRX(RobotMap.RIGHT_SLAVE);
+    private WPI_TalonSRX leftMaster = new WPI_TalonSRX(RobotMap.LEFT_MASTER);
+    private WPI_TalonSRX leftSlave = new WPI_TalonSRX(RobotMap.LEFT_SLAVE);
+    private WPI_TalonSRX rightMaster = new WPI_TalonSRX(RobotMap.RIGHT_MASTER);
+    private WPI_TalonSRX rightSlave = new WPI_TalonSRX(RobotMap.RIGHT_SLAVE);
 
     // Drivetrain controller member
-    public DifferentialDrive drive;
+    private DifferentialDrive drive;
 
     /* SUBSYSTEM CONSTRUCTOR */
 
