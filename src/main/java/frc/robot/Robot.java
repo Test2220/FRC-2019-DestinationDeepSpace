@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.subsystems.Harles;
 import frc.robot.subsystems.DriveTrain;
+import edu.wpi.first.cameraserver.CameraServer;
 
 /**
  * Main robot class, root of the whole robot and calls all subsystems and
@@ -31,6 +32,7 @@ public class Robot extends TimedRobot {
     // chooser.addOption("My Auto", new MyAutoCommand());
     // SmartDashboard.putData("Auto mode", m_chooser);
     drivetrain = new DriveTrain();
+    CameraServer.getInstance().startAutomaticCapture();
   }
 
   /**
