@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.subsystems.Harles;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.DriveTrain;
 
 /**
@@ -17,6 +18,7 @@ public class Robot extends TimedRobot {
 
   // Subsystem Members
   public static OI oi;
+  public static Limelight limelight;
   public static DriveTrain drivetrain;
 
   // DoubleSolenoid pusher;
@@ -26,11 +28,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    oi = new OI();
     // m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
     // chooser.addOption("My Auto", new MyAutoCommand());
     // SmartDashboard.putData("Auto mode", m_chooser);
+    limelight = new Limelight();
     drivetrain = new DriveTrain();
+    oi = new OI();
   }
 
   /**

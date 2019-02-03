@@ -19,10 +19,12 @@ public class OI {
   private XboxController manipulatorController;
 
   // Joystick buttons
-  private JoystickButton aButton;
-  private JoystickButton bButton;
-  private JoystickButton xButton;
-  private JoystickButton yButton;
+  private JoystickButton aButtonManipulator;
+  private JoystickButton bButtonManipulator;
+  private JoystickButton xButtonManipulator;
+  private JoystickButton yButtonManipulator;
+
+  private JoystickButton aButtonDriver;
 
   /**
    * Constructor that initializes the function of each button
@@ -31,15 +33,19 @@ public class OI {
     driverController = new XboxController(0);
     manipulatorController = new XboxController(1);
     
-    aButton = new JoystickButton(manipulatorController, 1);
-    bButton = new JoystickButton(manipulatorController, 2);
-    xButton = new JoystickButton(manipulatorController, 3);
-    yButton = new JoystickButton(manipulatorController, 4);
+    aButtonManipulator = new JoystickButton(manipulatorController, 1);
+    bButtonManipulator = new JoystickButton(manipulatorController, 2);
+    xButtonManipulator = new JoystickButton(manipulatorController, 3);
+    yButtonManipulator = new JoystickButton(manipulatorController, 4);
 
-    aButton.whenPressed(new SetHarles(Value.kForward, Piston.PUSHER));
-    bButton.whenPressed(new SetHarles(Value.kReverse, Piston.PUSHER));
-    xButton.whenPressed(new SetHarles(Value.kForward, Piston.THRUSTER));
-    yButton.whenPressed(new SetHarles(Value.kReverse, Piston.THRUSTER));
+    aButtonDriver = new JoystickButton(driverController, 1);
+
+    aButtonManipulator.whenPressed(new SetHarles(Value.kForward, Piston.PUSHER));
+    bButtonManipulator.whenPressed(new SetHarles(Value.kReverse, Piston.PUSHER));
+    xButtonManipulator.whenPressed(new SetHarles(Value.kForward, Piston.THRUSTER));
+    yButtonManipulator.whenPressed(new SetHarles(Value.kReverse, Piston.THRUSTER));
+
+    aButtonDriver.whileHeld(new CorrectPosition());
   }
 
   public XboxController getDriver() {

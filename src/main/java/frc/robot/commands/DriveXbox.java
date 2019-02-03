@@ -38,7 +38,7 @@ public class DriveXbox extends Command {
     @Override
     public void execute() {
         // Grab joystick values used for curvature drive calculation
-        double move = -Robot.oi.getDriver().getY(Hand.kLeft);
+        double move = -Robot.oi.getDriver().getY(Hand.kLeft); ;
         double turn = Robot.oi.getDriver().getX(Hand.kRight);
         // Exponential drive for forward and backward movement
         move = Math.pow(Math.abs(move), EXP_DRIVE_POWER) * Math.signum(move);
