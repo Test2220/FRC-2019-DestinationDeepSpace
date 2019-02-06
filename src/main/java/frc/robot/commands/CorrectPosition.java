@@ -43,8 +43,9 @@ public class CorrectPosition extends Command {
         limelightPIDOutput = new PIDOutput() {
             @Override
             public void pidWrite(double output) {
-                double move = 0 /*-Robot.oi.getDriver().getY(Hand.kLeft)*/;
+                double move = (Robot.oi.getDriver().getY(Hand.kLeft)) * 0.25;
                 double turn = -output;
+                if (Math.abs(turn) > 1) turn = 0;
                 Robot.drivetrain.curvatureDrive(move, turn);
             }
         };
@@ -53,12 +54,17 @@ public class CorrectPosition extends Command {
 
         System.out.printf("Tu: %.5f; Ku: %f; kP: %.5f; kI: %.5fkI; kD: %.5fkD\n", Tu, Ku, kP, kI, kD);
 
-        pidController = new PIDController(0.023, 0, 0.02275, limelightPIDSource, limelightPIDOutput);
+        pidController = new PIDController(0.025 * 0.65, 0.00023 * 0.65, 0, limelightPIDSource, limelightPIDOutput);
     }
 
     @Override
     public void initialize() {
         pidController.enable();
+    }
+
+    @Override
+    public void execute() {
+        System.out.println("ts: " + Robot.limelight.getTargetSkew());
     }
 
     @Override
