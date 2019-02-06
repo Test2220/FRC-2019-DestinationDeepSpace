@@ -50,10 +50,6 @@ public class CorrectPosition extends Command {
             }
         };
 
-        double Tu = 5.0/14.0, Ku = 0.024, kP = 0.6*Ku, kI = 1.2*Ku/Tu, kD = 3*Ku*Tu/40;
-
-        System.out.printf("Tu: %.5f; Ku: %f; kP: %.5f; kI: %.5fkI; kD: %.5fkD\n", Tu, Ku, kP, kI, kD);
-
         pidController = new PIDController(0.025 * 0.65, 0.00023 * 0.65, 0, limelightPIDSource, limelightPIDOutput);
     }
 
