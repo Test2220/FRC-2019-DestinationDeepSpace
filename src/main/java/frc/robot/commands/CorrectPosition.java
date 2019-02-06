@@ -12,15 +12,13 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 public class CorrectPosition extends Command {
     
     private PIDController pidController;
-    private PIDSource limelightPIDSource;
-    private PIDOutput limelightPIDOutput;
 
     public CorrectPosition() {
 
         requires(Robot.limelight);
         requires(Robot.drivetrain);
-        //pidController = new PIDController(1, 1, 1, 1);
-        limelightPIDSource = new PIDSource() {
+        
+        PIDSource limelightPIDSource = new PIDSource() {
         
             private PIDSourceType pidSource = PIDSourceType.kDisplacement;
 
@@ -40,7 +38,7 @@ public class CorrectPosition extends Command {
             }
         };
 
-        limelightPIDOutput = new PIDOutput() {
+        PIDOutput limelightPIDOutput = new PIDOutput() {
             @Override
             public void pidWrite(double output) {
                 double move = (Robot.oi.getDriver().getY(Hand.kLeft)) * 0.25;
@@ -55,11 +53,6 @@ public class CorrectPosition extends Command {
     @Override
     public void initialize() {
         pidController.enable();
-    }
-
-    @Override
-    public void execute() {
-        System.out.println("ts: " + Robot.limelight.getTargetSkew());
     }
 
     @Override
