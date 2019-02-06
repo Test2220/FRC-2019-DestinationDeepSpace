@@ -28,7 +28,7 @@ public class CorrectPosition extends Command {
             public void setPIDSourceType(PIDSourceType pidSource) {
                 this.pidSource = pidSource;
             }
-        
+
             @Override
             public double pidGet() {
                 return Robot.limelight.getHOffset();
@@ -45,12 +45,11 @@ public class CorrectPosition extends Command {
             public void pidWrite(double output) {
                 double move = (Robot.oi.getDriver().getY(Hand.kLeft)) * 0.25;
                 double turn = -output;
-                if (Math.abs(turn) > 1) turn = 0;
                 Robot.drivetrain.curvatureDrive(move, turn);
             }
         };
 
-        pidController = new PIDController(0.025 * 0.65, 0.00023 * 0.65, 0, limelightPIDSource, limelightPIDOutput);
+        pidController = new PIDController(0.025 * 0.65, 0.00023 * 0.65, 0, limelightPIDSource, limelightPIDOutput);  
     }
 
     @Override
