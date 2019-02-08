@@ -4,9 +4,7 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
-import frc.robot.subsystems.Harles;
-import frc.robot.subsystems.Limelight;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.*;
 
 /**
  * Main robot class, root of the whole robot and calls all subsystems and
@@ -22,6 +20,7 @@ public class Robot extends TimedRobot {
   public static OI oi;
   public static Limelight limelight;
   public static DriveTrain drivetrain;
+  public static NavX navX;
 
   // DoubleSolenoid pusher;
 
@@ -35,6 +34,7 @@ public class Robot extends TimedRobot {
     // SmartDashboard.putData("Auto mode", m_chooser);
     limelight = new Limelight();
     drivetrain = new DriveTrain();
+    navX = new NavX();
     oi = new OI();
   }
 

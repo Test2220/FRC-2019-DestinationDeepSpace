@@ -25,6 +25,7 @@ public class OI {
   private JoystickButton yButtonManipulator;
 
   private JoystickButton aButtonDriver;
+  private JoystickButton bButtonDriver;
 
   /**
    * Constructor that initializes the function of each button
@@ -39,6 +40,7 @@ public class OI {
     yButtonManipulator = new JoystickButton(manipulatorController, 4);
 
     aButtonDriver = new JoystickButton(driverController, 1);
+    bButtonDriver = new JoystickButton(driverController, 2);
 
     aButtonManipulator.whenPressed(new SetHarles(Value.kForward, Piston.PUSHER));
     bButtonManipulator.whenPressed(new SetHarles(Value.kReverse, Piston.PUSHER));
@@ -46,6 +48,7 @@ public class OI {
     yButtonManipulator.whenPressed(new SetHarles(Value.kReverse, Piston.THRUSTER));
 
     aButtonDriver.whileHeld(new CorrectPosition());
+    bButtonDriver.whenPressed(new TurnToAngle(90));
   }
 
   public XboxController getDriver() {
