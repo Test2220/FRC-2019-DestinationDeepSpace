@@ -6,6 +6,11 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.subsystems.Limelight;
 
+/**
+ * NOT DONE --- Corrects the position of the robot using the gyro and limelight in conjunction with each other
+ * 
+ * @author Dhruv
+ */
 public class CorrectPositionGyro extends Command {
 
     private double currentPosition, wantedPosition;
