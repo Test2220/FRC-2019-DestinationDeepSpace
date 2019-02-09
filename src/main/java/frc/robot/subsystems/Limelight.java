@@ -3,7 +3,9 @@ package frc.robot.subsystems;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
 
 /**
@@ -148,7 +150,7 @@ public class Limelight extends Subsystem {
     /* LIMELIGHT OP MODE ENUMERATION */
 
     // Camera modes enumeration
-    enum CameraMode {
+    public enum CameraMode {
         VISION_PROCESSING(0), DRIVER_CAMERA(1);
 
         private final int val;
@@ -163,7 +165,7 @@ public class Limelight extends Subsystem {
     }
 
     // Led modes enumeration
-    enum LEDMode {
+    public enum LEDMode {
         USE_PIPELINE(0), OFF(1), BLINK(2), ON(3);
 
         private final int val;
@@ -178,7 +180,7 @@ public class Limelight extends Subsystem {
     }
 
     // Stream modes enumeration, PiP stands for picture in picture
-    enum StreamMode {
+    public enum StreamMode {
         STANDARD(0), PIP_MAIN(1), PIP_SECONDARY(2);
 
         private final int val;
@@ -197,6 +199,6 @@ public class Limelight extends Subsystem {
     // Default subsystem command
     @Override
     public void initDefaultCommand() {
-        // No default limelight command
+        
     }
 }

@@ -1,7 +1,9 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
+import frc.robot.subsystems.Limelight.LEDMode;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
@@ -59,7 +61,9 @@ public class CorrectPosition extends Command {
             }
         };
 
-        pidController = new PIDController(0.025 * 0.65, 0.00023 * 0.65, 0, limelightPIDSource, limelightPIDOutput);
+        pidController = new PIDController(0.024, 0, 0, limelightPIDSource, limelightPIDOutput);
+
+        SmartDashboard.putData("Correct Position PID Controller",pidController);
     }
 
     /** INSTANCE METHODS */
@@ -70,7 +74,13 @@ public class CorrectPosition extends Command {
      */
     @Override
     public void initialize() {
+        //Robot.limelight.setLEDMode(LEDMode.ON);
         pidController.enable();
+    }
+
+    @Override
+    protected void execute() {
+        SmartDashboard.putNumber("PID Output", pidController.get());
     }
 
     /**

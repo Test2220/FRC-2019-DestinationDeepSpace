@@ -47,7 +47,6 @@ public class TurnToAngle extends Command {
         };
 
         pidController = new PIDController(0.0145, 0, 0.0376, pidSource, pidOutput);
-        SmartDashboard.putData(pidController);
     }
 
     /**
@@ -67,7 +66,6 @@ public class TurnToAngle extends Command {
     protected void execute() {
         System.out.println("Current Gyro val: " + Robot.navX.getAngle());
         System.out.println("PID Get: " + pidController.get());
-        SmartDashboard.putNumber("PID Output", pidController.get());
     }
 
     @Override

@@ -1,10 +1,11 @@
-package frc.robot;
+package frc.robot; 
 
-import edu.wpi.first.wpilibj.AnalogGyro;
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
-import frc.robot.subsystems.*;
+import edu.wpi.first.wpilibj.AnalogGyro; 
+import edu.wpi.first.wpilibj.TimedRobot; 
+import edu.wpi.first.wpilibj.command.Scheduler; 
+import edu.wpi.first.wpilibj.interfaces.Gyro; 
+import frc.robot.subsystems. * ; 
+import frc.robot.subsystems.Limelight.LEDMode; 
 
 /**
  * Main robot class, root of the whole robot and calls all subsystems and
@@ -14,13 +15,13 @@ import frc.robot.subsystems.*;
  */
 public class Robot extends TimedRobot {
 
-  public static Harles harles = new Harles();
+  public static Harles harles = new Harles(); 
 
   // Subsystem Members
-  public static OI oi;
-  public static Limelight limelight;
-  public static DriveTrain drivetrain;
-  public static NavX navX;
+  public static OI oi; 
+  public static Limelight limelight; 
+  public static DriveTrain drivetrain; 
+  public static NavX navX; 
 
   // DoubleSolenoid pusher;
 
@@ -32,10 +33,10 @@ public class Robot extends TimedRobot {
     // m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
     // chooser.addOption("My Auto", new MyAutoCommand());
     // SmartDashboard.putData("Auto mode", m_chooser);
-    limelight = new Limelight();
-    drivetrain = new DriveTrain();
-    navX = new NavX();
-    oi = new OI();
+    limelight = new Limelight(); 
+    drivetrain = new DriveTrain(); 
+    navX = new NavX(); 
+    oi = new OI(); 
   }
 
   /**
@@ -50,6 +51,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+ 
   }
 
   /**
@@ -57,7 +59,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledPeriodic() {
-    Scheduler.getInstance().run();
+    Scheduler.getInstance().run(); 
   }
 
   /**
@@ -72,7 +74,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    Scheduler.getInstance().run();
+    Scheduler.getInstance().run(); 
   }
 
   /**
@@ -80,6 +82,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopInit() {
+
   }
 
   /**
@@ -87,7 +90,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    Scheduler.getInstance().run();
+    Scheduler.getInstance().run(); 
   }
 
   /**
