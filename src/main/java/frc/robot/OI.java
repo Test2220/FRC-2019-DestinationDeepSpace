@@ -48,7 +48,7 @@ public class OI {
     yButtonManipulator.whenPressed(new SetHarles(Value.kReverse, Piston.THRUSTER));
 
     aButtonDriver.whileHeld(new CorrectPosition());
-    bButtonDriver.whenPressed(new TurnToAngle(90));
+    bButtonDriver.whenPressed(new TurnToAngle(360));
   }
 
   public XboxController getDriver() {

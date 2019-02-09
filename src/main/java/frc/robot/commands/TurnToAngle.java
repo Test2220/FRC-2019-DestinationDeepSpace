@@ -42,12 +42,12 @@ public class TurnToAngle extends Command {
         PIDOutput pidOutput = new PIDOutput() {
             @Override
             public void pidWrite(double output) {
-                double turn = output;
+                double turn = output * 0.5;
                 Robot.drivetrain.curvatureDrive(0, turn);
             }
         };
 
-        pidController = new PIDController(0.02, 0, 0, pidSource, pidOutput);
+        pidController = new PIDController(0.01, 0, 0, pidSource, pidOutput);
         pidController.setSetpoint(angle);
         pidController.setAbsoluteTolerance(5);
     }
@@ -62,6 +62,11 @@ public class TurnToAngle extends Command {
         pidController.enable();
     }
 
+    @Override
+    protected void execute() {
+        System.out.println("Command is still running, turn speed is " + Robot.drivetrain.getTurnSpeed());
+    }
+
     /**
      * Called when the command ended peacefully. Disables the PI controller.
      */
@@ -72,7 +77,7 @@ public class TurnToAngle extends Command {
 
     @Override
     protected boolean isFinished() {
-        return pidController.onTarget();
+        return (pidController.onTarget()) 
+        && (Math.abs(Robot.drivetrain.getTurnSpeed()) - 0 <= 0.01);
     }
-
 }
