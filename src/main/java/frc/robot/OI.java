@@ -33,7 +33,7 @@ public class OI {
   public OI() {
     driverController = new XboxController(0);
     manipulatorController = new XboxController(1);
-    
+
     aButtonManipulator = new JoystickButton(manipulatorController, 1);
     bButtonManipulator = new JoystickButton(manipulatorController, 2);
     xButtonManipulator = new JoystickButton(manipulatorController, 3);
@@ -48,7 +48,7 @@ public class OI {
     yButtonManipulator.whenPressed(new SetHarles(Value.kReverse, Piston.THRUSTER));
 
     aButtonDriver.whileHeld(new CorrectPosition());
-    bButtonDriver.whenPressed(new TurnToAngle(360));
+    bButtonDriver.whenPressed(new TurnToAngle(180));
   }
 
   public XboxController getDriver() {

@@ -4,20 +4,19 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.PIDBase.Tolerance;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
 public class TurnToAngle extends Command {
 
-    private double angle;
+    private double targetAngle;
     private PIDController pidController;
 
-    public TurnToAngle(double angle) {
+    public TurnToAngle(double targetAngle) {
         requires(Robot.navX);
         requires(Robot.drivetrain);
-        this.angle = angle;
+        this.targetAngle = targetAngle;
 
         PIDSource pidSource = new PIDSource() {
 
@@ -42,14 +41,13 @@ public class TurnToAngle extends Command {
         PIDOutput pidOutput = new PIDOutput() {
             @Override
             public void pidWrite(double output) {
-                double turn = output * 0.5;
+                double turn = output;
                 Robot.drivetrain.curvatureDrive(0, turn);
             }
         };
 
-        pidController = new PIDController(0.01, 0, 0, pidSource, pidOutput);
-        pidController.setSetpoint(angle);
-        pidController.setAbsoluteTolerance(5);
+        pidController = new PIDController(0.0145, 0, 0.0376, pidSource, pidOutput);
+        SmartDashboard.putData(pidController);
     }
 
     /**
@@ -59,12 +57,23 @@ public class TurnToAngle extends Command {
     @Override
     public void initialize() {
         Robot.navX.zeroAngle();
+        pidController.setSetpoint(targetAngle);
+        pidController.setAbsoluteTolerance(5);
         pidController.enable();
     }
 
+
     @Override
     protected void execute() {
-        System.out.println("Command is still running, turn speed is " + Robot.drivetrain.getTurnSpeed());
+        System.out.println("Current Gyro val: " + Robot.navX.getAngle());
+        System.out.println("PID Get: " + pidController.get());
+        SmartDashboard.putNumber("PID Output", pidController.get());
+    }
+
+    @Override
+    protected void interrupted() {
+        System.out.println("Interrupted");
+        super.interrupted();
     }
 
     /**
@@ -73,11 +82,11 @@ public class TurnToAngle extends Command {
     @Override
     public void end() {
         pidController.disable();
+        System.out.println("Command is finished.");
     }
 
     @Override
     protected boolean isFinished() {
-        return (pidController.onTarget()) 
-        && (Math.abs(Robot.drivetrain.getTurnSpeed()) - 0 <= 0.01);
+        return false;
     }
 }
