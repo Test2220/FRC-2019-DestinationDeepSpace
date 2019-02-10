@@ -50,7 +50,7 @@ public class Shield extends Subsystem {
 
     //State enumeration - grabbed or released
     public enum State {
-        GRABBED(Value.kForward), RELEASED(Value.kReverse);
+        GRABBED(Value.kReverse), RELEASED(Value.kForward);
 
         private final Value val;
 

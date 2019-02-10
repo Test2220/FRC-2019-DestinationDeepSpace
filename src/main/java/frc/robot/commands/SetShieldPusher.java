@@ -21,9 +21,9 @@ public class SetShieldPusher extends InstantCommand {
      * 
      * @param state the state to set the pusher to
      */
-    public SetShieldPusher(State state) {
+    public SetShieldPusher(Value direction) {
         requires(Robot.shield);
-        direction = state.getDirection();
+        this.direction = direction;
     }
 
     /**
