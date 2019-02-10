@@ -1,11 +1,8 @@
 package frc.robot; 
 
-import edu.wpi.first.wpilibj.AnalogGyro; 
 import edu.wpi.first.wpilibj.TimedRobot; 
 import edu.wpi.first.wpilibj.command.Scheduler; 
-import edu.wpi.first.wpilibj.interfaces.Gyro; 
 import frc.robot.subsystems. * ; 
-import frc.robot.subsystems.Limelight.LEDMode; 
 
 /**
  * Main robot class, root of the whole robot and calls all subsystems and
