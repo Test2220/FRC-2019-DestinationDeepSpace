@@ -10,8 +10,8 @@ package frc.robot;
 public class RobotMap {
 
   /* HARLES SUBSYSTEM IDS */
-  public static final int THRUSTER_FORWARD = 0;
-  public static final int THRUSTER_REVERSE = 1;
+  public static final int GRABBER_FORWARD = 0;
+  public static final int GRABBER_REVERSE = 1;
   public static final int PUSHER_FORWARD = 2;
   public static final int PUSHER_REVERSE = 3;
 

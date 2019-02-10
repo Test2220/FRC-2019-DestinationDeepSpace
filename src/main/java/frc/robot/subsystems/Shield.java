@@ -11,21 +11,21 @@ import frc.robot.RobotMap;
  * @author Dhruv Balasubramanian
  * @version 1/27/2018
  */
-public class Harles extends Subsystem {
+public class Shield extends Subsystem {
 
     /* INSTANCE VARIABLES */
 
     private DoubleSolenoid pusher;
-    private DoubleSolenoid thruster;
+    private DoubleSolenoid grabber;
 
     /* CONSTRUCTOR */
 
     /**
      * Constructor that initializes both pistons. No parameters necessary or taken.
      */
-    public Harles() {
+    public Shield() {
         pusher = new DoubleSolenoid(RobotMap.PUSHER_FORWARD, RobotMap.PUSHER_REVERSE);
-        thruster = new DoubleSolenoid(RobotMap.THRUSTER_FORWARD, RobotMap.THRUSTER_REVERSE);
+        grabber = new DoubleSolenoid(RobotMap.GRABBER_FORWARD, RobotMap.GRABBER_REVERSE);
     }
 
     /* CONTROL METHODS */
@@ -44,13 +44,26 @@ public class Harles extends Subsystem {
      * 
      * @param direction the direction to set the thruster piston to.
      */
-    public void setThruster(Value direction) {
-        thruster.set(direction);
+    public void setGrabber(Value direction) {
+        grabber.set(direction);
     }
 
-    // Subsystem piston enumeration
-    public enum Piston {
-        THRUSTER, PUSHER;
+    //State enumeration - grabbed or released
+    public enum State {
+        GRABBED(Value.kForward), RELEASED(Value.kReverse);
+
+        private final Value val;
+
+        State(Value val) {
+            this.val = val;
+        }
+
+        /**
+         * @return val the direction
+         */
+        public Value getDirection() {
+            return val;
+        }
     }
 
     /* IMPLEMENTED METHODS */

@@ -2,7 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import frc.robot.subsystems.Harles;
+import frc.robot.subsystems.Shield;
 import frc.robot.subsystems.DriveTrain;
 import edu.wpi.first.cameraserver.CameraServer;
 
@@ -14,7 +14,7 @@ import edu.wpi.first.cameraserver.CameraServer;
  */
 public class Robot extends TimedRobot {
 
-  public static Harles harles = new Harles();
+  public static Shield shield = new Shield();
 
   // Subsystem Members
   public static OI oi;
