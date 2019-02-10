@@ -4,7 +4,9 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+
 import frc.robot.RobotMap;
+import frc.robot.commands.ManipulateCargo;
 
 public class Cargo extends Subsystem {
 
@@ -32,6 +34,6 @@ public class Cargo extends Subsystem {
 
     @Override
     protected void initDefaultCommand() {
+        setDefaultCommand(new ManipulateCargo());
     }
-    
 }

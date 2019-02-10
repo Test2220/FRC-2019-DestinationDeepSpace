@@ -1,17 +1,11 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot;
 
 /**
- * The RobotMap is a mapping from the ports sensors and actuators are wired into
- * to a variable name. This provides flexibility changing wiring, makes checking
- * the wiring easier and significantly reduces the number of magic numbers
- * floating around.
+ * Robot Map contains the constant IDs that correlate to connections set up
+ * outside of programming. Maintain it so it is accurate and clear to be
+ * adjusted. Convention is to make all IDs constants, or public static final.
+ * 
+ * @author Programming Team
  */
 public class RobotMap {
 
@@ -23,4 +17,19 @@ public class RobotMap {
   public static final int LEFT_ARM_MASTER = 4;
   public static final int RIGHT_ARM_SLAVE = 5;
   public static final int INTAKE = 6;
+  
+  /* HARLES SUBSYSTEM IDS */
+  public static final int THRUSTER_FORWARD = 0;
+  public static final int THRUSTER_REVERSE = 1;
+  public static final int PUSHER_FORWARD = 2;
+  public static final int PUSHER_REVERSE = 3;
+
+  /* DRIVETRAIN SUBSYSTEM IDS */
+  public static final int LEFT_MASTER = 1;
+  public static final int LEFT_SLAVE = 2;
+  public static final int RIGHT_MASTER = 3;
+  public static final int RIGHT_SLAVE = 4;
+
+  /* LIMELIGHT SUBSYSTEM IDS */
+  public static final String LIMELIGHT_TABLE_NAME = "limelight";
 }
