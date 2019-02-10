@@ -51,7 +51,7 @@ public class OI {
 
     aButtonDriver.whileHeld(new CorrectPosition());
     bButtonDriver.whenPressed(new TurnToAngle(180));
-    xButtonDriver.whileHeld(new CorrectPositionGyro());
+    xButtonDriver.whileHeld(new LimelightAiming());
   }
 
   public XboxController getDriver() {

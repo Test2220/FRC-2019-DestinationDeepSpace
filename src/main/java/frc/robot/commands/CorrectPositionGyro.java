@@ -1,14 +1,11 @@
 package frc.robot.commands;
 
-import java.beans.Encoder;
-
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.subsystems.Limelight;
 
 /**
  * NOT DONE --- Corrects the position of the robot using the gyro and limelight in conjunction with each other

@@ -69,6 +69,14 @@ public class DriveTrain extends Subsystem {
         rightMaster.set(power);
     }
 
+    public void setLeftWheels(double power) {
+        leftMaster.set(power);
+    }
+
+    public void setRightWheels(double power) {
+        rightMaster.set(power);
+    }
+
     /**
      * Stop motors
      */
