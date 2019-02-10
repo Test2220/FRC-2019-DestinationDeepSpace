@@ -18,4 +18,9 @@ public class RobotMap {
   // TODO: Figure out proper values to put here
   // Intake talons
   public static final int INTAKE_LEFT_BOTTOM = 0, INTAKE_LEFT_TOP = 1, INTAKE_RIGHT_BOTTOM = 2, INTAKE_RIGHT_TOP = 3;
+
+  /* Cargo Talons */
+  public static final int LEFT_ARM_MASTER = 4;
+  public static final int RIGHT_ARM_SLAVE = 5;
+  public static final int INTAKE = 6;
 }
