@@ -23,7 +23,7 @@ public class SetShieldGrabber extends InstantCommand {
      */
     public SetShieldGrabber(State state) {
         requires(Robot.shield);
-        direction = state.getDirection();
+        direction = state.direction;
     }
 
     /**

@@ -3,7 +3,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.*;
-import frc.robot.subsystems.Shield.State;
 
 /**
  * Stands for Operator Interface, this class is where code relating the gamepad
@@ -35,10 +34,10 @@ public class OI {
     xButton = new JoystickButton(manipulatorController, 3);
     yButton = new JoystickButton(manipulatorController, 4);
 
-    aButton.whenPressed(new SetShieldPusher(State.GRABBED));
-    bButton.whenPressed(new SetShieldPusher(State.RELEASED));
-    xButton.whenPressed(new SetShieldGrabber(State.GRABBED));
-    yButton.whenPressed(new SetShieldGrabber(State.RELEASED));
+    // aButton.whenPressed(new SetShieldPusher(State.GRABBED));
+    // bButton.whenPressed(new SetShieldPusher(State.RELEASED));
+    // xButton.whenPressed(new SetShieldGrabber(State.GRABBED));
+    // yButton.whenPressed(new SetShieldGrabber(State.RELEASED));
   }
 
   public XboxController getDriver() {

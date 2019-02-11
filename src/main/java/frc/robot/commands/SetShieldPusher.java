@@ -23,7 +23,7 @@ public class SetShieldPusher extends InstantCommand {
      */
     public SetShieldPusher(State state) {
         requires(Robot.shield);
-        direction = state.getDirection();
+        direction = state.direction;
     }
 
     /**
