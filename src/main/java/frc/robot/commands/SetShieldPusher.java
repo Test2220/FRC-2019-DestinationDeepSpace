@@ -3,7 +3,6 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
-import frc.robot.subsystems.Shield.State;
 
 /**
  * Command that pushes a piston of the HARLES subsystem based on parameters
