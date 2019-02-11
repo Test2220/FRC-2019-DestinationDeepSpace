@@ -9,17 +9,11 @@ package frc.robot;
  */
 public class RobotMap {
 
-  /* SHIELD SUBSYSTEM IDS */
-
-  // Piston channel IDs
+  /* HARLES SUBSYSTEM IDS */
   public static final int GRABBER_FORWARD = 0;
   public static final int GRABBER_REVERSE = 1;
   public static final int PUSHER_FORWARD = 2;
   public static final int PUSHER_REVERSE = 3;
-
-  // Digital limit swithc IDs TODO Get limit switch IDs
-  public static final int LEFT_SWITCH = 0;
-  public static final int RIGHT_SWITCH = 1;
 
   /* DRIVETRAIN SUBSYSTEM IDS */
   public static final int LEFT_MASTER = 1;

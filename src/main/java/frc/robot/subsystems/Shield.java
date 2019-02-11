@@ -1,93 +1,68 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 
 /**
- * Hatch panel manipulator subsystem using SHIELD design as basis
+ * Subsystem for manipulation of the hatch panel.
  * 
- * @author Dhruv, Reece
+ * @author Dhruv Balasubramanian
  * @version 1/27/2018
  */
 public class Shield extends Subsystem {
 
     /* INSTANCE VARIABLES */
 
-    private boolean releaseRequested = false;
+    private DoubleSolenoid pusher;
+    private DoubleSolenoid grabber;
 
-    // Pistons
-    private DoubleSolenoid pusher = new DoubleSolenoid(RobotMap.PUSHER_FORWARD, RobotMap.PUSHER_REVERSE);
-    private DoubleSolenoid grabber = new DoubleSolenoid(RobotMap.GRABBER_FORWARD, RobotMap.GRABBER_REVERSE);
-
-    // Limit switches
-    private DigitalInput leftSwitch = new DigitalInput(RobotMap.LEFT_SWITCH);
-    private DigitalInput rightSwitch = new DigitalInput(RobotMap.RIGHT_SWITCH);
-
-    /* SUBSYSTEM CONSTRUCTOR */
+    /* CONSTRUCTOR */
 
     /**
-     * Empty subsystem constructor, no parameters or config necessary
+     * Constructor that initializes both pistons. No parameters necessary or taken.
      */
     public Shield() {
+        pusher = new DoubleSolenoid(RobotMap.PUSHER_FORWARD, RobotMap.PUSHER_REVERSE);
+        grabber = new DoubleSolenoid(RobotMap.GRABBER_FORWARD, RobotMap.GRABBER_REVERSE);
     }
 
     /* CONTROL METHODS */
 
     /**
-     * Actuate pusher piston (linear thruster) to direction given
+     * Sets the direction of the pusher piston based on the value given.
      * 
-     * @param direction The direction to set the pusher piston
+     * @param direction the direction to set the pusher piston to.
      */
     public void setPusher(Value direction) {
         pusher.set(direction);
     }
 
     /**
-     * Actuate grabber piston to direction given
+     * Sets the direction of the thruster piston based on the value given.
      * 
-     * @param direction The direction to set the grabber piston
+     * @param direction the direction to set the thruster piston to.
      */
     public void setGrabber(Value direction) {
         grabber.set(direction);
     }
 
-    /**
-     * Set grabber piston to actuate into grab position
-     */
-    public void grab() {
-        grabber.set(Value.kForward);
-    }
-
-    /**
-     * Set grabber piston to actuate into release position
-     */
-    public void release() {
-        releaseRequested = true;
-        grabber.set(Value.kReverse);
-    }
-
-    public boolean switchesPressed() {
-        return (leftSwitch.get() && rightSwitch.get());
-    }
-
-    public boolean releaseRequested() {
-        return releaseRequested;
-    }
-
-    public boolean grabbing() {
-        return grabber.get() == Value.kForward;
-    }
-
+    //State enumeration - grabbed or released
     public enum State {
-        GRABBED(Value.kForward), RELEASED(Value.kForward);
+        GRABBED(Value.kForward), RELEASED(Value.kReverse);
 
-        public final Value direction;
+        private final Value val;
 
-        private State(Value direction) {
-            this.direction = direction;
+        State(Value val) {
+            this.val = val;
+        }
+
+        /**
+         * @return val the direction
+         */
+        public Value getDirection() {
+            return val;
         }
     }
 

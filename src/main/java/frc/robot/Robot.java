@@ -3,7 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.subsystems.Shield;
-import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.DriveTrain;
 import edu.wpi.first.cameraserver.CameraServer;
 
 /**
@@ -14,23 +14,24 @@ import edu.wpi.first.cameraserver.CameraServer;
  */
 public class Robot extends TimedRobot {
 
-  // Subsystem members
-  public static OI oi;
-  public static Drivetrain drivetrain;
-  public static Shield shield;
+  public static Shield shield = new Shield();
 
+  // Subsystem Members
+  public static OI oi;
+  public static DriveTrain drivetrain;
+
+  // DoubleSolenoid pusher;
 
   /**
    * Runs once when robot is started, use it for subsystem init
    */
   @Override
   public void robotInit() {
-    // Initialize subsystems
     oi = new OI();
-    drivetrain = new Drivetrain();
-    shield = new Shield();
-
-    // Start USB camera capture
+    // m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
+    // chooser.addOption("My Auto", new MyAutoCommand());
+    // SmartDashboard.putData("Auto mode", m_chooser);
+    drivetrain = new DriveTrain();
     CameraServer.getInstance().startAutomaticCapture();
   }
 

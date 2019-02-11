@@ -15,7 +15,7 @@ import frc.robot.commands.DriveXbox;
  * 
  * @author Muaad, Reece
  */
-public class Drivetrain extends Subsystem {
+public class DriveTrain extends Subsystem {
 
     /* INSTANCE VARIABLES */
 
@@ -34,7 +34,7 @@ public class Drivetrain extends Subsystem {
      * Drivetrain subsystem constructor configures motor and sets up drivetrain
      * controller (differential drive)
      */
-    public Drivetrain() {
+    public DriveTrain() {
         // Slave motors follow master motors
         leftSlave.follow(leftMaster);
         rightSlave.follow(rightMaster);
