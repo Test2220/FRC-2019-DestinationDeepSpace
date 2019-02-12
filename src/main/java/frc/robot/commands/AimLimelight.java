@@ -3,12 +3,12 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class LimelightAiming extends Command {
+public class AimLimelight extends Command {
 
     private final double KP = -0.1;
     private final double MIN_COMMAND = 0.05;
 
-    public LimelightAiming() {
+    public AimLimelight() {
         requires(Robot.limelight);
         requires(Robot.drivetrain);
     }
