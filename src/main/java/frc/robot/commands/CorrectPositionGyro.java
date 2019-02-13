@@ -1,10 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.PIDSource;
-import edu.wpi.first.wpilibj.PIDSourceType;
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.PIDCommand;
 import frc.robot.Robot;
 
 /**
@@ -12,45 +9,30 @@ import frc.robot.Robot;
  * 
  * @author Dhruv
  */
-public class CorrectPositionGyro extends Command {
+public class CorrectPositionGyro extends PIDCommand {
 
     private double targetAngle;
     private PIDController pidController;
 
     public CorrectPositionGyro() {
+        super(0.0145, 0, 0.0376);
+
         requires(Robot.navX);
         requires(Robot.limelight);
         requires(Robot.drivetrain);
+    }
 
-        PIDSource pidSource = new PIDSource() {
+    /* INSTANCE METHODS */
 
-            private PIDSourceType pidSource = PIDSourceType.kDisplacement;
+    @Override
+    protected double returnPIDInput() {
+        return Robot.navX.getAngle();
+    }
 
-            @Override
-            public void setPIDSourceType(PIDSourceType pidSource) {
-                this.pidSource = pidSource;
-            }
-
-            @Override
-            public double pidGet() {
-                return Robot.navX.getAngle();
-            }
-
-            @Override
-            public PIDSourceType getPIDSourceType() {
-                return pidSource;
-            }
-        };
-
-        PIDOutput pidOutput = new PIDOutput() {
-            @Override
-            public void pidWrite(double output) {
-                double turn = output;
-                Robot.drivetrain.curvatureDrive(0, turn);
-            }
-        };
-
-        pidController = new PIDController(0.0145, 0, 0.0376, pidSource, pidOutput);
+    @Override
+    protected void usePIDOutput(double output) {
+        double turn = output;
+        Robot.drivetrain.curvatureDrive(0, turn);
     }
 
     /**

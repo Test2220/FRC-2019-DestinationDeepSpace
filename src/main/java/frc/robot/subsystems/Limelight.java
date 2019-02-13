@@ -5,6 +5,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
+import frc.robot.commands.LimelightDefaultCommand;
 
 /**
  * Limelight vision processing and high FOV driver camera subsystem. Contains
@@ -197,6 +198,6 @@ public class Limelight extends Subsystem {
     // Default subsystem command
     @Override
     public void initDefaultCommand() {
-        
+        setDefaultCommand(new LimelightDefaultCommand());
     }
 }
