@@ -6,7 +6,7 @@ import frc.robot.Robot;
 import frc.robot.subsystems.Shield.State;
 
 /**
- * Command that pushes a piston of the HARLES subsystem based on parameters
+ * Command that sets the piston of the SHIELD subsystem based on the state
  * passed into the constructor.
  * 
  * @author Dhruv
@@ -17,7 +17,7 @@ public class SetShieldGrabber extends InstantCommand {
     private Value direction;
 
     /**
-     * Constructor that initializes direction and determines which piston to move.
+     * Constructor that initializes which state, and direction, to set the grabber piston to.
      * 
      * @param state the state to set the grabber to
      */
@@ -27,7 +27,7 @@ public class SetShieldGrabber extends InstantCommand {
     }
 
     /**
-     * Moves thruster piston as per initialized in the constructor. Runs once before
+     * Moves grabber piston as per initialized in the constructor. Runs once before
      * command ends.
      */
     public void execute() {

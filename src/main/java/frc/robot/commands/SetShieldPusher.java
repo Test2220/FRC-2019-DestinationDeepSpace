@@ -18,7 +18,7 @@ public class SetShieldPusher extends InstantCommand {
     /**
      * Constructor that initializes direction and determines which piston to move.
      * 
-     * @param state the state to set the pusher to
+     * @param direction the direction to set the pusher to
      */
     public SetShieldPusher(Value direction) {
         requires(Robot.shield);

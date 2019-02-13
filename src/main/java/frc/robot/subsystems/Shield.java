@@ -48,7 +48,10 @@ public class Shield extends Subsystem {
         grabber.set(direction);
     }
 
-    //State enumeration - grabbed or released
+    /**
+     * Enumeration of the possible states of the "flower petal".
+     * There are two possible states: grabbed or released
+     */
     public enum State {
         GRABBED(Value.kReverse), RELEASED(Value.kForward);
 
@@ -59,7 +62,7 @@ public class Shield extends Subsystem {
         }
 
         /**
-         * @return val the direction
+         * @return val the direction associated with a specific state
          */
         public Value getDirection() {
             return val;
