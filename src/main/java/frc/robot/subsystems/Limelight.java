@@ -10,9 +10,9 @@ import frc.robot.RobotMap;
  * Limelight vision processing and high FOV driver camera subsystem. Contains
  * methods necessary to accessing data from and controlling Limelight camera
  * This class is to be used in conjunction with other subsystems and/or commands
- * in order achieve automation
+ * in order achieve automation.
  * 
- * @author Reece Holmdahl
+ * @author Reece
  */
 public class Limelight extends Subsystem {
 
@@ -24,7 +24,7 @@ public class Limelight extends Subsystem {
     /* SUBSYSTEM CONSTRUCTOR */
 
     /**
-     * Limelight subsystem constructor. No arguments necessary or present
+     * Limelight subsystem constructor. No arguments necessary or present.
      */
     public Limelight() {
         // Set camera mode to use vision processing
@@ -43,7 +43,7 @@ public class Limelight extends Subsystem {
     /* LIMELIGHT DATA GETTERS */
 
     /**
-     * Checks if the Limelight can currently see the calibrated target
+     * Checks if the Limelight can currently see the calibrated target.
      * 
      * @return Returns a boolean value for if the Limelight can see target (true) or
      *         not (false)
@@ -56,7 +56,7 @@ public class Limelight extends Subsystem {
     }
 
     /**
-     * Horizontal offset from target visible from Limelight
+     * Horizontal offset from target visible from Limelight.
      * 
      * @return Returns raw double value from Limelight with range of {-27, 27}
      *         degrees
@@ -68,7 +68,7 @@ public class Limelight extends Subsystem {
     }
 
     /**
-     * Vertical offset from target visible from Limelight
+     * Vertical offset from target visible from Limelight.
      * 
      * @return Returns raw double value from Limelight with range of {-20.5, 20.5}
      *         degrees
@@ -80,7 +80,7 @@ public class Limelight extends Subsystem {
     }
 
     /**
-     * Size of target in % of screen size visible from Limelight
+     * Size of target in % of screen size visible from Limelight.
      * 
      * @return Returns double value from {0, 100} representing percent of screen
      *         space target takes up
@@ -92,7 +92,7 @@ public class Limelight extends Subsystem {
     }
 
     /**
-     * Skew of target, or its rotation visible from Limelight
+     * Skew of target, or its rotation visible from Limelight.
      * 
      * @return Returns the skew of visible target with range of {-90, 0} degrees
      */
@@ -106,38 +106,38 @@ public class Limelight extends Subsystem {
 
     /**
      * Set the mode of the camera on the Limelight. Options specified in CameraMode
-     * enum
+     * enum.
      * 
      * @param mode The desired camera mode on Limelight
      */
     public void setCameraMode(CameraMode mode) {
-        int modeVal = mode.getVal();
+        int modeVal = mode.val;
         limelight.getEntry("camMode").setNumber(modeVal);
     }
 
     /**
-     * Set the LED mode of the Limelight. Options specified in LEDMode enum
+     * Set the LED mode of the Limelight. Options specified in LEDMode enum.
      * 
      * @param mode The desired mode of LEDs on Limelight
      */
     public void setLEDMode(LEDMode mode) {
-        int modeVal = mode.getVal();
+        int modeVal = mode.val;
         limelight.getEntry("ledMode").setNumber(modeVal);
     }
 
     /**
      * Set the streaming mode of the camera. Available options listed in StreamMode
-     * enum
+     * enum.
      * 
      * @param mode The desired streaming mode of the camera
      */
     public void setStreamMode(StreamMode mode) {
-        int modeVal = mode.getVal();
+        int modeVal = mode.val;
         limelight.getEntry("stream").setNumber(modeVal);
     }
 
     /**
-     * Set which image manipulation pipeline the limelight is currently running
+     * Set which image manipulation pipeline the limelight is currently running.
      * 
      * @param pipeline Set ID of Limelight vision pipeline
      */
@@ -145,9 +145,11 @@ public class Limelight extends Subsystem {
         limelight.getEntry("pipeline").setNumber(pipeline);
     }
 
-    /* LIMELIGHT OP MODE ENUMERATION */
+    /* LIMELIGHT DATA STATES ENUMERATION */
 
-    // Camera modes enumeration
+    /**
+     * Camera modes enumation.
+     */
     enum CameraMode {
         VISION_PROCESSING(0), DRIVER_CAMERA(1);
 
@@ -156,13 +158,11 @@ public class Limelight extends Subsystem {
         CameraMode(int val) {
             this.val = val;
         }
-
-        public int getVal() {
-            return val;
-        }
     }
 
-    // Led modes enumeration
+    /**
+     * LED modes enumeration.
+     */
     enum LEDMode {
         USE_PIPELINE(0), OFF(1), BLINK(2), ON(3);
 
@@ -171,13 +171,11 @@ public class Limelight extends Subsystem {
         LEDMode(int val) {
             this.val = val;
         }
-
-        public int getVal() {
-            return val;
-        }
     }
 
-    // Stream modes enumeration, PiP stands for picture in picture
+    /**
+     * Stream modes enumeration, PiP stands for picture in picture.
+     */
     enum StreamMode {
         STANDARD(0), PIP_MAIN(1), PIP_SECONDARY(2);
 
@@ -186,17 +184,14 @@ public class Limelight extends Subsystem {
         StreamMode(int val) {
             this.val = val;
         }
-
-        public int getVal() {
-            return val;
-        }
     }
 
     /* IMPLEMENTED METHODS */
 
-    // Default subsystem command
+    /**
+     * No default command.
+     */
     @Override
-    public void initDefaultCommand() {
-        // No default limelight command
+    protected void initDefaultCommand() {
     }
 }
