@@ -11,7 +11,6 @@ import frc.robot.RobotMap;
  * design.
  * 
  * @author Dhruv
- * @version 1/27/2018
  */
 public class Shield extends Subsystem {
 

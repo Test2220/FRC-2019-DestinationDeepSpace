@@ -6,7 +6,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.RobotMap;
-import frc.robot.commands.drivetrain.DriveXbox;
+import frc.robot.commands.drivetrain.DriveWithXbox;
 
 /**
  * The drivetrain subsystem sets up all the hardware relating to the physical
@@ -83,6 +83,6 @@ public class Drivetrain extends Subsystem {
      */
     @Override
     protected void initDefaultCommand() {
-        setDefaultCommand(new DriveXbox());
+        setDefaultCommand(new DriveWithXbox());
     }
 }

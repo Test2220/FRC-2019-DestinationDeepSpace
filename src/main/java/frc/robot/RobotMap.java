@@ -8,10 +8,15 @@ package frc.robot;
  * @author Programming Team
  */
 public class RobotMap {
-
+  
   /* XBOX CONTROLLER IDS */
   public static final int DRIVER_CONTROLLER = 0;
   public static final int MANIPULATOR_CONTROLLER = 1;
+
+  /* CARGO SUBSYSTEM IDS */
+  public static final int LEFT_ARM = 6;
+  public static final int RIGHT_ARM = 7;
+  public static final int INTAKE = 8;
 
   /* SHIELD SUBSYSTEM IDS */
 

@@ -102,9 +102,6 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-# Remove jdk folder
-jdk/
-
 ### VisualStudioCode ###
 .vscode/*
 !.vscode/settings.json

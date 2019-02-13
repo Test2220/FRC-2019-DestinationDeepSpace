@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.subsystems.Shield;
+import frc.robot.subsystems.Cargo;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.cameraserver.CameraServer;
 
@@ -17,6 +18,7 @@ public class Robot extends TimedRobot {
   // Subsystem members
   public static Drivetrain drivetrain;
   public static Shield shield;
+  public static Cargo cargo;
 
   /**
    * Runs once when robot is started, use it for subsystem init.
@@ -26,6 +28,7 @@ public class Robot extends TimedRobot {
     // Initialize subsystem members
     drivetrain = new Drivetrain();
     shield = new Shield();
+    cargo = new Cargo();
 
     // Start USB camera recording
     CameraServer.getInstance().startAutomaticCapture();

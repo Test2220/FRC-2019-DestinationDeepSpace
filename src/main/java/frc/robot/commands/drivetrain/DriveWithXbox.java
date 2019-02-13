@@ -12,7 +12,7 @@ import frc.robot.OI;
  * 
  * @author Muaad, Reece
  */
-public class DriveXbox extends Command {
+public class DriveWithXbox extends Command {
 
     /* CONSTANTS */
 
@@ -26,7 +26,7 @@ public class DriveXbox extends Command {
      * Drive with xbox command constructor, nothing necessary here besides requiring
      * drivetrain subsystem.
      */
-    public DriveXbox() {
+    public DriveWithXbox() {
         super(Robot.drivetrain);
     }
 
