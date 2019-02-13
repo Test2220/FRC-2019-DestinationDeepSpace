@@ -9,11 +9,21 @@ package frc.robot;
  */
 public class RobotMap {
 
-  /* HARLES SUBSYSTEM IDS */
+  /* XBOX CONTROLLER IDS */
+  public static final int DRIVER_CONTROLLER = 0;
+  public static final int MANIPULATOR_CONTROLLER = 1;
+
+  /* SHIELD SUBSYSTEM IDS */
+
+  // Double solenoid channel IDs
   public static final int GRABBER_FORWARD = 0;
   public static final int GRABBER_REVERSE = 1;
   public static final int PUSHER_FORWARD = 2;
   public static final int PUSHER_REVERSE = 3;
+
+  // Limit switch digital input IDs TODO -> set actual IDs before testing limit switches
+  public static final int LEFT_SWITCH = 0;
+  public static final int RIGHT_SWITCH = 1;
 
   /* DRIVETRAIN SUBSYSTEM IDS */
   public static final int LEFT_MASTER = 1;
