@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
  * 
  * @author Dhruv
  */
-public class CorrectPosition extends PIDCommand {
+public class AlignToVisionTarget extends PIDCommand {
 
     /** INSTANCE VARIABLES */
 
@@ -20,7 +20,7 @@ public class CorrectPosition extends PIDCommand {
      * Constructor that initialize the pid controller object and all of its
      * necessary components; no arguments present or necessary.
      */
-    public CorrectPosition() {
+    public AlignToVisionTarget() {
         //TODO: Tune these values:
         super(0.024, 0, 0);
 

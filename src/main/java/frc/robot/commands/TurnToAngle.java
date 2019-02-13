@@ -1,13 +1,11 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.PIDCommand;
 import frc.robot.Robot;
 
 public class TurnToAngle extends PIDCommand {
 
     private double targetAngle;
-    private PIDController pidController;
 
     public TurnToAngle(double targetAngle) {
         super(0.0145, 0, 0.0376);
@@ -38,16 +36,14 @@ public class TurnToAngle extends PIDCommand {
     @Override
     public void initialize() {
         Robot.navX.zeroAngle();
-        pidController.setSetpoint(targetAngle);
-        pidController.setAbsoluteTolerance(5);
-        pidController.enable();
+        setSetpoint(targetAngle);
     }
 
 
     @Override
     protected void execute() {
         System.out.println("Current Gyro val: " + Robot.navX.getAngle());
-        System.out.println("PID Get: " + pidController.get());
+        System.out.println("PID Get: " + getPIDController().get());
     }
 
     @Override
@@ -61,7 +57,6 @@ public class TurnToAngle extends PIDCommand {
      */
     @Override
     public void end() {
-        pidController.disable();
         System.out.println("Command is finished.");
     }
 

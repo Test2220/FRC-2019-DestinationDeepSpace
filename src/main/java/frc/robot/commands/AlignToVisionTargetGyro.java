@@ -1,6 +1,5 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.PIDCommand;
 import frc.robot.Robot;
 
@@ -9,12 +8,11 @@ import frc.robot.Robot;
  * 
  * @author Dhruv
  */
-public class CorrectPositionGyro extends PIDCommand {
+public class AlignToVisionTargetGyro extends PIDCommand {
 
     private double targetAngle;
-    private PIDController pidController;
 
-    public CorrectPositionGyro() {
+    public AlignToVisionTargetGyro() {
         super(0.0145, 0, 0.0376);
 
         requires(Robot.navX);
@@ -42,19 +40,18 @@ public class CorrectPositionGyro extends PIDCommand {
     @Override
     public void initialize() {
         Robot.navX.zeroAngle();
-        pidController.setSetpoint(targetAngle);
-        pidController.setAbsoluteTolerance(5);
-        pidController.enable();
+        getPIDController().setSetpoint(targetAngle);
+        getPIDController().setAbsoluteTolerance(5);
     }
 
     @Override
     protected void execute() {
         System.out.println("Current Gyro val: " + Robot.navX.getAngle());
-        System.out.println("PID Get: " + pidController.get());
+        System.out.println("PID Get: " + getPIDController().get());
 
         double setpoint = Robot.navX.getAngle() + Robot.limelight.getHOffset();
 
-        pidController.setSetpoint(setpoint);
+        setSetpoint(setpoint);
     }
 
     /**
@@ -62,7 +59,6 @@ public class CorrectPositionGyro extends PIDCommand {
      */
     @Override
     public void end() {
-        pidController.disable();
         System.out.println("Command is finished.");
     }
 

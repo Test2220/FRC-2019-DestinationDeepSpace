@@ -9,9 +9,9 @@ import frc.robot.commands.LimelightDefaultCommand;
 
 /**
  * Limelight vision processing and high FOV driver camera subsystem. Contains
- * methods necessary to accessing data from and controlling Limelight camera
+ * methods necessary to accessing data from and controlling Limelight camera.
  * This class is to be used in conjunction with other subsystems and/or commands
- * in order achieve automation
+ * in order achieve automation.
  * 
  * @author Reece Holmdahl
  */
@@ -25,7 +25,7 @@ public class Limelight extends Subsystem {
     /* SUBSYSTEM CONSTRUCTOR */
 
     /**
-     * Limelight subsystem constructor. No arguments necessary or present
+     * Limelight subsystem constructor. No arguments necessary or present.
      */
     public Limelight() {
         // Set camera mode to use vision processing
@@ -44,10 +44,10 @@ public class Limelight extends Subsystem {
     /* LIMELIGHT DATA GETTERS */
 
     /**
-     * Checks if the Limelight can currently see the calibrated target
+     * Checks if the Limelight can currently see the calibrated target.
      * 
      * @return Returns a boolean value for if the Limelight can see target (true) or
-     *         not (false)
+     *         not (false).
      */
     public boolean seeTarget() {
         NetworkTableEntry targetViewable = limelight.getEntry("tv");

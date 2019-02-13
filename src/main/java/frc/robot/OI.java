@@ -49,7 +49,7 @@ public class OI {
     xButtonManipulator.whenPressed(new SetHarles(Value.kForward, Piston.THRUSTER));
     yButtonManipulator.whenPressed(new SetHarles(Value.kReverse, Piston.THRUSTER));
 
-    aButtonDriver.whileHeld(new CorrectPosition());
+    aButtonDriver.whileHeld(new AlignToVisionTarget());
     bButtonDriver.whenPressed(new TurnToAngle(180));
     xButtonDriver.whileHeld(new AimLimelight());
   }
