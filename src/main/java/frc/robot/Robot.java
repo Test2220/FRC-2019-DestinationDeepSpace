@@ -17,7 +17,7 @@ import edu.wpi.first.cameraserver.CameraServer;
  * @author Programming Team
  */
 public class Robot extends TimedRobot {
-  public static OI m_oi;
+
   public static Cargo cargo;
 
   public static Harles harles = new Harles();
@@ -34,7 +34,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     cargo = new Cargo();
-    m_oi = new OI();
+    
     //m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
     oi = new OI();
     // m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
