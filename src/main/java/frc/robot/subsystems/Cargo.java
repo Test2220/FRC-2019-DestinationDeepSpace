@@ -22,8 +22,8 @@ public class Cargo extends Subsystem {
     /* CONSTANTS */
 
     // Joystick value scalars
-    private static final double SPIN_SCALAR = 3 / 4;
-    private static final double MOVE_SCALAR = 3 / 10;
+    private static final double SPIN_SCALAR = 0.75;
+    private static final double MOVE_SCALAR = 0.3;
 
     /* INSTANCE VARIABLES */
 
@@ -67,8 +67,7 @@ public class Cargo extends Subsystem {
      * @param power The power at which to move the Talons, range [-1, 1]
      */
     public void moveArm(double power) {
-        power *= MOVE_SCALAR;
-        leftArm.set(power);
+        leftArm.set(power * MOVE_SCALAR);
     }
 
     /**
@@ -77,8 +76,7 @@ public class Cargo extends Subsystem {
      * @param speed The speed at which to spin the intake, range [-1, 1]
      */
     public void spinIntake(double speed) {
-        speed *= SPIN_SCALAR;
-        intake.set(ControlMode.PercentOutput, speed);
+        intake.set(ControlMode.PercentOutput, speed * SPIN_SCALAR);
     }
 
     /* IMPLEMENTED METHODS */

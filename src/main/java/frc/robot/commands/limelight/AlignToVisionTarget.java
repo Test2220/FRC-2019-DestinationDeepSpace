@@ -2,7 +2,6 @@ package frc.robot.commands.limelight;
 
 import edu.wpi.first.wpilibj.command.PIDCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.OI;
 import frc.robot.Robot;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 
@@ -40,7 +39,7 @@ public class AlignToVisionTarget extends PIDCommand {
 
     @Override
     protected void usePIDOutput(double output) {
-        double move = (Robot.oi.driver.getY(Hand.kLeft)) * 0.25;
+        double move = -(Robot.oi.driver.getY(Hand.kLeft)) * 0.25;
         double turn = -output;
         Robot.drivetrain.drive(move, turn);
     }
