@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.RobotMap;
 import frc.robot.commands.DriveXbox;
+import frc.robot.ShuffleBoardConfig;
 
 /**
  * The drivetrain subsystem sets up all the hardware relating to the physical
@@ -45,6 +46,9 @@ public class DriveTrain extends Subsystem {
 
         // Initialize drivetrain controller member (our robot uses differential drive)
         drive = new DifferentialDrive(leftMaster, rightMaster);
+
+        ShuffleBoardConfig.driveTrainLayout.add(drive);
+        ShuffleBoardConfig.driveTrainLayout.add(this);
     }
 
     /* CONTROL DRIVETRAIN METHODS */

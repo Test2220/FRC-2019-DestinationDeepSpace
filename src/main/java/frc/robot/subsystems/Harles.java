@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
+import frc.robot.ShuffleBoardConfig;
 
 /**
  * Subsystem for manipulation of the hatch panel.
@@ -26,6 +27,10 @@ public class Harles extends Subsystem {
     public Harles() {
         pusher = new DoubleSolenoid(RobotMap.PUSHER_FORWARD, RobotMap.PUSHER_REVERSE);
         thruster = new DoubleSolenoid(RobotMap.THRUSTER_FORWARD, RobotMap.THRUSTER_REVERSE);
+    
+        ShuffleBoardConfig.harlesLayout.add("Pusher", pusher);
+        ShuffleBoardConfig.harlesLayout.add("Thruster", thruster);
+        ShuffleBoardConfig.harlesLayout.add(this);
     }
 
     /* CONTROL METHODS */

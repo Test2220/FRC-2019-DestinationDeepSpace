@@ -2,8 +2,12 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import frc.robot.subsystems.Harles;
 import frc.robot.subsystems.DriveTrain;
+import edu.wpi.cscore.HttpCamera;
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.HttpCamera.HttpCameraKind;
 import edu.wpi.first.cameraserver.CameraServer;
 
 /**
@@ -32,7 +36,14 @@ public class Robot extends TimedRobot {
     // chooser.addOption("My Auto", new MyAutoCommand());
     // SmartDashboard.putData("Auto mode", m_chooser);
     drivetrain = new DriveTrain();
-    CameraServer.getInstance().startAutomaticCapture();
+    // UsbCamera usbCamera = CameraServer.getInstance().startAutomaticCapture();
+    // usbCamera.setFPS(6);
+    // usbCamera.setResolution(640, 320);
+    // ShuffleBoardConfig.driverTab.add("USB Camera", usbCamera).withWidget(BuiltInWidgets.kCameraStream).withSize(4, 3)
+    //     .withPosition(3, 0);
+    // ShuffleBoardConfig.driverTab
+    //     .add("LimeLight", new HttpCamera("LImeLight", "http://10.22.20.11:5800", HttpCameraKind.kMJPGStreamer))
+    //     .withWidget(BuiltInWidgets.kCameraStream).withSize(3, 3).withPosition(0, 0);
   }
 
   /**
@@ -40,6 +51,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    ShuffleBoardConfig.updateMatchDetails();
   }
 
   /**
