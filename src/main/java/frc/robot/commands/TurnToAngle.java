@@ -26,7 +26,7 @@ public class TurnToAngle extends PIDCommand {
     @Override
     protected void usePIDOutput(double output) {
         double turn = output;
-        Robot.drivetrain.curvatureDrive(0, turn);
+        Robot.drivetrain.drive(0, turn);
     }
 
     /**

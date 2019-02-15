@@ -4,7 +4,9 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.*;
-import frc.robot.subsystems.Harles.Piston;
+import frc.robot.commands.limelight.*;
+import frc.robot.commands.shield.*;
+import frc.robot.subsystems.Shield.State;
 
 /**
  * Stands for Operator Interface, this class is where code relating the gamepad
@@ -15,51 +17,39 @@ import frc.robot.subsystems.Harles.Piston;
 public class OI {
 
   // Xbox controllers
-  private XboxController driverController;
-  private XboxController manipulatorController;
+  public final XboxController driver = new XboxController(RobotMap.DRIVER_CONTROLLER);
+  public final XboxController manipulator = new XboxController(RobotMap.MANIPULATOR_CONTROLLER);
 
   // Joystick buttons
-  private JoystickButton aButtonManipulator;
-  private JoystickButton bButtonManipulator;
-  private JoystickButton xButtonManipulator;
-  private JoystickButton yButtonManipulator;
-
-  private JoystickButton aButtonDriver;
-  private JoystickButton bButtonDriver;
-  private JoystickButton xButtonDriver;
+  private final JoystickButton aButtonManipulator;
+  private final JoystickButton bButtonManipulator;
+  private final JoystickButton xButtonManipulator;
+  private final JoystickButton yButtonManipulator;
+  private final JoystickButton aButtonDriver;
+  private final JoystickButton bButtonDriver;
+  private final JoystickButton xButtonDriver;
 
   /**
-   * Constructor that initializes the function of each button
+   * Static constructor that initializes the function of each button. TODO -> COMMENTS!
    */
   public OI() {
-    driverController = new XboxController(0);
-    manipulatorController = new XboxController(1);
+    aButtonManipulator = new JoystickButton(manipulator, 1);
+    bButtonManipulator = new JoystickButton(manipulator, 2);
+    xButtonManipulator = new JoystickButton(manipulator, 3);
+    yButtonManipulator = new JoystickButton(manipulator, 4);
 
-    aButtonManipulator = new JoystickButton(manipulatorController, 1);
-    bButtonManipulator = new JoystickButton(manipulatorController, 2);
-    xButtonManipulator = new JoystickButton(manipulatorController, 3);
-    yButtonManipulator = new JoystickButton(manipulatorController, 4);
+    aButtonDriver = new JoystickButton(driver, 1);
+    bButtonDriver = new JoystickButton(driver, 2);
+    xButtonDriver = new JoystickButton(driver, 3);
 
-    aButtonDriver = new JoystickButton(driverController, 1);
-    bButtonDriver = new JoystickButton(driverController, 2);
-    xButtonDriver = new JoystickButton(driverController, 3);
-
-    aButtonManipulator.whenPressed(new SetHarles(Value.kForward, Piston.PUSHER));
-    bButtonManipulator.whenPressed(new SetHarles(Value.kReverse, Piston.PUSHER));
-    xButtonManipulator.whenPressed(new SetHarles(Value.kForward, Piston.THRUSTER));
-    yButtonManipulator.whenPressed(new SetHarles(Value.kReverse, Piston.THRUSTER));
+    aButtonManipulator.whenPressed(new SetShieldPusher(Value.kForward));
+    bButtonManipulator.whenPressed(new SetShieldPusher(Value.kReverse));
+    xButtonManipulator.whenPressed(new SetShieldGrabber(State.GRABBED));
+    yButtonManipulator.whenPressed(new SetShieldGrabber(State.GRABBED));
 
     aButtonDriver.whileHeld(new AlignToVisionTarget());
     bButtonDriver.whenPressed(new TurnToAngle(180));
     xButtonDriver.whileHeld(new AimLimelight());
-  }
-
-  public XboxController getDriver() {
-    return driverController;
-  }
-
-  public XboxController getManipulator() {
-    return manipulatorController;
   }
 
   /*

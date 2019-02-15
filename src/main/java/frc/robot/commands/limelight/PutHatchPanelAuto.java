@@ -1,0 +1,18 @@
+package frc.robot.commands.limelight;
+
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.command.CommandGroup;
+import frc.robot.commands.drivetrain.MoveBack;
+import frc.robot.commands.shield.SetShieldGrabber;
+import frc.robot.commands.shield.SetShieldPusher;
+import frc.robot.subsystems.Shield.State;
+
+public class PutHatchPanelAuto extends CommandGroup {
+
+    public PutHatchPanelAuto() {
+        addSequential(new AlignToVisionTarget());
+        addSequential(new SetShieldPusher(Value.kForward));
+        addSequential(new SetShieldGrabber(State.RELEASED));
+        addSequential(new MoveBack(2));
+    }
+}

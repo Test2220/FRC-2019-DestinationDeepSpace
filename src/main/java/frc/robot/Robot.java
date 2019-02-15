@@ -3,6 +3,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot; 
 import edu.wpi.first.wpilibj.command.Scheduler; 
 import frc.robot.subsystems. * ; 
+import frc.robot.subsystems.Shield;
+import frc.robot.subsystems.Cargo;
+import frc.robot.subsystems.Drivetrain;
+import edu.wpi.first.cameraserver.CameraServer;
 
 /**
  * Main robot class, root of the whole robot and calls all subsystems and
@@ -12,39 +16,45 @@ import frc.robot.subsystems. * ;
  */
 public class Robot extends TimedRobot {
 
-  public static Harles harles = new Harles(); 
 
   // Subsystem Members
-  public static OI oi; 
   public static Limelight limelight; 
-  public static DriveTrain drivetrain; 
+  public static Drivetrain drivetrain; 
   public static NavX navX; 
-
-  // DoubleSolenoid pusher;
+  public static Shield shield;
+  public static Cargo cargo;
+  public static OI oi;
 
   /**
-   * Runs once when robot is started, use it for subsystem init
+   * Runs once when robot is started, use it for subsystem init.
    */
   @Override
   public void robotInit() {
     // m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
     // chooser.addOption("My Auto", new MyAutoCommand());
     // SmartDashboard.putData("Auto mode", m_chooser);
+
+    // Initialize subsystem members
     limelight = new Limelight(); 
-    drivetrain = new DriveTrain(); 
     navX = new NavX(); 
-    oi = new OI(); 
+    drivetrain = new Drivetrain();
+    shield = new Shield();
+    cargo = new Cargo(); 
+    oi = new OI();
+
+    // Start USB camera recording
+    CameraServer.getInstance().startAutomaticCapture();
   }
 
   /**
-   * Loops when robot is on
+   * Loops when robot is on.
    */
   @Override
   public void robotPeriodic() {
   }
 
   /**
-   * Runs once when no modes are running
+   * Runs once when no modes are running.
    */
   @Override
   public void disabledInit() {
@@ -52,7 +62,7 @@ public class Robot extends TimedRobot {
   }
 
   /**
-   * Loops when no modes are running
+   * Loops when no modes are running.
    */
   @Override
   public void disabledPeriodic() {
@@ -60,14 +70,14 @@ public class Robot extends TimedRobot {
   }
 
   /**
-   * Runs once on autonomous init
+   * Runs once on autonomous init.
    */
   @Override
   public void autonomousInit() {
   }
 
   /**
-   * Loops during autonomous
+   * Loops during autonomous.
    */
   @Override
   public void autonomousPeriodic() {
@@ -75,7 +85,7 @@ public class Robot extends TimedRobot {
   }
 
   /**
-   * Runs once on teleop init
+   * Runs once on teleop init.
    */
   @Override
   public void teleopInit() {
@@ -83,7 +93,7 @@ public class Robot extends TimedRobot {
   }
 
   /**
-   * Loops during teleop
+   * Loops during teleop.
    */
   @Override
   public void teleopPeriodic() {
@@ -92,7 +102,7 @@ public class Robot extends TimedRobot {
 
   /**
    * Loops during test mode. Please clear this when merging with master unless you
-   * need to keep code in here
+   * need to keep code in here.
    */
   @Override
   public void testPeriodic() {

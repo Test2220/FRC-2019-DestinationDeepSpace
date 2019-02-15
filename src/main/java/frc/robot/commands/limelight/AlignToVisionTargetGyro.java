@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.limelight;
 
 import edu.wpi.first.wpilibj.command.PIDCommand;
 import frc.robot.Robot;
@@ -30,7 +30,7 @@ public class AlignToVisionTargetGyro extends PIDCommand {
     @Override
     protected void usePIDOutput(double output) {
         double turn = output;
-        Robot.drivetrain.curvatureDrive(0, turn);
+        Robot.drivetrain.drive(0, turn);
     }
 
     /**
