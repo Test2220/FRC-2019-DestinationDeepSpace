@@ -6,8 +6,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.RobotMap;
-import frc.robot.commands.DriveXbox;
-import frc.robot.ShuffleBoardConfig;
+import frc.robot.commands.drivetrain.DriveWithXbox;
 
 /**
  * The drivetrain subsystem sets up all the hardware relating to the physical
@@ -16,7 +15,7 @@ import frc.robot.ShuffleBoardConfig;
  * 
  * @author Muaad, Reece
  */
-public class DriveTrain extends Subsystem {
+public class Drivetrain extends Subsystem {
 
     /* INSTANCE VARIABLES */
 
@@ -33,9 +32,9 @@ public class DriveTrain extends Subsystem {
 
     /**
      * Drivetrain subsystem constructor configures motor and sets up drivetrain
-     * controller (differential drive)
+     * controller. (differential drive)
      */
-    public DriveTrain() {
+    public Drivetrain() {
         // Slave motors follow master motors
         leftSlave.follow(leftMaster);
         rightSlave.follow(rightMaster);
@@ -54,17 +53,17 @@ public class DriveTrain extends Subsystem {
     /* CONTROL DRIVETRAIN METHODS */
 
     /**
-     * Control drivetrain with curvature drive
+     * Control drivetrain with curvature drive.
      * 
-     * @param move Forward and reverse move power
-     * @param turn Turn power
+     * @param power Forward and reverse move power
+     * @param turn  Turn power
      */
-    public void curvatureDrive(double move, double turn) {
-        drive.curvatureDrive(move, turn, true);
+    public void drive(double power, double turn) {
+        drive.curvatureDrive(power, turn, true);
     }
 
     /**
-     * Set power to all motors
+     * Set power to all motors.
      * 
      * @param power Power to set all motors to
      */
@@ -74,7 +73,7 @@ public class DriveTrain extends Subsystem {
     }
 
     /**
-     * Stop motors
+     * Stop motors.
      */
     public void stop() {
         setAllPower(0);
@@ -83,10 +82,10 @@ public class DriveTrain extends Subsystem {
     /* IMPLEMENTED METHODS */
 
     /**
-     * Sets drivetrain default command to drive with xbox
+     * Sets drivetrain default command to drive with xbox.
      */
     @Override
-    public void initDefaultCommand() {
-        setDefaultCommand(new DriveXbox());
+    protected void initDefaultCommand() {
+        setDefaultCommand(new DriveWithXbox());
     }
 }

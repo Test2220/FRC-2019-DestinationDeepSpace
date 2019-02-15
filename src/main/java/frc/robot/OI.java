@@ -3,8 +3,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commands.*;
-import frc.robot.subsystems.Harles.Piston;
+import frc.robot.commands.shield.*;
+import frc.robot.subsystems.Shield.State;
 
 /**
  * Stands for Operator Interface, this class is where code relating the gamepad
@@ -15,39 +15,34 @@ import frc.robot.subsystems.Harles.Piston;
 public class OI {
 
   // Xbox controllers
-  private XboxController driverController;
-  private XboxController manipulatorController;
+  public static final XboxController driver = new XboxController(RobotMap.DRIVER_CONTROLLER);
+  public static final XboxController manipulator = new XboxController(RobotMap.MANIPULATOR_CONTROLLER);
 
   // Joystick buttons
-  private JoystickButton aButton;
-  private JoystickButton bButton;
-  private JoystickButton xButton;
-  private JoystickButton yButton;
+  private static final JoystickButton aButton;
+  private static final JoystickButton bButton;
+  private static final JoystickButton xButton;
+  private static final JoystickButton yButton;
 
   /**
-   * Constructor that initializes the function of each button
+   * Disable OI constructor.
    */
-  public OI() {
-    driverController = new XboxController(0);
-    manipulatorController = new XboxController(1);
-    
-    aButton = new JoystickButton(manipulatorController, 1);
-    bButton = new JoystickButton(manipulatorController, 2);
-    xButton = new JoystickButton(manipulatorController, 3);
-    yButton = new JoystickButton(manipulatorController, 4);
-
-    aButton.whenPressed(new SetHarles(Value.kForward, Piston.PUSHER));
-    bButton.whenPressed(new SetHarles(Value.kReverse, Piston.PUSHER));
-    xButton.whenPressed(new SetHarles(Value.kForward, Piston.THRUSTER));
-    yButton.whenPressed(new SetHarles(Value.kReverse, Piston.THRUSTER));
+  private OI() {
   }
 
-  public XboxController getDriver() {
-    return driverController;
-  }
+  /**
+   * Static constructor that initializes the function of each button. TODO -> COMMENTS!
+   */
+  static {
+    aButton = new JoystickButton(manipulator, 1);
+    bButton = new JoystickButton(manipulator, 2);
+    xButton = new JoystickButton(manipulator, 3);
+    yButton = new JoystickButton(manipulator, 4);
 
-  public XboxController getManipulator() {
-    return manipulatorController;
+    aButton.whenPressed(new SetShieldPusher(Value.kForward));
+    bButton.whenPressed(new SetShieldPusher(Value.kReverse));
+    xButton.whenPressed(new SetShieldGrabber(State.GRABBED));
+    yButton.whenPressed(new SetShieldGrabber(State.RELEASED));
   }
 
   /*
