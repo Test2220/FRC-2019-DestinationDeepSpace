@@ -49,7 +49,6 @@ public class OI {
 
     aButtonDriver.whileHeld(new AlignToVisionTarget());
     bButtonDriver.whenPressed(new TurnToAngle(180));
-    xButtonDriver.whileHeld(new AimLimelight());
   }
 
   /*
