@@ -32,8 +32,8 @@ public class ManipulateCargo extends Command {
     @Override
     protected void execute() {
         // Grab joystick values from manipulator controller
-        double armPower = OI.manipulator.getY(Hand.kRight);
-        double spinSpeed = OI.manipulator.getY(Hand.kLeft);
+        double armPower = Robot.oi.manipulator.getY(Hand.kRight);
+        double spinSpeed = Robot.oi.manipulator.getY(Hand.kLeft);
 
         // Pass joystick values to and call control methods out of subsystem
         Robot.cargo.moveArm(armPower);

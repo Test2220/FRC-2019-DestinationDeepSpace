@@ -5,10 +5,11 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
+import frc.robot.commands.limelight.LimelightDefaultCommand;
 
 /**
  * Limelight vision processing and high FOV driver camera subsystem. Contains
- * methods necessary to accessing data from and controlling Limelight camera
+ * methods necessary to accessing data from and controlling Limelight camera.
  * This class is to be used in conjunction with other subsystems and/or commands
  * in order achieve automation.
  * 
@@ -46,7 +47,7 @@ public class Limelight extends Subsystem {
      * Checks if the Limelight can currently see the calibrated target.
      * 
      * @return Returns a boolean value for if the Limelight can see target (true) or
-     *         not (false)
+     *         not (false).
      */
     public boolean seeTarget() {
         NetworkTableEntry targetViewable = limelight.getEntry("tv");
@@ -147,10 +148,8 @@ public class Limelight extends Subsystem {
 
     /* LIMELIGHT DATA STATES ENUMERATION */
 
-    /**
-     * Camera modes enumation.
-     */
-    enum CameraMode {
+    // Camera modes enumeration
+    public enum CameraMode {
         VISION_PROCESSING(0), DRIVER_CAMERA(1);
 
         private final int val;
@@ -160,10 +159,8 @@ public class Limelight extends Subsystem {
         }
     }
 
-    /**
-     * LED modes enumeration.
-     */
-    enum LEDMode {
+    // Led modes enumeration
+    public enum LEDMode {
         USE_PIPELINE(0), OFF(1), BLINK(2), ON(3);
 
         private final int val;
@@ -173,10 +170,8 @@ public class Limelight extends Subsystem {
         }
     }
 
-    /**
-     * Stream modes enumeration, PiP stands for picture in picture.
-     */
-    enum StreamMode {
+    // Stream modes enumeration, PiP stands for picture in picture
+    public enum StreamMode {
         STANDARD(0), PIP_MAIN(1), PIP_SECONDARY(2);
 
         private final int val;
@@ -192,6 +187,7 @@ public class Limelight extends Subsystem {
      * No default command.
      */
     @Override
-    protected void initDefaultCommand() {
+    public void initDefaultCommand() {
+        setDefaultCommand(new LimelightDefaultCommand());
     }
 }

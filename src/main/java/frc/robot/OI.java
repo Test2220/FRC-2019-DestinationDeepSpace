@@ -3,6 +3,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.*;
+import frc.robot.commands.limelight.*;
 import frc.robot.commands.shield.*;
 import frc.robot.subsystems.Shield.State;
 
@@ -15,34 +17,38 @@ import frc.robot.subsystems.Shield.State;
 public class OI {
 
   // Xbox controllers
-  public static final XboxController driver = new XboxController(RobotMap.DRIVER_CONTROLLER);
-  public static final XboxController manipulator = new XboxController(RobotMap.MANIPULATOR_CONTROLLER);
+  public final XboxController driver = new XboxController(RobotMap.DRIVER_CONTROLLER);
+  public final XboxController manipulator = new XboxController(RobotMap.MANIPULATOR_CONTROLLER);
 
   // Joystick buttons
-  private static final JoystickButton aButton;
-  private static final JoystickButton bButton;
-  private static final JoystickButton xButton;
-  private static final JoystickButton yButton;
-
-  /**
-   * Disable OI constructor.
-   */
-  private OI() {
-  }
+  private final JoystickButton aButtonManipulator;
+  private final JoystickButton bButtonManipulator;
+  private final JoystickButton xButtonManipulator;
+  private final JoystickButton yButtonManipulator;
+  private final JoystickButton aButtonDriver;
+  private final JoystickButton bButtonDriver;
+  private final JoystickButton xButtonDriver;
 
   /**
    * Static constructor that initializes the function of each button. TODO -> COMMENTS!
    */
-  static {
-    aButton = new JoystickButton(manipulator, 1);
-    bButton = new JoystickButton(manipulator, 2);
-    xButton = new JoystickButton(manipulator, 3);
-    yButton = new JoystickButton(manipulator, 4);
+  public OI() {
+    aButtonManipulator = new JoystickButton(manipulator, 1);
+    bButtonManipulator = new JoystickButton(manipulator, 2);
+    xButtonManipulator = new JoystickButton(manipulator, 3);
+    yButtonManipulator = new JoystickButton(manipulator, 4);
 
-    aButton.whenPressed(new SetShieldPusher(Value.kForward));
-    bButton.whenPressed(new SetShieldPusher(Value.kReverse));
-    xButton.whenPressed(new SetShieldGrabber(State.GRABBED));
-    yButton.whenPressed(new SetShieldGrabber(State.RELEASED));
+    aButtonDriver = new JoystickButton(driver, 1);
+    bButtonDriver = new JoystickButton(driver, 2);
+    xButtonDriver = new JoystickButton(driver, 3);
+
+    aButtonManipulator.whenPressed(new SetShieldPusher(Value.kForward));
+    bButtonManipulator.whenPressed(new SetShieldPusher(Value.kReverse));
+    xButtonManipulator.whenPressed(new SetShieldGrabber(State.GRABBED));
+    yButtonManipulator.whenPressed(new SetShieldGrabber(State.GRABBED));
+
+    aButtonDriver.whileHeld(new AlignToVisionTarget());
+    bButtonDriver.whenPressed(new TurnToAngle(180));
   }
 
   /*
