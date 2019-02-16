@@ -6,6 +6,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.RobotMap;
+import frc.robot.ShuffleBoardConfig;
 import frc.robot.commands.drivetrain.DriveWithXbox;
 
 /**
@@ -45,6 +46,9 @@ public class Drivetrain extends Subsystem {
 
         // Initialize drivetrain controller member (our robot uses differential drive)
         drive = new DifferentialDrive(leftMaster, rightMaster);
+
+        ShuffleBoardConfig.driveTrainLayout.add(drive);
+        ShuffleBoardConfig.driveTrainLayout.add(this);
     }
 
     /* CONTROL DRIVETRAIN METHODS */
