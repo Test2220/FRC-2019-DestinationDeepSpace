@@ -1,8 +1,8 @@
-package frc.robot; 
+package frc.robot;
 
-import edu.wpi.first.wpilibj.TimedRobot; 
-import edu.wpi.first.wpilibj.command.Scheduler; 
-import frc.robot.subsystems. * ; 
+import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.command.Scheduler;
+import frc.robot.subsystems.*;
 import frc.robot.subsystems.Shield;
 import frc.robot.subsystems.Cargo;
 import frc.robot.subsystems.Drivetrain;
@@ -16,11 +16,10 @@ import edu.wpi.first.cameraserver.CameraServer;
  */
 public class Robot extends TimedRobot {
 
-
   // Subsystem Members
-  public static Limelight limelight; 
-  public static Drivetrain drivetrain; 
-  public static NavX navX; 
+  public static Limelight limelight;
+  public static Drivetrain drivetrain;
+  public static NavX navX;
   public static Shield shield;
   public static Cargo cargo;
   public static OI oi;
@@ -35,11 +34,11 @@ public class Robot extends TimedRobot {
     // SmartDashboard.putData("Auto mode", m_chooser);
 
     // Initialize subsystem members
-    limelight = new Limelight(); 
-    navX = new NavX(); 
+    limelight = new Limelight();
+    navX = new NavX();
     drivetrain = new Drivetrain();
     shield = new Shield();
-    cargo = new Cargo(); 
+    cargo = new Cargo();
     oi = new OI();
 
     // Start USB camera recording
@@ -59,7 +58,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
- 
+
   }
 
   /**
@@ -67,7 +66,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledPeriodic() {
-    Scheduler.getInstance().run(); 
+    Scheduler.getInstance().run();
   }
 
   /**
@@ -82,7 +81,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    Scheduler.getInstance().run(); 
+    Scheduler.getInstance().run();
   }
 
   /**
@@ -98,7 +97,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    Scheduler.getInstance().run(); 
+    Scheduler.getInstance().run();
   }
 
   /**

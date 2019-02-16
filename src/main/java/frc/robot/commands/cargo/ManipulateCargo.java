@@ -1,9 +1,8 @@
-package frc.robot.commands.cargo;
+package frc.robot.commands.cargo; 
 
-import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.OI;
-import frc.robot.Robot;
+import edu.wpi.first.wpilibj.GenericHID.Hand; 
+import edu.wpi.first.wpilibj.command.Command; 
+import frc.robot.Robot; 
 
 /**
  * The ManipulateCargo command continuously executes the moveArm and spinIntake
@@ -21,7 +20,7 @@ public class ManipulateCargo extends Command {
      * constructor. (requires cargo subsystem)
      */
     public ManipulateCargo() {
-        super(Robot.cargo);
+        super(Robot.cargo); 
     }
 
     /* IMPLEMENTED METHODS */
@@ -32,12 +31,12 @@ public class ManipulateCargo extends Command {
     @Override
     protected void execute() {
         // Grab joystick values from manipulator controller
-        double armPower = Robot.oi.manipulator.getY(Hand.kRight);
-        double spinSpeed = Robot.oi.manipulator.getY(Hand.kLeft);
+        double armPower = Robot.oi.manipulator.getY(Hand.kRight); 
+        double spinSpeed = Robot.oi.manipulator.getY(Hand.kLeft); 
 
         // Pass joystick values to and call control methods out of subsystem
-        Robot.cargo.moveArm(armPower);
-        Robot.cargo.spinIntake(spinSpeed);
+        Robot.cargo.moveArm(armPower); 
+        Robot.cargo.spinIntake(spinSpeed); 
     }
 
     /**
@@ -45,6 +44,6 @@ public class ManipulateCargo extends Command {
      */
     @Override
     protected boolean isFinished() {
-        return false;
+        return false; 
     }
 }
