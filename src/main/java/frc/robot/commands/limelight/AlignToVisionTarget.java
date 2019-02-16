@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 public class AlignToVisionTarget extends PIDCommand {
 
     /** INSTANCE VARIABLES */
+    private final double PID_OUTPUT_SCALAR = 0.25;
 
     /**
      * Constructor that initialize the pid controller object and all of its
@@ -49,7 +50,7 @@ public class AlignToVisionTarget extends PIDCommand {
      */
     @Override
     protected void usePIDOutput(double output) {
-        double move = -(Robot.oi.driver.getY(Hand.kLeft)) * 0.25;
+        double move = -(Robot.oi.driver.getY(Hand.kLeft)) * PID_OUTPUT_SCALAR;
         double turn = -output;
         Robot.drivetrain.drive(move, turn);
     }
