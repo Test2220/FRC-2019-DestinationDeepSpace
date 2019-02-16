@@ -1,9 +1,9 @@
-package frc.robot.commands.drivetrain;
+package frc.robot.commands.drivetrain; 
 
-import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.Robot;
-import frc.robot.OI;
+import edu.wpi.first.wpilibj.GenericHID.Hand; 
+import edu.wpi.first.wpilibj.command.Command; 
+import frc.robot.Robot; 
+import frc.robot.OI; 
 
 /**
  * Drive with xbox command references driver controller xbox controller defined
@@ -39,8 +39,8 @@ public class DriveWithXbox extends Command {
     @Override
     protected void execute() {
         // Grab joystick values used for curvature drive calculation
-        double power = -OI.driver.getY(Hand.kLeft);
-        double turn = OI.driver.getX(Hand.kRight);
+        double power = -Robot.oi.driver.getY(Hand.kLeft);
+        double turn = Robot.oi.driver.getX(Hand.kRight);
 
         // Exponential driving and turning calculations
         power = Math.pow(Math.abs(power), EXP_DRIVE_POWER) * Math.signum(power);

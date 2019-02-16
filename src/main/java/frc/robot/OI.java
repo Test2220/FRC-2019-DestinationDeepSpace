@@ -15,25 +15,19 @@ import frc.robot.subsystems.Shield.State;
 public class OI {
 
   // Xbox controllers
-  public static final XboxController driver = new XboxController(RobotMap.DRIVER_CONTROLLER);
-  public static final XboxController manipulator = new XboxController(RobotMap.MANIPULATOR_CONTROLLER);
+  public final XboxController driver = new XboxController(RobotMap.DRIVER_CONTROLLER);
+  public final XboxController manipulator = new XboxController(RobotMap.MANIPULATOR_CONTROLLER);
 
   // Joystick buttons
-  private static final JoystickButton aButton;
-  private static final JoystickButton bButton;
-  private static final JoystickButton xButton;
-  private static final JoystickButton yButton;
+  private final JoystickButton aButton;
+  private final JoystickButton bButton;
+  private final JoystickButton xButton;
+  private final JoystickButton yButton;
 
   /**
-   * Disable OI constructor.
+   * Constructor for oi.
    */
-  private OI() {
-  }
-
-  /**
-   * Static constructor that initializes the function of each button. TODO -> COMMENTS!
-   */
-  static {
+  public OI() {
     aButton = new JoystickButton(manipulator, 1);
     bButton = new JoystickButton(manipulator, 2);
     xButton = new JoystickButton(manipulator, 3);

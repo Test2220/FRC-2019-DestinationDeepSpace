@@ -19,6 +19,7 @@ public class Robot extends TimedRobot {
   public static Drivetrain drivetrain;
   public static Shield shield;
   public static Cargo cargo;
+  public static OI oi;
 
   /**
    * Runs once when robot is started, use it for subsystem init.
@@ -29,6 +30,7 @@ public class Robot extends TimedRobot {
     drivetrain = new Drivetrain();
     shield = new Shield();
     cargo = new Cargo();
+    oi = new OI();
 
     // Start USB camera recording
     CameraServer.getInstance().startAutomaticCapture();
