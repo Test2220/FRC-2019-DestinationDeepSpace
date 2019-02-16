@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import frc.robot.RobotMap;
+import frc.robot.ShuffleBoardConfig;
 import frc.robot.commands.cargo.ManipulateCargo;;
 
 /**
@@ -32,7 +33,7 @@ public class Cargo extends Subsystem {
     private WPI_TalonSRX rightArm = new WPI_TalonSRX(RobotMap.RIGHT_ARM);
 
     // Basic intake Talon
-    private TalonSRX intake = new TalonSRX(RobotMap.INTAKE);
+    private WPI_TalonSRX intake = new WPI_TalonSRX(RobotMap.INTAKE);
 
     /* SUBSYSTEM CONSTRUCTOR */
 
@@ -41,6 +42,7 @@ public class Cargo extends Subsystem {
      * subsystem as described by comments below.
      */
     public Cargo() {
+        
         // Arm Talon inversions
         leftArm.setInverted(false);
         rightArm.setInverted(true);
@@ -57,6 +59,9 @@ public class Cargo extends Subsystem {
 
         // Set right arm Talon to follow left arm Talon
         rightArm.follow(leftArm);
+
+        ShuffleBoardConfig.cargoLayout.add("Arm",leftArm);
+        ShuffleBoardConfig.cargoLayout.add("Intake",intake);
     }
 
     /* CONTROL METHODS */

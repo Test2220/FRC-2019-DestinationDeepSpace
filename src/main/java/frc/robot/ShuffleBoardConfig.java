@@ -15,9 +15,12 @@ public class ShuffleBoardConfig {
     public static final ShuffleboardTab matchDetailsTab = Shuffleboard.getTab("MatchDetails");
 
     public static final ShuffleboardLayout driveTrainLayout = subsystemsTab
-            .getLayout("Drive Train", BuiltInLayouts.kList).withSize(5, 3).withPosition(0, 0);
-    public static final ShuffleboardLayout harlesLayout = ShuffleBoardConfig.subsystemsTab
-            .getLayout("Harles", BuiltInLayouts.kList).withSize(3, 4).withPosition(4, 0);
+            .getLayout("Drive Train", BuiltInLayouts.kList).withSize(3, 4).withPosition(0, 0);
+    public static final ShuffleboardLayout shieldLayout = ShuffleBoardConfig.subsystemsTab
+            .getLayout("Shield", BuiltInLayouts.kList).withSize(3, 2).withPosition(6, 1);
+    public static final ShuffleboardLayout cargoLayout = ShuffleBoardConfig.subsystemsTab
+            .getLayout("Cargo", BuiltInLayouts.kList).withSize(3, 2).withPosition(4, 4);
+
 
     private static final NetworkTableEntry allianceEntry = matchDetailsTab.add("Alliance", "").getEntry();
     private static final NetworkTableEntry eventNameEntry = matchDetailsTab.add("Event name", "").getEntry();
