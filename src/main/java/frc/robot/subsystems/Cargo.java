@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import frc.robot.RobotMap;
+import frc.robot.ShuffleBoardConfig;
 import frc.robot.commands.cargo.ManipulateCargo;;
 
 /**
@@ -22,8 +23,8 @@ public class Cargo extends Subsystem {
     /* CONSTANTS */
 
     // Joystick value scalars
-    private static final double SPIN_SCALAR = 3 / 4;
-    private static final double MOVE_SCALAR = 3 / 10;
+    private static final double SPIN_SCALAR = 0.75;
+    private static final double MOVE_SCALAR = 0.3;
 
     /* INSTANCE VARIABLES */
 
@@ -32,7 +33,7 @@ public class Cargo extends Subsystem {
     private WPI_TalonSRX rightArm = new WPI_TalonSRX(RobotMap.RIGHT_ARM);
 
     // Basic intake Talon
-    private TalonSRX intake = new TalonSRX(RobotMap.INTAKE);
+    private WPI_TalonSRX intake = new WPI_TalonSRX(RobotMap.INTAKE);
 
     /* SUBSYSTEM CONSTRUCTOR */
 
@@ -41,6 +42,7 @@ public class Cargo extends Subsystem {
      * subsystem as described by comments below.
      */
     public Cargo() {
+        
         // Arm Talon inversions
         leftArm.setInverted(false);
         rightArm.setInverted(true);
@@ -57,6 +59,9 @@ public class Cargo extends Subsystem {
 
         // Set right arm Talon to follow left arm Talon
         rightArm.follow(leftArm);
+
+        ShuffleBoardConfig.cargoLayout.add("Arm",leftArm);
+        ShuffleBoardConfig.cargoLayout.add("Intake",intake);
     }
 
     /* CONTROL METHODS */
@@ -67,8 +72,7 @@ public class Cargo extends Subsystem {
      * @param power The power at which to move the Talons, range [-1, 1]
      */
     public void moveArm(double power) {
-        power *= MOVE_SCALAR;
-        leftArm.set(power);
+        leftArm.set(power * MOVE_SCALAR);
     }
 
     /**
@@ -77,8 +81,7 @@ public class Cargo extends Subsystem {
      * @param speed The speed at which to spin the intake, range [-1, 1]
      */
     public void spinIntake(double speed) {
-        speed *= SPIN_SCALAR;
-        intake.set(ControlMode.PercentOutput, speed);
+        intake.set(ControlMode.PercentOutput, speed * SPIN_SCALAR);
     }
 
     /* IMPLEMENTED METHODS */

@@ -3,6 +3,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.*;
+import frc.robot.commands.limelight.*;
 import frc.robot.commands.shield.*;
 import frc.robot.subsystems.Shield.State;
 
@@ -19,19 +21,26 @@ public class OI {
   public final XboxController manipulator = new XboxController(RobotMap.MANIPULATOR_CONTROLLER);
 
   // Joystick buttons
-  private final JoystickButton aButton = new JoystickButton(manipulator, 1);
-  private final JoystickButton bButton = new JoystickButton(manipulator, 2);
-  private final JoystickButton xButton = new JoystickButton(manipulator, 3);
-  private final JoystickButton yButton = new JoystickButton(manipulator, 4);
+  private final JoystickButton aButtonManipulator = new JoystickButton(manipulator, 1);
+  private final JoystickButton bButtonManipulator = new JoystickButton(manipulator, 2);
+  private final JoystickButton xButtonManipulator = new JoystickButton(manipulator, 3);
+  private final JoystickButton yButtonManipulator = new JoystickButton(manipulator, 4);
+  private final JoystickButton aButtonDriver = new JoystickButton(driver, 1);
+  private final JoystickButton bButtonDriver = new JoystickButton(driver, 2);
 
   /**
-   * Constructor for oi.
+   * Static constructor that initializes the function of each button. TODO -> COMMENTS!
    */
   public OI() {
-    aButton.whenPressed(new SetShieldPusher(Value.kForward));
-    bButton.whenPressed(new SetShieldPusher(Value.kReverse));
-    xButton.whenPressed(new SetShieldGrabber(State.GRABBED));
-    yButton.whenPressed(new SetShieldGrabber(State.RELEASED));
+    //manipulator controls
+    aButtonManipulator.whenPressed(new SetShieldPusher(Value.kForward));
+    bButtonManipulator.whenPressed(new SetShieldPusher(Value.kReverse));
+    xButtonManipulator.whenPressed(new SetShieldGrabber(State.GRABBED));
+    yButtonManipulator.whenPressed(new SetShieldGrabber(State.GRABBED));
+
+    //driver controls
+    aButtonDriver.whileHeld(new AlignToVisionTarget());
+    bButtonDriver.whenPressed(new TurnToAngle(180));
   }
 
   /*

@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
+import frc.robot.ShuffleBoardConfig;
 
 /**
  * Hatch panel manipulator subsystem built on basis of SHIELD manipulator
@@ -20,6 +21,7 @@ public class Shield extends Subsystem {
     private DoubleSolenoid pusher = new DoubleSolenoid(RobotMap.PUSHER_FORWARD, RobotMap.PUSHER_REVERSE);
     private DoubleSolenoid grabber = new DoubleSolenoid(RobotMap.GRABBER_FORWARD, RobotMap.GRABBER_REVERSE);
 
+
     // Limit switches
     private DigitalInput leftSwitch = new DigitalInput(RobotMap.LEFT_SWITCH);
     private DigitalInput rightSwitch = new DigitalInput(RobotMap.RIGHT_SWITCH);
@@ -30,6 +32,12 @@ public class Shield extends Subsystem {
      * Subsystem constructor, no parameters or configuration necessary.
      */
     public Shield() {
+        
+        ShuffleBoardConfig.shieldLayout.add("Pusher",pusher);
+        ShuffleBoardConfig.shieldLayout.add("Grabber",grabber);
+        ShuffleBoardConfig.shieldLayout.add("Left Switch",leftSwitch);
+        ShuffleBoardConfig.shieldLayout.add("Right Switch",rightSwitch);
+        
     }
 
     /* CONTROL METHODS */

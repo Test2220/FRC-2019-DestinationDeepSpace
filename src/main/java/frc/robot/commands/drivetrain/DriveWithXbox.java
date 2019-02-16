@@ -1,9 +1,8 @@
-package frc.robot.commands.drivetrain; 
+package frc.robot.commands.drivetrain;
 
-import edu.wpi.first.wpilibj.GenericHID.Hand; 
-import edu.wpi.first.wpilibj.command.Command; 
-import frc.robot.Robot; 
-import frc.robot.OI; 
+import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Robot;
 
 /**
  * Drive with xbox command references driver controller xbox controller defined
