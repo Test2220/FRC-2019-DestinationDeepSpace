@@ -21,7 +21,7 @@ public class AlignToVisionTarget extends PIDCommand {
      * necessary components; no arguments present or necessary.
      */
     public AlignToVisionTarget() {
-        //TODO: Tune these values:
+        //TODO: Better tune these values:
         super(0.024, 0, 0);
 
         requires(Robot.limelight);
@@ -32,11 +32,21 @@ public class AlignToVisionTarget extends PIDCommand {
 
     /* INSTANCE METHODS */
 
+    /**
+     * Essentially a getter for the pidInput for the PIDController class.
+     * 
+     * @return double the PID output for the controller to use.
+     */
     @Override
     protected double returnPIDInput() {
         return Robot.limelight.getHOffset();
     }
 
+    /**
+     * Writes the PID output by setting power to the motors.
+     * 
+     * @param output the output given by the PID controller.
+     */
     @Override
     protected void usePIDOutput(double output) {
         double move = -(Robot.oi.driver.getY(Hand.kLeft)) * 0.25;
@@ -44,6 +54,10 @@ public class AlignToVisionTarget extends PIDCommand {
         Robot.drivetrain.drive(move, turn);
     }
 
+    /**
+     * The execute method is called repeatedly until this Command either finishes or is canceled.
+     * Writes values to smartdashboard.
+     */
     @Override
     protected void execute() {
         SmartDashboard.putNumber("PID Output", super.getPIDController().get());
