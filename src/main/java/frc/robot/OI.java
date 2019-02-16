@@ -19,20 +19,15 @@ public class OI {
   public final XboxController manipulator = new XboxController(RobotMap.MANIPULATOR_CONTROLLER);
 
   // Joystick buttons
-  private final JoystickButton aButton;
-  private final JoystickButton bButton;
-  private final JoystickButton xButton;
-  private final JoystickButton yButton;
+  private final JoystickButton aButton = new JoystickButton(manipulator, 1);
+  private final JoystickButton bButton = new JoystickButton(manipulator, 2);
+  private final JoystickButton xButton = new JoystickButton(manipulator, 3);
+  private final JoystickButton yButton = new JoystickButton(manipulator, 4);
 
   /**
    * Constructor for oi.
    */
   public OI() {
-    aButton = new JoystickButton(manipulator, 1);
-    bButton = new JoystickButton(manipulator, 2);
-    xButton = new JoystickButton(manipulator, 3);
-    yButton = new JoystickButton(manipulator, 4);
-
     aButton.whenPressed(new SetShieldPusher(Value.kForward));
     bButton.whenPressed(new SetShieldPusher(Value.kReverse));
     xButton.whenPressed(new SetShieldGrabber(State.GRABBED));
