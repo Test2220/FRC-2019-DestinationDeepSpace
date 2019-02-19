@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 import frc.robot.ShuffleBoardConfig;
+import frc.robot.commands.shield.ShieldDefaultCommand;
 
 /**
  * Hatch panel manipulator subsystem built on basis of SHIELD manipulator
@@ -75,7 +76,7 @@ public class Shield extends Subsystem {
      * Enumeration of the possible states of the shield's central.
      */
     public enum State {
-        GRABBED(Value.kReverse), RELEASED(Value.kForward);
+        GRABBED(Value.kForward), RELEASED(Value.kReverse);
 
         private final Value val;
 
@@ -91,5 +92,6 @@ public class Shield extends Subsystem {
      */
     @Override
     protected void initDefaultCommand() {
+        setDefaultCommand(new ShieldDefaultCommand());
     }
 }

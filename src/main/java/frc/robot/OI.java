@@ -36,7 +36,7 @@ public class OI {
     aButtonManipulator.whenPressed(new SetShieldPusher(Value.kForward));
     bButtonManipulator.whenPressed(new SetShieldPusher(Value.kReverse));
     xButtonManipulator.whenPressed(new SetShieldGrabber(State.GRABBED));
-    yButtonManipulator.whenPressed(new SetShieldGrabber(State.GRABBED));
+    yButtonManipulator.whenPressed(new SetShieldGrabber(State.RELEASED));
 
     //driver controls
     aButtonDriver.whileHeld(new AlignToVisionTarget());
