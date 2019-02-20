@@ -23,7 +23,6 @@ public class Shield extends Subsystem {
     private DoubleSolenoid pusher = new DoubleSolenoid(RobotMap.PUSHER_FORWARD, RobotMap.PUSHER_REVERSE);
     private DoubleSolenoid grabber = new DoubleSolenoid(RobotMap.GRABBER_FORWARD, RobotMap.GRABBER_REVERSE);
 
-
     // Limit switches
     private LimitSwitch leftSwitch = new LimitSwitch(RobotMap.LEFT_SWITCH, true);
     private LimitSwitch rightSwitch = new LimitSwitch(RobotMap.RIGHT_SWITCH, true);
@@ -33,15 +32,20 @@ public class Shield extends Subsystem {
     /**
      * Subsystem constructor, no parameters or configuration necessary.
      */
-    public Shield() {     
+    public Shield() {
         ShuffleBoardConfig.shieldLayout.add("Pusher", pusher);
         ShuffleBoardConfig.shieldLayout.add("Grabber", grabber);
         ShuffleBoardConfig.shieldLayout.add("Left Switch", leftSwitch);
-        ShuffleBoardConfig.shieldLayout.add("Right Switch", rightSwitch);    
+        ShuffleBoardConfig.shieldLayout.add("Right Switch", rightSwitch);
     }
 
     /* CONTROL METHODS */
-    
+
+    /**
+     * Getter for the state of the grabber.
+     * 
+     * @return State the current state of the grabber
+     */
     public State getGrabberState() {
         return State.ofValue(grabber.get());
     }
@@ -64,7 +68,7 @@ public class Shield extends Subsystem {
         grabber.set(state.val);
     }
 
-    //TODO: Recomment & document
+    // TODO: Recomment & document
     /**
      * Boolean method to check if both limit switches are activated.
      * 
@@ -72,15 +76,15 @@ public class Shield extends Subsystem {
      *         otherwise
      */
     public boolean getSwitchPressed(Switch s) {
-        switch(s) {
-            case LEFT_SWITCH:
-                return leftSwitch.get();
-            case RIGHT_SWITCH:
-                return rightSwitch.get();
-            case BOTH_SWITCHES:
-                return leftSwitch.get() && rightSwitch.get();
-            default:
-                return leftSwitch.get() && rightSwitch.get();
+        switch (s) {
+        case LEFT_SWITCH:
+            return leftSwitch.get();
+        case RIGHT_SWITCH:
+            return rightSwitch.get();
+        case BOTH_SWITCHES:
+            return leftSwitch.get() && rightSwitch.get();
+        default:
+            return leftSwitch.get() && rightSwitch.get();
         }
     }
 
@@ -96,9 +100,19 @@ public class Shield extends Subsystem {
             this.val = val;
         }
 
+        /**
+         * Converts a DoubleSolenoid Value to a State enumeration value.
+         * 
+         * @param val the DoubleSolenoid Value of the hatch panel
+         * 
+         * @return GRABBED if the grabber is currently grabbing the hatch panel,
+         *         RELEASED otherwise
+         */
         public static State ofValue(Value val) {
-            if (val == GRABBED.val) return GRABBED;
-            else return RELEASED;
+            if (val == GRABBED.val)
+                return GRABBED;
+            else
+                return RELEASED;
         }
     }
 

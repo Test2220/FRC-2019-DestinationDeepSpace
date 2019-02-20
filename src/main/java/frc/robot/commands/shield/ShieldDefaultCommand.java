@@ -4,6 +4,12 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.subsystems.Shield.Switch;
 
+/**
+ * Runs while no other shield command is running. 
+ * Automatically grabs the hatch panel when the limit switches are pressed.
+ * 
+ * @author Dhruv
+ */
 public class ShieldDefaultCommand extends Command {
 
     public ShieldDefaultCommand() {
