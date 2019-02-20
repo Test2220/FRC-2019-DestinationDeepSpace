@@ -36,7 +36,6 @@ public class RobotMap {
   public static final int RIGHT_MASTER = 12;
   public static final int RIGHT_SLAVE = 2;
 
-
   /* ENCODER IDS */
   public static final int WHEEL_RADIUS = 3;
 

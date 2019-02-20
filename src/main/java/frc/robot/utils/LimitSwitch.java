@@ -4,6 +4,11 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.SendableBase;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
+/**
+ * Class that allows for adjustment with inversion when dealing with limit switches.
+ * 
+ * @author Dhruv
+ */
 public class LimitSwitch extends SendableBase {
 
     private DigitalInput limitSwitch;
@@ -54,6 +59,9 @@ public class LimitSwitch extends SendableBase {
             return limitSwitch.get();
     }
 
+    /**
+     * This method allows the Limit Switch to be sendable data to the shuffleboard.
+     */
     @Override
     public void initSendable(SendableBuilder builder) {
         builder.setSmartDashboardType("Limit Switch");
