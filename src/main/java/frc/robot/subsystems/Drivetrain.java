@@ -2,7 +2,9 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.RobotMap;
@@ -27,9 +29,10 @@ public class Drivetrain extends Subsystem {
     // Drivetrain controller member
     private DifferentialDrive drive;
 
-    /* SUBSYSTEM CONSTRUCTOR */
+    private final NetworkTableEntry leftEncoderEntry = ShuffleBoardConfig.diagnosticsTab.add("Left Encoder", 0).getEntry();
+    private final NetworkTableEntry rightEncoderEntry = ShuffleBoardConfig.diagnosticsTab.add("Right Encoder", 0).getEntry();
 
-    /**
+    /*
      * Drivetrain subsystem constructor configures motor and sets up drivetrain
      * controller. (differential drive)
      */
@@ -38,9 +41,9 @@ public class Drivetrain extends Subsystem {
         leftSlave.follow(leftMaster);
         rightSlave.follow(rightMaster);
 
-        leftMaster.configSelectedFeedbackSensor(FeedbackDevice, Magnetic, 0, 0);
+        leftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
         leftMaster.setSelectedSensorPosition(0, 0, 0);
-        rightMaster.configSelectedFeedbackSensor(FeedbackDevice, Magnetic, 0, 0);
+        rightMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
         rightMaster.setSelectedSensorPosition(0, 0, 0);
         leftMaster.setSensorPhase(false);
 
@@ -60,13 +63,25 @@ public class Drivetrain extends Subsystem {
         ShuffleBoardConfig.driveTrainLayout.add(this);
     }
 
+    public void periodic(){
+
+        leftEncoderEntry.setNumber(getLeft());
+        rightEncoderEntry.setNumber(getRight());
+        
+
+    }
+
+
     public double getLeft(){
-        leftMaster.getSelectedSensorPosition(0) / 1024 * 2 * Math.PI * Constants.wheelradius;
+       
+            return leftMaster.getSelectedSensorPosition(0) / 1024 * 2 * Math.PI * RobotMap.WHEEL_RADIUS;
+
 
         }
 
         public double getRight(){
-            rightMaster.getSelectedSensorPosition(0) / 1024 * 2 * Math.PI * Constants.wheelradius;
+        
+            return rightMaster.getSelectedSensorPosition(0) / 1024 * 2 * Math.PI * RobotMap.WHEEL_RADIUS;
         }
 
     /* CONTROL DRIVETRAIN METHODS */
