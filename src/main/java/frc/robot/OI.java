@@ -40,7 +40,6 @@ public class OI {
 
     //driver controls
     aButtonDriver.whileHeld(new AlignToVisionTarget());
-    bButtonDriver.whenPressed(new TurnToAngle(180));
   }
 
   /*
