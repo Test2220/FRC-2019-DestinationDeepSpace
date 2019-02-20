@@ -13,7 +13,7 @@ public class RobotMap {
   public static final int DRIVER_CONTROLLER = 0;
   public static final int MANIPULATOR_CONTROLLER = 1;
 
-  /* CARGO SUBSYSTEM  IDS   --   TALON SRX CAN IDS */
+  /* CARGO SUBSYSTEM  IDS -- TALON SRX CAN IDS */
   public static final int LEFT_ARM_FOLLOWER = 6;
   public static final int RIGHT_ARM_MASTER = 13;    // On the external CAN Bus -- has encoders
   public static final int INTAKE = 8;
