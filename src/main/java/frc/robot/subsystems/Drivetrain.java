@@ -38,6 +38,17 @@ public class Drivetrain extends Subsystem {
         leftSlave.follow(leftMaster);
         rightSlave.follow(rightMaster);
 
+        leftMaster.configSelectedFeedbackSensor(FeedbackDevice, Magnetic, 0, 0);
+        leftMaster.setSelectedSensorPosition(0, 0, 0);
+        rightMaster.configSelectedFeedbackSensor(FeedbackDevice, Magnetic, 0, 0);
+        rightMaster.setSelectedSensorPosition(0, 0, 0);
+        leftMaster.setSensorPhase(false);
+
+        
+    
+
+        
+
         // Set neutral mode of motors
         leftMaster.setNeutralMode(NeutralMode.Brake);
         rightMaster.setNeutralMode(NeutralMode.Brake);
@@ -48,6 +59,15 @@ public class Drivetrain extends Subsystem {
         ShuffleBoardConfig.driveTrainLayout.add(drive);
         ShuffleBoardConfig.driveTrainLayout.add(this);
     }
+
+    public double getLeft(){
+        leftMaster.getSelectedSensorPosition(0) / 1024 * 2 * Math.PI * Constants.wheelradius;
+
+        }
+
+        public double getRight(){
+            rightMaster.getSelectedSensorPosition(0) / 1024 * 2 * Math.PI * Constants.wheelradius;
+        }
 
     /* CONTROL DRIVETRAIN METHODS */
 
