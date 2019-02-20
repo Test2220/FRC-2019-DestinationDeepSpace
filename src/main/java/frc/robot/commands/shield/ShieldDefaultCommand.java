@@ -22,7 +22,7 @@ public class ShieldDefaultCommand extends Command {
             System.out.println("Right Switch Pressed");
         }
         else {
-            System.out.println("No Switches Pressed, State is " + Robot.shield.getStateOfGrabber());
+            System.out.println("No Switches Pressed, State is " + Robot.shield.getGrabberState());
         }
     }
 
