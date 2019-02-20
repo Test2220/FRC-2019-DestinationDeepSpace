@@ -2,6 +2,7 @@ package frc.robot.commands.shield;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.subsystems.Shield.State;
 import frc.robot.subsystems.Shield.Switch;
 
 /**
@@ -18,8 +19,9 @@ public class ShieldDefaultCommand extends Command {
 
     @Override
     protected void execute() {
-        if (Robot.shield.getSwitchPressed(Switch.BOTH_SWITCHES)) {
+        if (Robot.shield.getSwitchPressed(Switch.BOTH_SWITCHES) && Robot.shield.getGrabberState() == State.RELEASED) {
             System.out.println("Both Switches Pressed");
+            Robot.shield.setGrabber(State.GRABBED);
         }
         else if (Robot.shield.getSwitchPressed(Switch.LEFT_SWITCH)) {
             System.out.println("Left Switch Pressed");

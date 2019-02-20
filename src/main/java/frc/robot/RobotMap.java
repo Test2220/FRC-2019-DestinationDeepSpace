@@ -15,7 +15,7 @@ public class RobotMap {
 
   /* CARGO SUBSYSTEM IDS */
   public static final int LEFT_ARM = 6;
-  public static final int RIGHT_ARM = 7;
+  public static final int RIGHT_ARM = 13;
   public static final int INTAKE = 8;
 
   /* SHIELD SUBSYSTEM IDS */
