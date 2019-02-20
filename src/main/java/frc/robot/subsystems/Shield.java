@@ -25,8 +25,8 @@ public class Shield extends Subsystem {
 
 
     // Limit switches
-    private LimitSwitch leftSwitch = new LimitSwitch(RobotMap.LEFT_SWITCH);
-    private LimitSwitch rightSwitch = new LimitSwitch(RobotMap.RIGHT_SWITCH);
+    private LimitSwitch leftSwitch = new LimitSwitch(RobotMap.LEFT_SWITCH, true);
+    private LimitSwitch rightSwitch = new LimitSwitch(RobotMap.RIGHT_SWITCH, true);
 
     /* SUBSYSTEM CONSTRUCTOR */
 
@@ -34,13 +34,17 @@ public class Shield extends Subsystem {
      * Subsystem constructor, no parameters or configuration necessary.
      */
     public Shield() {     
-        ShuffleBoardConfig.shieldLayout.add("Pusher",pusher);
-        ShuffleBoardConfig.shieldLayout.add("Grabber",grabber);
-        ShuffleBoardConfig.shieldLayout.add("Left Switch",leftSwitch);
-        ShuffleBoardConfig.shieldLayout.add("Right Switch",rightSwitch);    
+        ShuffleBoardConfig.shieldLayout.add("Pusher", pusher);
+        ShuffleBoardConfig.shieldLayout.add("Grabber", grabber);
+        ShuffleBoardConfig.shieldLayout.add("Left Switch", leftSwitch);
+        ShuffleBoardConfig.shieldLayout.add("Right Switch", rightSwitch);    
     }
 
     /* CONTROL METHODS */
+    
+    public State getGrabberState() {
+        return State.ofValue(grabber.get());
+    }
 
     /**
      * Sets the direction of the pusher piston based on the value given.
@@ -90,6 +94,11 @@ public class Shield extends Subsystem {
 
         State(Value val) {
             this.val = val;
+        }
+
+        public static State ofValue(Value val) {
+            if (val == GRABBED.val) return GRABBED;
+            else return RELEASED;
         }
     }
 
