@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.*;
-import frc.robot.commands.drivetrain.EncoderTestCommand;
 import frc.robot.commands.limelight.*;
 import frc.robot.commands.shield.*;
 import frc.robot.subsystems.Shield.State;
@@ -41,7 +40,6 @@ public class OI {
 
     //driver controls
     aButtonDriver.whileHeld(new AlignToVisionTarget());
-    bButtonDriver.whileHeld(new EncoderTestCommand());
   }
 
   /*
