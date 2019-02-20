@@ -31,8 +31,8 @@ public class Cargo extends Subsystem {
     /* INSTANCE VARIABLES */
 
     // Speed controller Talons
-    private WPI_TalonSRX leftArm = new WPI_TalonSRX(RobotMap.LEFT_ARM);
-    private WPI_TalonSRX rightArm = new WPI_TalonSRX(RobotMap.RIGHT_ARM);
+    private WPI_TalonSRX leftArm = new WPI_TalonSRX(RobotMap.LEFT_ARM_FOLLOWER);
+    private WPI_TalonSRX rightArm = new WPI_TalonSRX(RobotMap.RIGHT_ARM_MASTER);
 
     // Basic intake Talon
     private WPI_TalonSRX intake = new WPI_TalonSRX(RobotMap.INTAKE);

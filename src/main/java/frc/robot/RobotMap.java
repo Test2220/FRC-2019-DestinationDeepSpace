@@ -13,9 +13,9 @@ public class RobotMap {
   public static final int DRIVER_CONTROLLER = 0;
   public static final int MANIPULATOR_CONTROLLER = 1;
 
-  /* CARGO SUBSYSTEM IDS */
-  public static final int LEFT_ARM = 6;
-  public static final int RIGHT_ARM = 13;
+  /* CARGO SUBSYSTEM  IDS -- TALON SRX CAN IDS */
+  public static final int LEFT_ARM_FOLLOWER = 6;
+  public static final int RIGHT_ARM_MASTER = 13;    // On the external CAN Bus -- has encoders
   public static final int INTAKE = 8;
 
   /* SHIELD SUBSYSTEM IDS */
@@ -26,17 +26,17 @@ public class RobotMap {
   public static final int GRABBER_FORWARD = 4;
   public static final int GRABBER_REVERSE = 5;
 
-  // Limit switch digital input IDs TODO -> set actual IDs before testing limit switches
+  /* LIMIT SWITCH DIGITAL INPUT IDS */
   public static final int LEFT_SWITCH = 0;
   public static final int RIGHT_SWITCH = 1;
 
-  /* DRIVETRAIN SUBSYSTEM IDS */
-  public static final int LEFT_MASTER = 11;
-  public static final int LEFT_SLAVE = 1;
-  public static final int RIGHT_MASTER = 12;
-  public static final int RIGHT_SLAVE = 2;
+  /* DRIVETRAIN SUBSYSTEM IDS -- TALON SRX CAN IDS */
+  public static final int LEFT_MASTER = 11;       // On the external CAN Bus -- has encoders
+  public static final int LEFT_FOLLOWER = 1;
+  public static final int RIGHT_MASTER = 12;      // On the external CAN Bus -- has encoders
+  public static final int RIGHT_FOLLOWER = 2;
 
-  /* ENCODER IDS */
+  /* ENCODER CONSTANTS */
   public static final int WHEEL_RADIUS = 3;
 
   /* LIMELIGHT SUBSYSTEM IDS */
