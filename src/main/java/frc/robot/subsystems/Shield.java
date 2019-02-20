@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 import frc.robot.ShuffleBoardConfig;
 import frc.robot.commands.shield.ShieldDefaultCommand;
+import frc.robot.utils.LimitSwitch;
 
 /**
  * Hatch panel manipulator subsystem built on basis of SHIELD manipulator
@@ -24,21 +25,19 @@ public class Shield extends Subsystem {
 
 
     // Limit switches
-    private DigitalInput leftSwitch = new DigitalInput(RobotMap.LEFT_SWITCH);
-    private DigitalInput rightSwitch = new DigitalInput(RobotMap.RIGHT_SWITCH);
+    private LimitSwitch leftSwitch = new LimitSwitch(RobotMap.LEFT_SWITCH);
+    private LimitSwitch rightSwitch = new LimitSwitch(RobotMap.RIGHT_SWITCH);
 
     /* SUBSYSTEM CONSTRUCTOR */
 
     /**
      * Subsystem constructor, no parameters or configuration necessary.
      */
-    public Shield() {
-        
+    public Shield() {     
         ShuffleBoardConfig.shieldLayout.add("Pusher",pusher);
         ShuffleBoardConfig.shieldLayout.add("Grabber",grabber);
         ShuffleBoardConfig.shieldLayout.add("Left Switch",leftSwitch);
-        ShuffleBoardConfig.shieldLayout.add("Right Switch",rightSwitch);
-        
+        ShuffleBoardConfig.shieldLayout.add("Right Switch",rightSwitch);    
     }
 
     /* CONTROL METHODS */
@@ -61,15 +60,24 @@ public class Shield extends Subsystem {
         grabber.set(state.val);
     }
 
+    //TODO: Recomment & document
     /**
      * Boolean method to check if both limit switches are activated.
      * 
      * @return Returns true if both limit switches are pressed, returns false if
      *         otherwise
      */
-    public boolean switchesPressed() {
-        boolean switchesPressed = (leftSwitch.get() && rightSwitch.get());
-        return switchesPressed;
+    public boolean getSwitchPressed(Switch s) {
+        switch(s) {
+            case LEFT_SWITCH:
+                return leftSwitch.get();
+            case RIGHT_SWITCH:
+                return rightSwitch.get();
+            case BOTH_SWITCHES:
+                return leftSwitch.get() && rightSwitch.get();
+            default:
+                return leftSwitch.get() && rightSwitch.get();
+        }
     }
 
     /**
@@ -83,6 +91,10 @@ public class Shield extends Subsystem {
         State(Value val) {
             this.val = val;
         }
+    }
+
+    public enum Switch {
+        LEFT_SWITCH, RIGHT_SWITCH, BOTH_SWITCHES;
     }
 
     /* IMPLEMENTED METHODS */
