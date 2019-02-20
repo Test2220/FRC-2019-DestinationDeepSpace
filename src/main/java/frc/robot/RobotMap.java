@@ -35,6 +35,8 @@ public class RobotMap {
   public static final int LEFT_SLAVE = 1;
   public static final int RIGHT_MASTER = 12;
   public static final int RIGHT_SLAVE = 2;
+  public static final int ENCODER_CHANNEL_A = 0;
+  public static final int ENCODER_CHANNEL_B = 0;
 
   /* LIMELIGHT SUBSYSTEM IDS */
   public static final String LIMELIGHT_TABLE_NAME = "limelight";

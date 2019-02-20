@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.RobotMap;
@@ -19,6 +20,8 @@ import frc.robot.commands.drivetrain.DriveWithXbox;
 public class Drivetrain extends Subsystem {
 
     /* INSTANCE VARIABLES */
+
+    Encoder encoder = new Encoder(RobotMap.ENCODER_CHANNEL_A, RobotMap.ENCODER_CHANNEL_B);
 
     // Instantiate and intialize drivetrain Talon members
     private WPI_TalonSRX leftMaster = new WPI_TalonSRX(RobotMap.LEFT_MASTER);
@@ -63,6 +66,14 @@ public class Drivetrain extends Subsystem {
         drive.curvatureDrive(power, turn, true);
     }
 
+    public double getEncoderOutput() {
+        return encoder.getDistance();
+    }
+
+    public void resetEncoders() {
+        encoder.reset();
+    }
+
     /**
      * Set power to all motors.
      * 
@@ -87,6 +98,8 @@ public class Drivetrain extends Subsystem {
     public void stop() {
         setAllPower(0);
     }
+
+
 
     /* IMPLEMENTED METHODS */
 
