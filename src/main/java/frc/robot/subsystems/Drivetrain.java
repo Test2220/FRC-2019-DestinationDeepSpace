@@ -18,8 +18,6 @@ import frc.robot.commands.drivetrain.DriveWithXbox;
  */
 public class Drivetrain extends Subsystem {
 
-    /* INSTANCE VARIABLES */
-
     // Instantiate and intialize drivetrain Talon members
     private WPI_TalonSRX leftMaster = new WPI_TalonSRX(RobotMap.LEFT_MASTER);
     private WPI_TalonSRX leftSlave = new WPI_TalonSRX(RobotMap.LEFT_SLAVE);
@@ -87,6 +85,8 @@ public class Drivetrain extends Subsystem {
     public void stop() {
         setAllPower(0);
     }
+
+
 
     /* IMPLEMENTED METHODS */
 

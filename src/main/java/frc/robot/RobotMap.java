@@ -31,10 +31,10 @@ public class RobotMap {
   public static final int RIGHT_SWITCH = 1;
 
   /* DRIVETRAIN SUBSYSTEM IDS */
-  public static final int LEFT_MASTER = 1;
-  public static final int LEFT_SLAVE = 2;
-  public static final int RIGHT_MASTER = 3;
-  public static final int RIGHT_SLAVE = 4;
+  public static final int LEFT_MASTER = 11;
+  public static final int LEFT_SLAVE = 1;
+  public static final int RIGHT_MASTER = 12;
+  public static final int RIGHT_SLAVE = 2;
 
   /* LIMELIGHT SUBSYSTEM IDS */
   public static final String LIMELIGHT_TABLE_NAME = "limelight";
