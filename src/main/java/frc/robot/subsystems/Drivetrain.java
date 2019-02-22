@@ -22,9 +22,9 @@ public class Drivetrain extends Subsystem {
 
     // Instantiate and intialize drivetrain Talon members
     private WPI_TalonSRX leftMaster = new WPI_TalonSRX(RobotMap.LEFT_MASTER);
-    private WPI_TalonSRX leftSlave = new WPI_TalonSRX(RobotMap.LEFT_FOLLOWER);
+    private WPI_TalonSRX leftFollower = new WPI_TalonSRX(RobotMap.LEFT_FOLLOWER);
     private WPI_TalonSRX rightMaster = new WPI_TalonSRX(RobotMap.RIGHT_MASTER);
-    private WPI_TalonSRX rightSlave = new WPI_TalonSRX(RobotMap.RIGHT_FOLLOWER);
+    private WPI_TalonSRX rightFollower = new WPI_TalonSRX(RobotMap.RIGHT_FOLLOWER);
 
     // Drivetrain controller member
     private DifferentialDrive drive;
@@ -38,8 +38,8 @@ public class Drivetrain extends Subsystem {
      */
     public Drivetrain() {
         // Slave motors follow master motors
-        leftSlave.follow(leftMaster);
-        rightSlave.follow(rightMaster);
+        leftFollower.follow(leftMaster);
+        rightFollower.follow(rightMaster);
 
         leftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
         leftMaster.setSelectedSensorPosition(0, 0, 0);
