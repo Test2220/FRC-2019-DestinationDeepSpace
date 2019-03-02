@@ -1,10 +1,12 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import frc.robot.RobotMap;
@@ -29,11 +31,13 @@ public class Cargo extends Subsystem {
     /* INSTANCE VARIABLES */
 
     // Speed controller Talons
-    private WPI_TalonSRX leftArm = new WPI_TalonSRX(RobotMap.LEFT_ARM);
-    private WPI_TalonSRX rightArm = new WPI_TalonSRX(RobotMap.RIGHT_ARM);
+    private WPI_TalonSRX leftArm = new WPI_TalonSRX(RobotMap.LEFT_ARM_FOLLOWER);
+    private WPI_TalonSRX rightArm = new WPI_TalonSRX(RobotMap.RIGHT_ARM_MASTER);
 
     // Basic intake Talon
     private WPI_TalonSRX intake = new WPI_TalonSRX(RobotMap.INTAKE);
+
+    private final NetworkTableEntry encoderEntry = ShuffleBoardConfig.diagnosticsTab.add("Arm Encoder", 0).getEntry();
 
     /* SUBSYSTEM CONSTRUCTOR */
 
@@ -44,7 +48,7 @@ public class Cargo extends Subsystem {
     public Cargo() {
         
         // Arm Talon inversions
-        leftArm.setInverted(false);
+        leftArm.setInverted(true);
         rightArm.setInverted(true);
 
         // Don't invert intake Talon
@@ -58,10 +62,13 @@ public class Cargo extends Subsystem {
         intake.setNeutralMode(NeutralMode.Coast);
 
         // Set right arm Talon to follow left arm Talon
-        rightArm.follow(leftArm);
+        leftArm.follow(rightArm);
 
-        ShuffleBoardConfig.cargoLayout.add("Arm",leftArm);
-        ShuffleBoardConfig.cargoLayout.add("Intake",intake);
+        rightArm.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+        rightArm.setSelectedSensorPosition(0, 0, 0);
+
+        ShuffleBoardConfig.cargoLayout.add("Arm", rightArm);
+        ShuffleBoardConfig.cargoLayout.add("Intake", intake);
     }
 
     /* CONTROL METHODS */
@@ -73,6 +80,11 @@ public class Cargo extends Subsystem {
      */
     public void moveArm(double power) {
         leftArm.set(power * MOVE_SCALAR);
+    }
+
+    @Override
+    public void periodic() {
+        encoderEntry.setNumber(rightArm.getSelectedSensorPosition(0));
     }
 
     /**
