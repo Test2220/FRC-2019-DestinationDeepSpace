@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.*;
 import frc.robot.commands.limelight.*;
 import frc.robot.commands.shield.*;
-import frc.robot.subsystems.Shield.State;
+import frc.robot.subsystems.Shield.GrabberState;
 
 /**
  * Stands for Operator Interface, this class is where code relating the gamepad
@@ -35,8 +35,8 @@ public class OI {
     //manipulator controls
     aButtonManipulator.whenPressed(new SetShieldPusher(Value.kForward));
     bButtonManipulator.whenPressed(new SetShieldPusher(Value.kReverse));
-    xButtonManipulator.whenPressed(new SetShieldGrabber(State.GRABBED));
-    yButtonManipulator.whenPressed(new SetShieldGrabber(State.RELEASED));
+    xButtonManipulator.whenPressed(new SetShieldGrabber(GrabberState.GRABBED));
+    yButtonManipulator.whenPressed(new SetShieldGrabber(GrabberState.RELEASED));
 
     //driver controls
     aButtonDriver.whileHeld(new AlignToVisionTarget());

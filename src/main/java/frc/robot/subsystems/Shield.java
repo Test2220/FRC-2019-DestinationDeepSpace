@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
@@ -22,6 +23,8 @@ public class Shield extends Subsystem {
     // Pusher and grabber pistons
     private DoubleSolenoid pusher = new DoubleSolenoid(RobotMap.PUSHER_FORWARD, RobotMap.PUSHER_REVERSE);
     private DoubleSolenoid grabber = new DoubleSolenoid(RobotMap.GRABBER_FORWARD, RobotMap.GRABBER_REVERSE);
+    private ShieldState state = ShieldState.RELEASED_READY_TO_AUT0_GRAB;
+    private double lastLimitSwitchPressTime = 0;
 
     // Limit switches
     private LimitSwitch leftSwitch = new LimitSwitch(RobotMap.LEFT_SWITCH, true);
@@ -46,8 +49,8 @@ public class Shield extends Subsystem {
      * 
      * @return State the current state of the grabber
      */
-    public State getGrabberState() {
-        return State.ofValue(grabber.get());
+    public GrabberState getGrabberState() {
+        return GrabberState.ofValue(grabber.get());
     }
 
     /**
@@ -64,8 +67,22 @@ public class Shield extends Subsystem {
      * 
      * @param direction The state to actuate the grabber piston to
      */
-    public void setGrabber(State state) {
+    public void setGrabber(GrabberState state) {
         grabber.set(state.val);
+    }
+
+    public void grab() {
+        grabber.set(GrabberState.GRABBED.val);
+        state = ShieldState.GRABBED;
+    }
+
+    public void release() {
+        grabber.set(GrabberState.RELEASED.val);
+        state = ShieldState.RELEASE_PENDING;
+    }
+
+    public boolean hasWaitedLongEnough() {
+        return (Timer.getFPGATimestamp() - lastLimitSwitchPressTime) >= 1;
     }
 
     // TODO: Recomment & document
@@ -88,15 +105,38 @@ public class Shield extends Subsystem {
         }
     }
 
+    @Override
+    public void periodic() {
+        if (getSwitchPressed(Switch.BOTH_SWITCHES)) {
+            lastLimitSwitchPressTime = Timer.getFPGATimestamp();
+        }
+        switch (state) {
+            case GRABBED:
+                break;
+
+            case RELEASED_READY_TO_AUT0_GRAB:
+                if (getSwitchPressed(Switch.BOTH_SWITCHES)) {
+                    grab();
+                }
+                break;
+
+            case RELEASE_PENDING:
+                if (!getSwitchPressed(Switch.BOTH_SWITCHES)) {
+                    state = ShieldState.RELEASED_READY_TO_AUT0_GRAB;
+                }
+                break;
+        }
+    }
+
     /**
      * Enumeration of the possible states of the shield's central.
      */
-    public enum State {
+    public enum GrabberState {
         GRABBED(Value.kForward), RELEASED(Value.kReverse);
 
         private final Value val;
 
-        State(Value val) {
+        GrabberState(Value val) {
             this.val = val;
         }
 
@@ -108,12 +148,16 @@ public class Shield extends Subsystem {
          * @return GRABBED if the grabber is currently grabbing the hatch panel,
          *         RELEASED otherwise
          */
-        public static State ofValue(Value val) {
+        public static GrabberState ofValue(Value val) {
             if (val == GRABBED.val)
                 return GRABBED;
             else
                 return RELEASED;
         }
+    }
+
+    public enum ShieldState {
+        GRABBED, RELEASED_READY_TO_AUT0_GRAB, RELEASE_PENDING;
     }
 
     public enum Switch {
