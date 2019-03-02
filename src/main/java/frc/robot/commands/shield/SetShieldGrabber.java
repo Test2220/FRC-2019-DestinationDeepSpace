@@ -2,7 +2,7 @@ package frc.robot.commands.shield;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
-import frc.robot.subsystems.Shield.State;
+import frc.robot.subsystems.Shield.GrabberState;
 
 /**
  * Command that actuates the grabber piston based on the state passed into the
@@ -15,7 +15,7 @@ public class SetShieldGrabber extends InstantCommand {
     /* INSTANCE VARIABLES */
 
     // Piston actuation state
-    private State state;
+    private GrabberState state;
 
     /* COMMAND CONSTRUCTOR */
 
@@ -25,7 +25,7 @@ public class SetShieldGrabber extends InstantCommand {
      * 
      * @param state The state to actuate the grabber to
      */
-    public SetShieldGrabber(State state) {
+    public SetShieldGrabber(GrabberState state) {
         super(Robot.shield);
         this.state = state;
     }
@@ -37,6 +37,7 @@ public class SetShieldGrabber extends InstantCommand {
      */
     @Override
     protected void execute() {
-        Robot.shield.setGrabber(state);
+        if (state == GrabberState.GRABBED) Robot.shield.grab();
+        if (state == GrabberState.RELEASED) Robot.shield.release();
     }
 }

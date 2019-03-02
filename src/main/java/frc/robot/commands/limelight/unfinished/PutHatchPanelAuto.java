@@ -6,14 +6,14 @@ import frc.robot.commands.drivetrain.MoveBack;
 import frc.robot.commands.limelight.AlignToVisionTarget;
 import frc.robot.commands.shield.SetShieldGrabber;
 import frc.robot.commands.shield.SetShieldPusher;
-import frc.robot.subsystems.Shield.State;
+import frc.robot.subsystems.Shield.GrabberState;
 
 public class PutHatchPanelAuto extends CommandGroup {
 
     public PutHatchPanelAuto() {
         addSequential(new AlignToVisionTarget());
         addSequential(new SetShieldPusher(Value.kForward));
-        addSequential(new SetShieldGrabber(State.RELEASED));
+        addSequential(new SetShieldGrabber(GrabberState.RELEASED));
         addSequential(new MoveBack(2));
     }
 }
