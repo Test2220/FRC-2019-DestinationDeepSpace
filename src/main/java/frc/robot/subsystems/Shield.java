@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 import frc.robot.ShuffleBoardConfig;
-import frc.robot.commands.shield.ShieldDefaultCommand;
 import frc.robot.utils.LimitSwitch;
 
 /**
@@ -100,6 +99,10 @@ public class Shield extends Subsystem {
             return rightSwitch.get();
         case BOTH_SWITCHES:
             return leftSwitch.get() && rightSwitch.get();
+        case EITHER_SWITCH:
+            return leftSwitch.get() || rightSwitch.get();
+        case NEITHER_SWITCH:
+            return !(leftSwitch.get() || rightSwitch.get());
         default:
             return leftSwitch.get() && rightSwitch.get();
         }
@@ -107,7 +110,7 @@ public class Shield extends Subsystem {
 
     @Override
     public void periodic() {
-        if (getSwitchPressed(Switch.BOTH_SWITCHES)) {
+        if (getSwitchPressed(Switch.EITHER_SWITCH)) {
             lastLimitSwitchPressTime = Timer.getFPGATimestamp();
         }
         switch (state) {
@@ -115,13 +118,13 @@ public class Shield extends Subsystem {
                 break;
 
             case RELEASED_READY_TO_AUT0_GRAB:
-                if (getSwitchPressed(Switch.BOTH_SWITCHES)) {
+                if (getSwitchPressed(Switch.EITHER_SWITCH)) {
                     grab();
                 }
                 break;
 
             case RELEASE_PENDING:
-                if (!getSwitchPressed(Switch.BOTH_SWITCHES)) {
+                if (getSwitchPressed(Switch.NEITHER_SWITCH) && hasWaitedLongEnough()) {
                     state = ShieldState.RELEASED_READY_TO_AUT0_GRAB;
                 }
                 break;
@@ -161,7 +164,7 @@ public class Shield extends Subsystem {
     }
 
     public enum Switch {
-        LEFT_SWITCH, RIGHT_SWITCH, BOTH_SWITCHES;
+        LEFT_SWITCH, RIGHT_SWITCH, BOTH_SWITCHES, EITHER_SWITCH, NEITHER_SWITCH;
     }
 
     /* IMPLEMENTED METHODS */
@@ -171,6 +174,6 @@ public class Shield extends Subsystem {
      */
     @Override
     protected void initDefaultCommand() {
-        setDefaultCommand(new ShieldDefaultCommand());
+        
     }
 }

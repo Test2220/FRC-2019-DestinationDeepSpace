@@ -37,6 +37,7 @@ public class SetShieldGrabber extends InstantCommand {
      */
     @Override
     protected void execute() {
-        Robot.shield.setGrabber(state);
+        if (state == GrabberState.GRABBED) Robot.shield.grab();
+        if (state == GrabberState.RELEASED) Robot.shield.release();
     }
 }
