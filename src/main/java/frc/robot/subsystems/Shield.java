@@ -110,18 +110,21 @@ public class Shield extends Subsystem {
 
     @Override
     public void periodic() {
-        if (getSwitchPressed(LimitSwitchCombination.EITHER_SWITCH_PRESSED)) lastLimitSwitchPressTime = Timer.getFPGATimestamp();
+        if (getSwitchPressed(LimitSwitchCombination.EITHER_SWITCH_PRESSED)) 
+            lastLimitSwitchPressTime = Timer.getFPGATimestamp();
 
         switch (shieldState) {
             case GRABBED:
                 break;
 
             case RELEASED_READY_TO_AUT0_GRAB:
-                if (getSwitchPressed(LimitSwitchCombination.EITHER_SWITCH_PRESSED)) grabHP();
+                if (getSwitchPressed(LimitSwitchCombination.EITHER_SWITCH_PRESSED)) 
+                    grabHP();
                 break;
 
             case RELEASE_PENDING:
-                if (getSwitchPressed(LimitSwitchCombination.NEITHER_SWITCH_PRESSED) && hasWaitedLongEnough()) shieldState = ShieldState.RELEASED_READY_TO_AUT0_GRAB;
+                if (getSwitchPressed(LimitSwitchCombination.NEITHER_SWITCH_PRESSED) && hasWaitedLongEnough()) 
+                    shieldState = ShieldState.RELEASED_READY_TO_AUT0_GRAB;
                 break;
         }
     }
