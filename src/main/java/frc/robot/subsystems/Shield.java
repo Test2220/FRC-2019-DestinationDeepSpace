@@ -22,12 +22,12 @@ public class Shield extends Subsystem {
     // Pusher and grabber pistons
     private DoubleSolenoid pusher = new DoubleSolenoid(RobotMap.PUSHER_FORWARD, RobotMap.PUSHER_REVERSE);
     private DoubleSolenoid grabber = new DoubleSolenoid(RobotMap.GRABBER_FORWARD, RobotMap.GRABBER_REVERSE);
-    private ShieldState state = ShieldState.RELEASED_READY_TO_AUT0_GRAB;
-    private double lastLimitSwitchPressTime = 0;
 
     // Limit switches
     private LimitSwitch leftSwitch = new LimitSwitch(RobotMap.LEFT_SWITCH, true);
     private LimitSwitch rightSwitch = new LimitSwitch(RobotMap.RIGHT_SWITCH, true);
+    private ShieldState shieldState = ShieldState.RELEASED_READY_TO_AUT0_GRAB;
+    private double lastLimitSwitchPressTime = 0;
 
     /* SUBSYSTEM CONSTRUCTOR */
 
@@ -70,14 +70,14 @@ public class Shield extends Subsystem {
         grabber.set(state.val);
     }
 
-    public void grab() {
+    public void grabHP() {
         grabber.set(GrabberState.GRABBED.val);
-        state = ShieldState.GRABBED;
+        shieldState = ShieldState.GRABBED;
     }
 
-    public void release() {
+    public void releaseHP() {
         grabber.set(GrabberState.RELEASED.val);
-        state = ShieldState.RELEASE_PENDING;
+        shieldState = ShieldState.RELEASE_PENDING;
     }
 
     public boolean hasWaitedLongEnough() {
@@ -91,17 +91,17 @@ public class Shield extends Subsystem {
      * @return Returns true if both limit switches are pressed, returns false if
      *         otherwise
      */
-    public boolean getSwitchPressed(Switch s) {
+    public boolean getSwitchPressed(LimitSwitchCombination s) {
         switch (s) {
-        case LEFT_SWITCH:
+        case LEFT_SWITCH_PRESSED:
             return leftSwitch.get();
-        case RIGHT_SWITCH:
+        case RIGHT_SWITCH_PRESSED:
             return rightSwitch.get();
-        case BOTH_SWITCHES:
+        case BOTH_SWITCHES_PRESSED:
             return leftSwitch.get() && rightSwitch.get();
-        case EITHER_SWITCH:
+        case EITHER_SWITCH_PRESSED:
             return leftSwitch.get() || rightSwitch.get();
-        case NEITHER_SWITCH:
+        case NEITHER_SWITCH_PRESSED:
             return !(leftSwitch.get() || rightSwitch.get());
         default:
             return leftSwitch.get() && rightSwitch.get();
@@ -110,23 +110,18 @@ public class Shield extends Subsystem {
 
     @Override
     public void periodic() {
-        if (getSwitchPressed(Switch.EITHER_SWITCH)) {
-            lastLimitSwitchPressTime = Timer.getFPGATimestamp();
-        }
-        switch (state) {
+        if (getSwitchPressed(LimitSwitchCombination.EITHER_SWITCH_PRESSED)) lastLimitSwitchPressTime = Timer.getFPGATimestamp();
+
+        switch (shieldState) {
             case GRABBED:
                 break;
 
             case RELEASED_READY_TO_AUT0_GRAB:
-                if (getSwitchPressed(Switch.EITHER_SWITCH)) {
-                    grab();
-                }
+                if (getSwitchPressed(LimitSwitchCombination.EITHER_SWITCH_PRESSED)) grabHP();
                 break;
 
             case RELEASE_PENDING:
-                if (getSwitchPressed(Switch.NEITHER_SWITCH) && hasWaitedLongEnough()) {
-                    state = ShieldState.RELEASED_READY_TO_AUT0_GRAB;
-                }
+                if (getSwitchPressed(LimitSwitchCombination.NEITHER_SWITCH_PRESSED) && hasWaitedLongEnough()) shieldState = ShieldState.RELEASED_READY_TO_AUT0_GRAB;
                 break;
         }
     }
@@ -163,8 +158,8 @@ public class Shield extends Subsystem {
         GRABBED, RELEASED_READY_TO_AUT0_GRAB, RELEASE_PENDING;
     }
 
-    public enum Switch {
-        LEFT_SWITCH, RIGHT_SWITCH, BOTH_SWITCHES, EITHER_SWITCH, NEITHER_SWITCH;
+    public enum LimitSwitchCombination {
+        LEFT_SWITCH_PRESSED, RIGHT_SWITCH_PRESSED, BOTH_SWITCHES_PRESSED, EITHER_SWITCH_PRESSED, NEITHER_SWITCH_PRESSED;
     }
 
     /* IMPLEMENTED METHODS */
