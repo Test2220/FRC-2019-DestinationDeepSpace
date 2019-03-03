@@ -37,7 +37,7 @@ public class DriveToVisionTarget extends Command {
         requires(Robot.drivetrain);
         requires(Robot.limelight);
 
-        pidSourceDrive = new PIDSource(){
+        pidSourceDrive = new PIDSource() {
         
             private PIDSourceType pidSource = PIDSourceType.kDisplacement;
 
@@ -57,14 +57,14 @@ public class DriveToVisionTarget extends Command {
             }
         };
 
-        pidOutputDrive = new PIDOutput(){
+        pidOutputDrive = new PIDOutput() {
             @Override
             public void pidWrite(double output) {
                 drive = output * DRIVE_SCALAR;
             }
         };
 
-        pidSourceTurn = new PIDSource(){
+        pidSourceTurn = new PIDSource() {
 
             private PIDSourceType pidSource = PIDSourceType.kDisplacement;
 
@@ -94,7 +94,7 @@ public class DriveToVisionTarget extends Command {
         };
 
         pidControllerDrive = new PIDController(P_DRIVE, I_DRIVE, D_DRIVE, pidSourceDrive, pidOutputDrive);
-        pidControllerDrive = new PIDController(P_TURN, I_TURN, D_TURN, pidSourceTurn, pidOutputTurn);
+        pidControllerTurn = new PIDController(P_TURN, I_TURN, D_TURN, pidSourceTurn, pidOutputTurn);
     }
 
     @Override
@@ -118,5 +118,4 @@ public class DriveToVisionTarget extends Command {
     protected boolean isFinished() {
         return false;
     }
-
 }
