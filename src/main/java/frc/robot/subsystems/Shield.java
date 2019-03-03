@@ -172,6 +172,5 @@ public class Shield extends Subsystem {
      */
     @Override
     protected void initDefaultCommand() {
-        
     }
 }
