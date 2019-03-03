@@ -104,6 +104,11 @@ public class DriveToVisionTarget extends Command {
     }
 
     @Override
+    protected void execute() {
+        Robot.drivetrain.drive(drive, turn);
+    }
+
+    @Override
     protected void end() {
         pidControllerDrive.disable();
         pidControllerTurn.disable();
