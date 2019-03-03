@@ -47,11 +47,6 @@ public class Drivetrain extends Subsystem {
         rightMaster.setSelectedSensorPosition(0, 0, 0);
         leftMaster.setSensorPhase(false);
 
-        
-    
-
-        
-
         // Set neutral mode of motors
         leftMaster.setNeutralMode(NeutralMode.Brake);
         rightMaster.setNeutralMode(NeutralMode.Brake);
