@@ -118,8 +118,11 @@ public class Shield extends Subsystem {
                 break;
 
             case RELEASED_READY_TO_AUT0_GRAB:
-                if (getSwitchPressed(LimitSwitchCombination.EITHER_SWITCH_PRESSED)) 
-                    grabHP();
+                if (getSwitchPressed(LimitSwitchCombination.EITHER_SWITCH_PRESSED)) {
+                    grabHP(); 
+                    setPusher(Value.kReverse);
+                }
+
                 break;
 
             case RELEASE_PENDING:

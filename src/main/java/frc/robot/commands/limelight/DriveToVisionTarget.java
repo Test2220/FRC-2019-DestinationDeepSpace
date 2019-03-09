@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -14,9 +15,10 @@ import frc.robot.subsystems.Shield.LimitSwitchCombination;
 
 public class DriveToVisionTarget extends Command {
 
-    private static final NetworkTableEntry targetAreaEntry = ShuffleBoardConfig.pidTuningTab.add("Target Area", 0).withWidget(BuiltInWidgets.kGraph).getEntry();
-    private static final NetworkTableEntry targetOffsetEntry = ShuffleBoardConfig.pidTuningTab.add("Target Offset", 0).withWidget(BuiltInWidgets.kGraph).getEntry();;
-
+    private static final NetworkTableEntry targetAreaEntry = ShuffleBoardConfig.pidTuningTab.add("Target Area", 0)
+            .withWidget(BuiltInWidgets.kGraph).getEntry();
+    private static final NetworkTableEntry targetOffsetEntry = ShuffleBoardConfig.pidTuningTab.add("Target Offset", 0)
+            .withWidget(BuiltInWidgets.kGraph).getEntry();
 
     private PIDController pidControllerDrive;
     private PIDSource pidSourceDrive;
@@ -29,21 +31,23 @@ public class DriveToVisionTarget extends Command {
     private double drive = 0;
     private double turn = 0;
 
-    private final double TARGET_AREA = 40.0;
+    private final double TARGET_SQUARE_ROOT_SIZE = Math.sqrt(50);
 
     private final double P_DRIVE = 0.125;
     private final double I_DRIVE = 0;
-    private final double D_DRIVE = 4;
+    private final double D_DRIVE = 0;
 
     private final double P_TURN = 0.025;
     private final double I_TURN = 0;
     private final double D_TURN = 0.023;
 
     private boolean reachedTarget = false;
+    private boolean pusherHasBeenSetForward = false;
 
     public DriveToVisionTarget() {
         requires(Robot.drivetrain);
         requires(Robot.limelight);
+        requires(Robot.shield);
 
         pidSourceDrive = new PIDSource() {
 
@@ -56,7 +60,7 @@ public class DriveToVisionTarget extends Command {
 
             @Override
             public double pidGet() {
-                return Math.sqrt(Math.abs(TARGET_AREA - Robot.limelight.getTargetSize()));
+                return Math.sqrt(Robot.limelight.getTargetSize());
             }
 
             @Override
@@ -68,7 +72,7 @@ public class DriveToVisionTarget extends Command {
         pidOutputDrive = new PIDOutput() {
             @Override
             public void pidWrite(double output) {
-                drive = -output;
+                drive = output;
             }
         };
 
@@ -98,7 +102,6 @@ public class DriveToVisionTarget extends Command {
             public void pidWrite(double output) {
                 turn = -output;
             }
-
         };
 
         pidControllerDrive = new PIDController(P_DRIVE, I_DRIVE, D_DRIVE, pidSourceDrive, pidOutputDrive);
@@ -106,33 +109,35 @@ public class DriveToVisionTarget extends Command {
 
         ShuffleBoardConfig.pidTuningTab.add("Turn PID", pidControllerTurn);
         ShuffleBoardConfig.pidTuningTab.add("Drive PID", pidControllerDrive);
+
+        pidControllerDrive.setSetpoint(TARGET_SQUARE_ROOT_SIZE);
     }
 
     @Override
     protected void initialize() {
+        reachedTarget = false;
+        pusherHasBeenSetForward = false;
+        Robot.shield.setPusher(Value.kReverse);
+        Robot.shield.releaseHP();
         pidControllerDrive.enable();
         pidControllerTurn.enable();
     }
 
     @Override
     protected void execute() {
-        if(reachedTarget) {
-            if(Robot.shield.getSwitchPressed(LimitSwitchCombination.NEITHER_SWITCH_PRESSED)) {
-                drive = 0.1;
-                turn = 0;
-            }
-            if (Robot.shield.getSwitchPressed(LimitSwitchCombination.EITHER_SWITCH_PRESSED)) {
-                drive = 0; 
-                turn = 0;
-            }
+        if (Math.sqrt(Robot.limelight.getTargetSize()) >= Math.sqrt(30) && !pusherHasBeenSetForward) {
+            Robot.shield.setPusher(Value.kForward);
+            pusherHasBeenSetForward = true;
         }
-        Robot.drivetrain.drive(drive, turn);
-        targetAreaEntry.setDouble(Math.sqrt(Math.abs(TARGET_AREA - Robot.limelight.getTargetSize())));
-        targetOffsetEntry.setDouble(Robot.limelight.getHOffset());
 
-        if (Math.abs(TARGET_AREA - Robot.limelight.getTargetSize()) <= 1) {
-            reachedTarget = true;
+        if (Robot.shield.getSwitchPressed(LimitSwitchCombination.EITHER_SWITCH_PRESSED)) {
+            drive = 0;
+            turn = 0;
         }
+
+        Robot.drivetrain.drive(drive, turn);
+        targetAreaEntry.setDouble(Robot.limelight.getTargetSize());
+        targetOffsetEntry.setDouble(Robot.limelight.getHOffset());
     }
 
     @Override
