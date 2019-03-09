@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.robot.Robot;
 import frc.robot.ShuffleBoardConfig;
+import frc.robot.subsystems.Shield.LimitSwitchCombination;
 
 public class DriveToVisionTarget extends Command {
 
@@ -37,6 +38,8 @@ public class DriveToVisionTarget extends Command {
     private final double P_TURN = 0.025;
     private final double I_TURN = 0;
     private final double D_TURN = 0.023;
+
+    private boolean reachedTarget = false;
 
     public DriveToVisionTarget() {
         requires(Robot.drivetrain);
@@ -113,9 +116,23 @@ public class DriveToVisionTarget extends Command {
 
     @Override
     protected void execute() {
+        if(reachedTarget) {
+            if(Robot.shield.getSwitchPressed(LimitSwitchCombination.NEITHER_SWITCH_PRESSED)) {
+                drive = 0.1;
+                turn = 0;
+            }
+            if (Robot.shield.getSwitchPressed(LimitSwitchCombination.EITHER_SWITCH_PRESSED)) {
+                drive = 0; 
+                turn = 0;
+            }
+        }
         Robot.drivetrain.drive(drive, turn);
         targetAreaEntry.setDouble(Math.sqrt(Math.abs(TARGET_AREA - Robot.limelight.getTargetSize())));
         targetOffsetEntry.setDouble(Robot.limelight.getHOffset());
+
+        if (Math.abs(TARGET_AREA - Robot.limelight.getTargetSize()) <= 1) {
+            reachedTarget = true;
+        }
     }
 
     @Override
