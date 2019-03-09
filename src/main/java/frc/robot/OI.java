@@ -59,6 +59,7 @@ public class OI {
     dpadRight.whenPressed(new ArmToPosition(Cargo.ARM_ROCKET));
     dpadLeft.whenPressed(new ArmToPosition(Cargo.ARM_UP));
     dpadDown.whenPressed(new ArmToPosition(Cargo.ARM_FLOOR));
+    bButtonDriver.whileHeld(new DriveToVisionTarget());
   }
 
   /*

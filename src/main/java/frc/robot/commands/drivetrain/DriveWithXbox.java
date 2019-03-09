@@ -41,6 +41,15 @@ public class DriveWithXbox extends Command {
         double power = -Robot.oi.driver.getY(Hand.kLeft);
         double turn = Robot.oi.driver.getX(Hand.kRight);
 
+        if (Robot.oi.driver.getTriggerAxis(Hand.kLeft) >= 0.25) {
+            power *= 0.5;
+            turn *= 0.5;
+        }
+        
+        if (Robot.oi.driver.getTriggerAxis(Hand.kRight) >= 0.25) {
+            power *= -1;
+        }
+
         // Exponential driving and turning calculations
         // power = Math.pow(Math.abs(power), EXP_DRIVE_POWER) * Math.signum(power);
         // turn = Math.pow(Math.abs(turn), EXP_TURN_POWER) * Math.signum(turn);

@@ -29,8 +29,10 @@ public class Drivetrain extends Subsystem {
     // Drivetrain controller member
     private DifferentialDrive drive;
 
-    private final NetworkTableEntry leftEncoderEntry = ShuffleBoardConfig.diagnosticsTab.add("Left Encoder", 0).getEntry();
-    private final NetworkTableEntry rightEncoderEntry = ShuffleBoardConfig.diagnosticsTab.add("Right Encoder", 0).getEntry();
+    private final NetworkTableEntry leftEncoderEntry = ShuffleBoardConfig.diagnosticsTab.add("Left Encoder", 0)
+            .getEntry();
+    private final NetworkTableEntry rightEncoderEntry = ShuffleBoardConfig.diagnosticsTab.add("Right Encoder", 0)
+            .getEntry();
 
     /*
      * Drivetrain subsystem constructor configures motor and sets up drivetrain
@@ -47,11 +49,6 @@ public class Drivetrain extends Subsystem {
         rightMaster.setSelectedSensorPosition(0, 0, 0);
         leftMaster.setSensorPhase(false);
 
-        
-    
-
-        
-
         // Set neutral mode of motors
         leftMaster.setNeutralMode(NeutralMode.Brake);
         rightMaster.setNeutralMode(NeutralMode.Brake);
@@ -63,26 +60,18 @@ public class Drivetrain extends Subsystem {
         ShuffleBoardConfig.driveTrainLayout.add(this);
     }
 
-    public void periodic(){
-
+    public void periodic() {
         leftEncoderEntry.setNumber(getLeft());
         rightEncoderEntry.setNumber(getRight());
-        
-
     }
 
+    public double getLeft() {
+        return leftMaster.getSelectedSensorPosition(0) / 1024 * 2 * Math.PI * RobotMap.WHEEL_RADIUS;
+    }
 
-    public double getLeft(){
-       
-            return leftMaster.getSelectedSensorPosition(0) / 1024 * 2 * Math.PI * RobotMap.WHEEL_RADIUS;
-
-
-        }
-
-        public double getRight(){
-        
-            return rightMaster.getSelectedSensorPosition(0) / 1024 * 2 * Math.PI * RobotMap.WHEEL_RADIUS;
-        }
+    public double getRight() {
+        return rightMaster.getSelectedSensorPosition(0) / 1024 * 2 * Math.PI * RobotMap.WHEEL_RADIUS;
+    }
 
     /* CONTROL DRIVETRAIN METHODS */
 
@@ -120,8 +109,6 @@ public class Drivetrain extends Subsystem {
     public void stop() {
         setAllPower(0);
     }
-
-
 
     /* IMPLEMENTED METHODS */
 
