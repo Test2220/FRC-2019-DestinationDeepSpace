@@ -41,7 +41,6 @@ public class DriveToVisionTarget extends Command {
     private final double I_TURN = 0;
     private final double D_TURN = 0.023;
 
-    private boolean reachedTarget = false;
     private boolean pusherHasBeenSetForward = false;
 
     public DriveToVisionTarget() {
@@ -115,7 +114,6 @@ public class DriveToVisionTarget extends Command {
 
     @Override
     protected void initialize() {
-        reachedTarget = false;
         pusherHasBeenSetForward = false;
         Robot.shield.setPusher(Value.kReverse);
         Robot.shield.releaseHP();
