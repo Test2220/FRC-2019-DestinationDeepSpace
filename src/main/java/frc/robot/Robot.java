@@ -1,6 +1,5 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.subsystems.*;
@@ -25,8 +24,6 @@ public class Robot extends TimedRobot {
   public static Superstructure superstructure;
   public static OI oi;
 
-  PowerDistributionPanel pdp = new PowerDistributionPanel();
-
   /**
    * Runs once when robot is started, use it for subsystem init.
    */
@@ -44,10 +41,6 @@ public class Robot extends TimedRobot {
     cargo = new Cargo();
     superstructure = new Superstructure();
     oi = new OI();
-
-
-    
-    ShuffleBoardConfig.diagnosticsTab.add("PDP", pdp);
 
   }
 

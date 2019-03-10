@@ -8,6 +8,7 @@ import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import frc.robot.ShuffleBoardConfig;
@@ -21,6 +22,9 @@ public class Superstructure extends Subsystem {
 
     private BrownOutMonitor brownOutMonitor = new BrownOutMonitor();
 
+    PowerDistributionPanel pdp = new PowerDistributionPanel();
+    
+      
     private static final NetworkTableEntry hasEverBrownedOutEntry = ShuffleBoardConfig.driverTab
             .add("has browned out", false).withSize(1, 1).withPosition(8, 0).withWidget(BuiltInWidgets.kBooleanBox)
             .withProperties(Map.of("Color when true", "#FF0000","Color when false", "#00FF00")).getEntry();
@@ -48,6 +52,9 @@ public class Superstructure extends Subsystem {
         httpCamera.setPixelFormat(PixelFormat.kMJPEG);
         CameraServer.getInstance().addCamera(httpCamera);
         ShuffleBoardConfig.driverTab.add(httpCamera).withSize(4, 4).withPosition(4, 0);
+
+        ShuffleBoardConfig.diagnosticsTab.add("PDP", pdp);
+        
     }
 
     @Override
