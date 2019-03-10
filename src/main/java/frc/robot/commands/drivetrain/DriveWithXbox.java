@@ -42,8 +42,8 @@ public class DriveWithXbox extends Command {
         double turn = Robot.oi.driver.getX(Hand.kRight);
 
         // Exponential driving and turning calculations
-        power = Math.pow(Math.abs(power), EXP_DRIVE_POWER) * Math.signum(power);
-        turn = Math.pow(Math.abs(turn), EXP_TURN_POWER) * Math.signum(turn);
+        // power = Math.pow(Math.abs(power), EXP_DRIVE_POWER) * Math.signum(power);
+        // turn = Math.pow(Math.abs(turn), EXP_TURN_POWER) * Math.signum(turn);
 
         // Run curvature drive off of drivetrain subsystem
         Robot.drivetrain.drive(power, turn);

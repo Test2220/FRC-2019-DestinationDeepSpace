@@ -3,12 +3,12 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRXPIDSetConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.command.Subsystem;
-
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import frc.robot.RobotMap;
 import frc.robot.ShuffleBoardConfig;
 import frc.robot.commands.cargo.ManipulateCargo;;
@@ -28,6 +28,24 @@ public class Cargo extends Subsystem {
     private static final double SPIN_SCALAR = 0.75;
     private static final double MOVE_SCALAR = 0.3;
 
+    // Current limits
+    private static final int ARM_MAX_AMPS = 2;
+    private static final int INTAKE_MAX_AMPS = 10;
+
+    // Arm position constants
+    public static final int ARM_FLOOR = 59;
+    public static final int ARM_ROCKET = 3600;
+    public static final int ARM_CARGOSHIP = 6000;
+    public static final int ARM_UP = 7700;
+
+    // Arm PID constants
+    private static double P = 1023.0 / 7908 * 4;
+    private static double I = 0;
+    private static double D = 0;
+    private static double F = 0;
+    private static final int MAX_VEL = 750;
+    private static final int MAX_ACCEL = 350;
+
     /* INSTANCE VARIABLES */
 
     // Speed controller Talons
@@ -37,7 +55,10 @@ public class Cargo extends Subsystem {
     // Basic intake Talon
     private WPI_TalonSRX intake = new WPI_TalonSRX(RobotMap.INTAKE);
 
-    private final NetworkTableEntry encoderEntry = ShuffleBoardConfig.diagnosticsTab.add("Arm Encoder", 0).getEntry();
+    private final NetworkTableEntry encoderEntry = ShuffleBoardConfig.diagnosticsTab.add("Arm Encoder", 0).withWidget(BuiltInWidgets.kGraph).getEntry();
+    // private final NetworkTableEntry pEntry = ShuffleBoardConfig.diagnosticsTab.add("P", P).getEntry();
+    // private final NetworkTableEntry iEntry = ShuffleBoardConfig.diagnosticsTab.add("I", 0).getEntry();
+    // private final NetworkTableEntry dEntry = ShuffleBoardConfig.diagnosticsTab.add("D", 0).getEntry();
 
     /* SUBSYSTEM CONSTRUCTOR */
 
@@ -69,6 +90,21 @@ public class Cargo extends Subsystem {
 
         ShuffleBoardConfig.cargoLayout.add("Arm", rightArm);
         ShuffleBoardConfig.cargoLayout.add("Intake", intake);
+
+        leftArm.enableCurrentLimit(true);
+        rightArm.enableCurrentLimit(true);
+        intake.enableCurrentLimit(true);
+
+        leftArm.configContinuousCurrentLimit(ARM_MAX_AMPS);
+        rightArm.configContinuousCurrentLimit(ARM_MAX_AMPS);
+        intake.configContinuousCurrentLimit(INTAKE_MAX_AMPS);
+
+        rightArm.config_kP(0, P);
+        rightArm.config_kI(0, I);
+        rightArm.config_kD(0, D);
+
+        rightArm.configMotionAcceleration(MAX_ACCEL);
+        rightArm.configMotionCruiseVelocity(MAX_VEL);
     }
 
     /* CONTROL METHODS */
@@ -85,6 +121,18 @@ public class Cargo extends Subsystem {
     @Override
     public void periodic() {
         encoderEntry.setNumber(rightArm.getSelectedSensorPosition(0));
+        // F = (rightArm.getSelectedSensorVelocity() < 0) ? -Math.cos((rightArm.getSelectedSensorPosition() / 7908) * (Math.PI / 2)) : 0;
+        // F = -Math.cos((rightArm.getSelectedSensorPosition() / 7908) * (Math.PI / 2));
+        // F = (rightArm.getSelectedSensorPosition() / 7908) * (Math.PI / 2);
+        // F = (rightArm.getSelectedSensorVelocity() >= 0) ? Math.cos(F) : Math.sin(F);
+        // P = pEntry.getDouble(P);
+        // I = iEntry.getDouble(I);
+        // D = dEntry.getDouble(D);
+
+        // rightArm.config_kP(0, P);
+        // rightArm.config_kI(0, I);
+        // rightArm.config_kD(0, D);
+        // rightArm.config_kF(0, F);
     }
 
     /**
@@ -94,6 +142,10 @@ public class Cargo extends Subsystem {
      */
     public void spinIntake(double speed) {
         intake.set(ControlMode.PercentOutput, speed * SPIN_SCALAR);
+    }
+
+    public void setArmPosition(int pos) {
+        rightArm.set(ControlMode.Position, pos);
     }
 
     /* IMPLEMENTED METHODS */

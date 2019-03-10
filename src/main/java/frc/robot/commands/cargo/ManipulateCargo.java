@@ -35,7 +35,7 @@ public class ManipulateCargo extends Command {
         double spinSpeed = Robot.oi.manipulator.getY(Hand.kLeft); 
 
         // Pass joystick values to and call control methods out of subsystem
-        Robot.cargo.moveArm(armPower); 
+        // Robot.cargo.moveArm(armPower); 
         Robot.cargo.spinIntake(spinSpeed); 
     }
 
