@@ -26,7 +26,7 @@ public class XboxWrapper {
     private final XboxController xb;
 
     // Notifier to stop rumble after certain amount of time
-    private final Notifier stopRumble = new Notifier(this::stopRumble);
+    private final Notifier stopRumble = new Notifier(() -> this.rumble(0));
 
     /**
      * XboxWrapper constructor initializes an xbox controller object instance
@@ -106,13 +106,6 @@ public class XboxWrapper {
     private void rumble(double intensity) {
         xb.setRumble(RumbleType.kLeftRumble, intensity);
         xb.setRumble(RumbleType.kRightRumble, intensity);
-    }
-
-    /**
-     * Stop rumbling the controller
-     */
-    private void stopRumble() {
-        rumble(0);
     }
 
     /**
