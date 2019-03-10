@@ -13,11 +13,11 @@ import frc.robot.Robot;
 import frc.robot.ShuffleBoardConfig;
 import frc.robot.subsystems.Shield.LimitSwitchCombination;
 
-public class DriveToLoadingStation extends Command {
+public class DriveToCargoShip extends Command {
 
-    private static final NetworkTableEntry targetAreaEntry = ShuffleBoardConfig.pidTuningTab.add("DTLS - Target Area", 0)
+    private static final NetworkTableEntry targetAreaEntry = ShuffleBoardConfig.pidTuningTab.add("DTCS - Target Area", 0)
             .withWidget(BuiltInWidgets.kGraph).getEntry();
-    private static final NetworkTableEntry targetOffsetEntry = ShuffleBoardConfig.pidTuningTab.add("DTLS - Target Offset", 0)
+    private static final NetworkTableEntry targetOffsetEntry = ShuffleBoardConfig.pidTuningTab.add("DTCS - Target Offset", 0)
             .withWidget(BuiltInWidgets.kGraph).getEntry();
 
     private PIDController pidControllerDrive;
@@ -41,9 +41,9 @@ public class DriveToLoadingStation extends Command {
     private final double I_TURN = 0;
     private final double D_TURN = 0.023;
 
-    private boolean pusherHasBeenSetForward = false;
+    // private boolean pusherHasBeenSetForward = false;
 
-    public DriveToLoadingStation() {
+    public DriveToCargoShip() {
         requires(Robot.drivetrain);
         requires(Robot.limelight);
         requires(Robot.shield);
@@ -114,7 +114,6 @@ public class DriveToLoadingStation extends Command {
 
     @Override
     protected void initialize() {
-        pusherHasBeenSetForward = false;
         Robot.shield.setPusher(Value.kReverse);
         Robot.shield.releaseHP();
         pidControllerDrive.enable();
@@ -123,20 +122,6 @@ public class DriveToLoadingStation extends Command {
 
     @Override
     protected void execute() {
-        if (Math.sqrt(Robot.limelight.getTargetSize()) >= Math.sqrt(30)) {
-            if (!pusherHasBeenSetForward) {
-                Robot.shield.setPusher(Value.kForward);
-                pusherHasBeenSetForward = true;
-            }
-            turn *= 0.3;
-            drive *= 0.5;
-        }
-
-        if (Robot.shield.getSwitchPressed(LimitSwitchCombination.EITHER_SWITCH_PRESSED)) {
-            drive = 0;
-            turn = 0;
-        }
-
         Robot.drivetrain.drive(drive, turn);
         targetAreaEntry.setDouble(Robot.limelight.getTargetSize());
         targetOffsetEntry.setDouble(Robot.limelight.getHOffset());
