@@ -68,8 +68,8 @@ public class Cargo extends Subsystem {
     public Cargo() {
         
         // Arm Talon inversions
-        leftArm.setInverted(false);
-        rightArm.setInverted(false);
+        leftArm.setInverted(true);
+        rightArm.setInverted(true);
 
         // Don't invert intake Talon
         intake.setInverted(false);

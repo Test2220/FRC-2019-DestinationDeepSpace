@@ -18,7 +18,7 @@ public class XboxWrapper {
     /* CONSTANTS */
 
     // Intensity of controller rumble
-    private static final double RUMBLE_INTENSITY = 0.5;
+    private static final double RUMBLE_INTENSITY = 1;
 
     /* INSTANCE VARIABLES */
 
@@ -26,7 +26,7 @@ public class XboxWrapper {
     private final XboxController xb;
 
     // Notifier to stop rumble after certain amount of time
-    private final Notifier stopRumble = new Notifier(() -> this.rumble(0));
+    private final Notifier stopRumble = new Notifier(() -> rumble(0));
 
     /**
      * XboxWrapper constructor initializes an xbox controller object instance
