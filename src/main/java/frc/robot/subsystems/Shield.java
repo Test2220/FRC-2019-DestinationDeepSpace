@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -133,7 +132,7 @@ public class Shield extends Subsystem {
     }
 
     /**
-     * Enumeration of the possible states of the shield's central.
+     * Enumeration of the possible states of the shield's central plunger.
      */
     public enum GrabberState {
         GRABBED(Value.kForward), RELEASED(Value.kReverse);
