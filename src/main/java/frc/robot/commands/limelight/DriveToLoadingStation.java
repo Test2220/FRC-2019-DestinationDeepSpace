@@ -1,3 +1,4 @@
+
 package frc.robot.commands.limelight;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -8,12 +9,11 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.robot.Robot;
 import frc.robot.ShuffleBoardConfig;
 import frc.robot.subsystems.Shield.LimitSwitchCombination;
 
-public class DriveToVisionTarget extends Command {
+public class DriveToLoadingStation extends Command {
 
     private static final NetworkTableEntry targetAreaEntry = ShuffleBoardConfig.pidTuningTab.add("Target Area", 0)
             .withWidget(BuiltInWidgets.kGraph).getEntry();
@@ -43,7 +43,7 @@ public class DriveToVisionTarget extends Command {
 
     private boolean pusherHasBeenSetForward = false;
 
-    public DriveToVisionTarget() {
+    public DriveToLoadingStation() {
         requires(Robot.drivetrain);
         requires(Robot.limelight);
         requires(Robot.shield);

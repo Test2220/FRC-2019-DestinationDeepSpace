@@ -40,7 +40,7 @@ public class OI {
 
     //driver controls
     aButtonDriver.whileHeld(new AlignToVisionTarget());
-    bButtonDriver.whileHeld(new DriveToVisionTarget());
+    bButtonDriver.whileHeld(new DriveToLoadingStation());
   }
 
   /*
