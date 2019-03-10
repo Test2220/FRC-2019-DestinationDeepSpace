@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.PIDCommand;
 import frc.robot.Robot;
 
@@ -7,6 +8,17 @@ import frc.robot.Robot;
  * Turns the robot to a certain angle specified when this command is called.
  */
 public class TurnToAngle extends PIDCommand {
+
+    /* CONSTANTS */
+
+    // Turn to angle tolerance
+    private static final double ANGULAR_TOLERANCE = 3;
+
+    // Timeout time
+    private static final double TIMEOUT = 1.5;
+
+    // Kill command controller deadzone
+    private static final double CONTROLLER_DEADZONE = 0.2;
 
     private double targetAngle;
 
@@ -22,6 +34,10 @@ public class TurnToAngle extends PIDCommand {
         requires(Robot.drivetrain);
 
         this.targetAngle = targetAngle;
+
+        getPIDController().setAbsoluteTolerance(ANGULAR_TOLERANCE);
+
+        setTimeout(TIMEOUT);
     }
 
     /* INSTANCE METHODS */
@@ -86,6 +102,10 @@ public class TurnToAngle extends PIDCommand {
 
     @Override
     protected boolean isFinished() {
-        return false;
+        return getPIDController().onTarget() || driverInterrupt();
+    }
+
+    private boolean driverInterrupt() {
+        return Math.abs(Robot.oi.driver.getY(Hand.kLeft)) > CONTROLLER_DEADZONE || Math.abs(Robot.oi.driver.getX(Hand.kRight)) > CONTROLLER_DEADZONE;
     }
 }

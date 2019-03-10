@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import frc.robot.commands.TurnToAngle;
 import frc.robot.commands.cargo.ArmToPosition;
 import frc.robot.commands.limelight.*;
 import frc.robot.commands.shield.*;
@@ -32,6 +33,9 @@ public class OI {
     // Limelight automation
     driver.getButton(Button.A).whileHeld(new AlignToVisionTarget());
     driver.getButton(Button.B).whileHeld(new DriveToVisionTarget());
+
+    // Turning to angles
+    driver.getButton(Button.RIGHT_BUMPER).whenPressed(new TurnToAngle(180));
 
     /* MANIPULATOR CONROLS */
     

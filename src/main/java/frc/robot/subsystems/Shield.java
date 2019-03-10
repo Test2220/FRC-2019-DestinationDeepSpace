@@ -67,10 +67,10 @@ public class Shield extends Subsystem {
      * @param direction The state to actuate the grabber piston to
      */
     public void setGrabber(GrabberState state) {
-        grabber.set(state.val);
         if (grabber.get() != state.val) {
             Robot.oi.driver.rumbleFor(0.5);
         }
+        grabber.set(state.val);
     }
 
     public void grabHP() {
