@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRXPIDSetConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -69,8 +68,8 @@ public class Cargo extends Subsystem {
     public Cargo() {
         
         // Arm Talon inversions
-        leftArm.setInverted(false);
-        rightArm.setInverted(false);
+        leftArm.setInverted(true);
+        rightArm.setInverted(true);
 
         // Don't invert intake Talon
         intake.setInverted(false);
