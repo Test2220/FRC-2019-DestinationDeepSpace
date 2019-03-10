@@ -7,7 +7,6 @@ import frc.robot.subsystems.*;
 import frc.robot.subsystems.Shield;
 import frc.robot.subsystems.Cargo;
 import frc.robot.subsystems.Drivetrain;
-import edu.wpi.first.cameraserver.CameraServer;
 
 /**
  * Main robot class, root of the whole robot and calls all subsystems and
@@ -23,6 +22,7 @@ public class Robot extends TimedRobot {
   public static NavX navX;
   public static Shield shield;
   public static Cargo cargo;
+  public static Superstructure superstructure;
   public static OI oi;
 
   PowerDistributionPanel pdp = new PowerDistributionPanel();
@@ -42,12 +42,13 @@ public class Robot extends TimedRobot {
     drivetrain = new Drivetrain();
     shield = new Shield();
     cargo = new Cargo();
+    superstructure = new Superstructure();
     oi = new OI();
 
-    // Start USB camera recording
-    CameraServer.getInstance().startAutomaticCapture();
 
+    
     ShuffleBoardConfig.diagnosticsTab.add("PDP", pdp);
+
   }
 
   /**
@@ -63,7 +64,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
-
+    Robot.limelight.setCameraMode(Limelight.CameraMode.DRIVER_CAMERA);
+    Robot.limelight.setLEDMode(Limelight.LEDMode.OFF);
   }
 
   /**

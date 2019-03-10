@@ -1,10 +1,14 @@
 package frc.robot.subsystems;
 
+import edu.wpi.cscore.HttpCamera;
+import edu.wpi.cscore.VideoMode.PixelFormat;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
+import frc.robot.ShuffleBoardConfig;
 import frc.robot.commands.limelight.LimelightDefaultCommand;
 
 /**
@@ -39,6 +43,15 @@ public class Limelight extends Subsystem {
 
         // Disable limelight snapshotting. 0 = off, 1 = on
         limelight.getEntry("snapshot").setNumber(0);
+
+        // CameraServer.getInstance().startAutomaticCapture();
+
+        // HttpCamera httpCamera = new HttpCamera("LimeLightCamera", "http://10.22.20.96:5800");
+        // httpCamera.setFPS(22);
+        // httpCamera.setResolution(320, 240);
+        // httpCamera.setPixelFormat(PixelFormat.kMJPEG);
+        // CameraServer.getInstance().addCamera(httpCamera);
+        // ShuffleBoardConfig.driverTab.add(httpCamera);
     }
 
     /* LIMELIGHT DATA GETTERS */
