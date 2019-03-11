@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.buttons.POVButton;
 
 /**
  * Wrapper class for the standard xbox controller class that lets us access
- * JoystickButton and POVButton versions of the controls.
+ * JoystickButton, POVButton, and TriggerButton versions of the controls.
  * 
  * @author Reece
  */
@@ -17,16 +17,29 @@ public class XboxWrapper {
 
     /* CONSTANTS */
 
+    // Joystick deadzone
+    private static final double JOY_DEADZONE = 0.05; // TODO: Test value
+
+    // Trigger deadzone
+    private static final double TRIGGER_DEADZONE = 0.1; // TODO: Test value
+
     // Intensity of controller rumble
     private static final double RUMBLE_INTENSITY = 1;
+
+    // Length of controller rumble in seconds
+    public static final double RUMBLE_TIME = 0.5;
 
     /* INSTANCE VARIABLES */
 
     // Instance xbox controller member
     private final XboxController xb;
 
+    /* TIMING HANDLERS */
+
     // Notifier to stop rumble after certain amount of time
     private final Notifier stopRumble = new Notifier(() -> rumble(0));
+
+    /* CONSTRUCTOR */
 
     /**
      * XboxWrapper constructor initializes an xbox controller object instance
@@ -38,6 +51,8 @@ public class XboxWrapper {
         xb = new XboxController(xbPort);
     }
 
+    /* GETTERS */
+
     /**
      * Returns a joystick button off of the specified button
      * 
@@ -46,6 +61,10 @@ public class XboxWrapper {
      */
     public JoystickButton getButton(Button button) {
         return new JoystickButton(xb, button.value);
+    }
+
+    public TriggerButton getTriggerButton(Hand hand) {
+        return new TriggerButton(hand);
     }
 
     /**
@@ -59,34 +78,42 @@ public class XboxWrapper {
     }
 
     /**
-     * Gets the X axis value of the stick on the specified hand side
+     * Gets the X axis value of the stick on the specified hand side if it is larger
+     * than the deadzone
      * 
      * @param hand Which hand side
      * @return Returns the X axis value from specified stick
      */
     public double getX(Hand hand) {
-        return xb.getX(hand);
+        double x = xb.getX(hand);
+        return Math.abs(x) > JOY_DEADZONE ? x : 0;
     }
 
     /**
-     * Gets the Y axis value of the stick on the specified hand side
+     * Gets the Y axis value of the stick on the specified hand side if it is larger
+     * than the deadzone
      * 
      * @param hand Which hand side
      * @return Returns the Y axis value from specified stick
      */
     public double getY(Hand hand) {
-        return xb.getY(hand);
+        double y = xb.getY(hand);
+        return Math.abs(y) > JOY_DEADZONE ? y : 0;
     }
 
     /**
-     * Gets the value of the trigger on the specified hand side
+     * Gets the value of the trigger on the specified hand side if it is larger than
+     * the deadzone
      * 
      * @param hand Which hand side
      * @return Returns the trigger value from specified side
      */
     public double getTrigger(Hand hand) {
-        return xb.getTriggerAxis(hand);
+        double trigger = xb.getTriggerAxis(hand);
+        return trigger > TRIGGER_DEADZONE ? trigger : 0;
     }
+
+    /* CONTROL METHODS */
 
     /**
      * Rumble the controller for a given time
@@ -107,6 +134,8 @@ public class XboxWrapper {
         xb.setRumble(RumbleType.kLeftRumble, intensity);
         xb.setRumble(RumbleType.kRightRumble, intensity);
     }
+
+    /* CONTROL ENUMERATION */
 
     /**
      * Enumeration of all standard buttons on xbox controller, contains their raw
@@ -133,6 +162,42 @@ public class XboxWrapper {
 
         Dpad(int angle) {
             this.angle = angle;
+        }
+    }
+
+    /**
+     * Subclass of Button for the triggers on an xbox controller. Takes in a hand
+     * enum, and takes XboxWrapper's xbox controller instance variable. It becomes
+     * activated when the trigger has a higher value than the deadzone set in
+     * XboxWrapper.
+     */
+    private class TriggerButton extends edu.wpi.first.wpilibj.buttons.Button {
+
+        /* INSTANCE VARIABLES */
+
+        // Hand side to get trigger value from
+        private final Hand hand;
+
+        /* CONSTRUCTOR */
+
+        /**
+         * Create a new trigger button with given xbox controller and hand side.
+         * 
+         * @param hand Hand side to get trigger value from
+         */
+        private TriggerButton(Hand hand) {
+            this.hand = hand;
+        }
+
+        /* IMPLEMENTED METHODS */
+
+        /**
+         * Implemented get method. Returns true if the trigger axis is greater than the
+         * deadzone constant.
+         */
+        @Override
+        public boolean get() {
+            return xb.getTriggerAxis(hand) > TRIGGER_DEADZONE;
         }
     }
 }
