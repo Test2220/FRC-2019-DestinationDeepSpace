@@ -171,7 +171,7 @@ public class XboxWrapper {
      * activated when the trigger has a higher value than the deadzone set in
      * XboxWrapper.
      */
-    private class TriggerButton extends edu.wpi.first.wpilibj.buttons.Button {
+    public class TriggerButton extends edu.wpi.first.wpilibj.buttons.Button {
 
         /* INSTANCE VARIABLES */
 

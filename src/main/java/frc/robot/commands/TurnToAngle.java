@@ -12,7 +12,7 @@ public class TurnToAngle extends PIDCommand {
     /* CONSTANTS */
 
     // Turn to angle tolerance
-    private static final double ANGULAR_TOLERANCE = 3;
+    private static final double ANGULAR_TOLERANCE = 2;
 
     // Timeout time
     private static final double TIMEOUT = 1.5;
