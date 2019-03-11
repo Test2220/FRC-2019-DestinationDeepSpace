@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import frc.robot.commands.TurnToAngle;
 import frc.robot.commands.cargo.ArmToPosition;
 import frc.robot.commands.limelight.*;
@@ -36,6 +37,10 @@ public class OI {
 
     // Turning to angles
     driver.getButton(Button.RIGHT_BUMPER).whenPressed(new TurnToAngle(180));
+
+    // Camera swiching
+    // driver.getTriggerButton(Hand.kRight).whenPressed();
+    // driver.getTriggerButton(Hand.kRight).whenReleased();
 
     /* MANIPULATOR CONROLS */
     

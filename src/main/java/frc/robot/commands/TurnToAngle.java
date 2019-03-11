@@ -12,7 +12,7 @@ public class TurnToAngle extends PIDCommand {
     /* CONSTANTS */
 
     // Turn to angle tolerance
-    private static final double ANGULAR_TOLERANCE = 3;
+    private static final double ANGULAR_TOLERANCE = 2;
 
     // Timeout time
     private static final double TIMEOUT = 1.5;
@@ -20,24 +20,30 @@ public class TurnToAngle extends PIDCommand {
     // Kill command controller deadzone
     private static final double CONTROLLER_DEADZONE = 0.2;
 
+    // PID constants
+    private static final double P = 0.0145;
+    private static final double I = 0;
+    private static final double D = 0.0376;
+
     private double targetAngle;
 
     /**
-     * Constructor that sets up the PID controller and initializes the targetAngle.
+     * Constructor that sets up the PID controller and initializes the target angle.
+     * Constructor also sets up angular tolerance and command timeout.
      * 
      * @param targetAngle
      */
     public TurnToAngle(double targetAngle) {
-        super(0.0145, 0, 0.0376);
+        super(P, I, D);
 
         requires(Robot.navX);
         requires(Robot.drivetrain);
 
-        this.targetAngle = targetAngle;
-
         getPIDController().setAbsoluteTolerance(ANGULAR_TOLERANCE);
 
         setTimeout(TIMEOUT);
+
+        this.targetAngle = targetAngle;
     }
 
     /* INSTANCE METHODS */
@@ -74,8 +80,8 @@ public class TurnToAngle extends PIDCommand {
     }
 
     /**
-     * The execute method is called repeatedly until this Command either finishes or is canceled.
-     * Prints value to console to know when the command is running..
+     * The execute method is called repeatedly until this Command either finishes or
+     * is canceled. Prints value to console to know when the command is running..
      */
     @Override
     protected void execute() {
@@ -100,12 +106,13 @@ public class TurnToAngle extends PIDCommand {
         System.out.println("Command is finished.");
     }
 
+    private boolean driverInterrupt() {
+        return Math.abs(Robot.oi.driver.getY(Hand.kLeft)) > CONTROLLER_DEADZONE
+                || Math.abs(Robot.oi.driver.getX(Hand.kRight)) > CONTROLLER_DEADZONE;
+    }
+
     @Override
     protected boolean isFinished() {
         return getPIDController().onTarget() || driverInterrupt();
-    }
-
-    private boolean driverInterrupt() {
-        return Math.abs(Robot.oi.driver.getY(Hand.kLeft)) > CONTROLLER_DEADZONE || Math.abs(Robot.oi.driver.getX(Hand.kRight)) > CONTROLLER_DEADZONE;
     }
 }

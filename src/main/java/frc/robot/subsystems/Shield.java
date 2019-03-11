@@ -8,6 +8,7 @@ import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.ShuffleBoardConfig;
 import frc.robot.utils.LimitSwitch;
+import frc.robot.utils.XboxWrapper;
 
 /**
  * Hatch panel manipulator subsystem built on basis of SHIELD manipulator
@@ -68,7 +69,7 @@ public class Shield extends Subsystem {
      */
     public void setGrabber(GrabberState state) {
         if (grabber.get() != state.val) {
-            Robot.oi.driver.rumbleFor(0.5);
+            Robot.oi.driver.rumbleFor(XboxWrapper.RUMBLE_TIME);
         }
         grabber.set(state.val);
     }

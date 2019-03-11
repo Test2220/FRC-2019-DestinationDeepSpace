@@ -1,8 +1,6 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.Shield;
@@ -31,19 +29,14 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    // m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
-    // chooser.addOption("My Auto", new MyAutoCommand());
-    // SmartDashboard.putData("Auto mode", m_chooser);
-
     // Initialize subsystem members
     limelight = new Limelight();
-    navX = new NavX();
     drivetrain = new Drivetrain();
+    navX = new NavX();
     shield = new Shield();
     cargo = new Cargo();
     superstructure = new Superstructure();
     oi = new OI();
-
   }
 
   /**

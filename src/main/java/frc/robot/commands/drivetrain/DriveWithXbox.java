@@ -15,10 +15,6 @@ public class DriveWithXbox extends Command {
 
     /* CONSTANTS */
 
-    // Power to raise driving and turning to (handles all powers)
-    private static final double EXP_DRIVE_POWER = 1.4;
-    private static final double EXP_TURN_POWER = 1.6;
-
     // Trigger deadzone
     private static final double TRIGGER_DEADZONE = 0.25;
     
@@ -47,20 +43,6 @@ public class DriveWithXbox extends Command {
         double power = -Robot.oi.driver.getY(Hand.kLeft);
         double turn = Robot.oi.driver.getX(Hand.kRight);
 
-        if (Robot.oi.driver.getTrigger(Hand.kLeft) >= TRIGGER_DEADZONE) {
-            power *= SLOW_MULTIPLIER;
-            turn *= SLOW_MULTIPLIER;
-        }
-        
-        if (Robot.oi.driver.getTrigger(Hand.kRight) >= TRIGGER_DEADZONE) {
-            power *= -1;
-        }
-
-        // Exponential driving and turning calculations
-        // power = Math.pow(Math.abs(power), EXP_DRIVE_POWER) * Math.signum(power);
-        // turn = Math.pow(Math.abs(turn), EXP_TURN_POWER) * Math.signum(turn);
-
-        // Run curvature drive off of drivetrain subsystem
         Robot.drivetrain.drive(power, turn);
     }
 

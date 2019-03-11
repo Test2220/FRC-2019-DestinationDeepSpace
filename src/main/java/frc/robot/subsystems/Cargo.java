@@ -140,7 +140,7 @@ public class Cargo extends Subsystem {
      * @param speed The speed at which to spin the intake, range [-1, 1]
      */
     public void spinIntake(double speed) {
-        intake.set(ControlMode.PercentOutput, speed * SPIN_SCALAR);
+        intake.set(speed * SPIN_SCALAR);
     }
 
     public void setArmPosition(int pos) {
