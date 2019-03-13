@@ -13,6 +13,11 @@ import frc.robot.Robot;
  */
 public class ManipulateCargo extends Command {
 
+    /* CONSTANTS */
+
+    // Intake deadzone
+    private static final double INTAKE_DEADZONE = 0.15;
+
     /* COMMAND CONSTRUCTOR */
 
     /**
@@ -35,8 +40,12 @@ public class ManipulateCargo extends Command {
         double spinSpeed = Robot.oi.manipulator.getY(Hand.kLeft); 
 
         // Pass joystick values to and call control methods out of subsystem
-        Robot.cargo.moveArm(armPower); 
-        Robot.cargo.spinIntake(spinSpeed); 
+        // Robot.cargo.moveArm(armPower);
+        if (Math.abs(spinSpeed) > INTAKE_DEADZONE) {
+            Robot.cargo.spinIntake(spinSpeed);
+        } else {
+            Robot.cargo.spinIntake(0);
+        }
     }
 
     /**

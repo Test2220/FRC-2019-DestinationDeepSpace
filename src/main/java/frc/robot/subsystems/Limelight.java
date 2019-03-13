@@ -148,7 +148,9 @@ public class Limelight extends Subsystem {
 
     /* LIMELIGHT DATA STATES ENUMERATION */
 
-    // Camera modes enumeration
+    /**
+     * Camera modes enumeration
+     */
     public enum CameraMode {
         VISION_PROCESSING(0), DRIVER_CAMERA(1);
 
@@ -159,7 +161,9 @@ public class Limelight extends Subsystem {
         }
     }
 
-    // Led modes enumeration
+    /**
+     * Led modes enumeration
+     */
     public enum LEDMode {
         USE_PIPELINE(0), OFF(1), BLINK(2), ON(3);
 
@@ -170,7 +174,9 @@ public class Limelight extends Subsystem {
         }
     }
 
-    // Stream modes enumeration, PiP stands for picture in picture
+    /**
+     * Stream modes enumeration, PiP stands for picture in picture
+     */
     public enum StreamMode {
         STANDARD(0), PIP_MAIN(1), PIP_SECONDARY(2);
 
