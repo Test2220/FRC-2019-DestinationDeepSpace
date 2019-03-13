@@ -148,15 +148,6 @@ public class Cargo extends Subsystem {
         // rightArm.config_kD(0, D);
         // rightArm.config_kF(0, F);
 
-        // Set to limit switch states
-        if (lowerLimit.get()) {
-            cargoState = CargoState.LOWER_LIMIT;
-        } else if (upperLimit.get()) {
-            cargoState = CargoState.UPPER_LIMIT;
-        } else {
-            cargoState = CargoState.FREE;
-        }
-
         // State machine
         switch (cargoState) {
             case NOT_ZEROED:
@@ -164,18 +155,27 @@ public class Cargo extends Subsystem {
                 break;
 
             case LOWER_LIMIT:
-                if (rightArm.getSelectedSensorVelocity() < 0) { // TODO: Check 0 and possibly change to some negative constant
+                if (rightArm.getSelectedSensorVelocity() <= 0) { // TODO: Check 0 and possibly change to some negative constant
                     rightArm.set(0);
+                } if (!lowerLimit.get()) {
+                    cargoState = CargoState.FREE;
                 }
                 break;
 
             case UPPER_LIMIT:
-                if (rightArm.getSelectedSensorVelocity() > 0) { // TODO: Check 0 and possibly change to some positive constant
+                if (rightArm.getSelectedSensorVelocity() >= 0) { // TODO: Check 0 and possibly change to some positive constant
                     rightArm.set(0);
+                } if (!upperLimit.get()) {
+                    cargoState = CargoState.FREE;
                 }
                 break;
 
             case FREE:
+                if (lowerLimit.get()) {
+                    cargoState = CargoState.LOWER_LIMIT;
+                } else if (upperLimit.get()) {
+                    cargoState = CargoState.UPPER_LIMIT;
+                }
                 break;
         }
     }
@@ -190,15 +190,18 @@ public class Cargo extends Subsystem {
     }
 
     public void setArmPosition(int pos) {
-        rightArm.set(ControlMode.Position, pos);
+        if (cargoState != CargoState.NOT_ZEROED) {
+            rightArm.set(ControlMode.Position, pos);
+        }
     }
 
     private void zeroArmEncoder() {
-        // Rotate arm down maximum amount of encoder ticks possible
-        setArmPosition(-MAX_ARM_POS);
+        // Rotate arm down maximum amount of encoder ticks possible TODO: Check MAX_ARM_POS works
+        rightArm.set(ControlMode.Position, -MAX_ARM_POS);
         if (lowerLimit.get()) {
             rightArm.setSelectedSensorPosition(0);
             setArmPosition(0);
+            cargoState = CargoState.LOWER_LIMIT;
         }
     }
 
