@@ -15,11 +15,8 @@ public class DriveWithXbox extends Command {
 
     /* CONSTANTS */
 
-    // Trigger deadzone
-    private static final double TRIGGER_DEADZONE = 0.25;
-    
-    // Slow mode multiplier
-    private static final double SLOW_MULTIPLIER = 0.5;
+    // Turning multiplier
+    private static final double TURN_MULTIPLIER = 0.9;
 
     /* COMMAND CONSTRUCTOR */
 
@@ -41,7 +38,7 @@ public class DriveWithXbox extends Command {
     protected void execute() {
         // Grab joystick values used for curvature drive calculation
         double power = -Robot.oi.driver.getY(Hand.kLeft);
-        double turn = Robot.oi.driver.getX(Hand.kRight);
+        double turn = Robot.oi.driver.getX(Hand.kRight) * TURN_MULTIPLIER;
 
         Robot.drivetrain.drive(power, turn);
     }

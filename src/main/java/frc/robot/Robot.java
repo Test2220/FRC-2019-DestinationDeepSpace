@@ -52,8 +52,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
-    Robot.limelight.setCameraMode(Limelight.CameraMode.DRIVER_CAMERA);
-    Robot.limelight.setLEDMode(Limelight.LEDMode.OFF);
   }
 
   /**
@@ -62,6 +60,8 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledPeriodic() {
     Scheduler.getInstance().run();
+    Robot.limelight.setCameraMode(Limelight.CameraMode.DRIVER_CAMERA);
+    Robot.limelight.setLEDMode(Limelight.LEDMode.OFF);
   }
 
   /**
@@ -69,10 +69,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+    shield.grabHP();
   }
 
   /**
-   * Loops during autonomous.
+   * ep Loops during autonomous.
    */
   @Override
   public void autonomousPeriodic() {

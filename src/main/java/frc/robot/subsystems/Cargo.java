@@ -10,7 +10,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import frc.robot.RobotMap;
 import frc.robot.ShuffleBoardConfig;
-import frc.robot.commands.cargo.ManipulateCargo;;
+import frc.robot.commands.cargo.ManipulateCargo;
+import frc.robot.utils.LimitSwitch;;
 
 /**
  * The cargo subsystem sets up all hardware related to the physical subsystem.
@@ -36,9 +37,10 @@ public class Cargo extends Subsystem {
     public static final int ARM_ROCKET = 3600;
     public static final int ARM_CARGOSHIP = 6000;
     public static final int ARM_UP = 7700;
+    private static final int MAX_ARM_POS = 7908;
 
     // Arm PID constants
-    private static double P = 1023.0 / 7908 * 4;
+    private static double P = 1023.0 / MAX_ARM_POS * 4;
     private static double I = 0;
     private static double D = 0;
     private static double F = 0;
@@ -54,10 +56,21 @@ public class Cargo extends Subsystem {
     // Basic intake Talon
     private WPI_TalonSRX intake = new WPI_TalonSRX(RobotMap.INTAKE);
 
-    private final NetworkTableEntry encoderEntry = ShuffleBoardConfig.diagnosticsTab.add("Arm Encoder", 0).withWidget(BuiltInWidgets.kGraph).getEntry();
-    // private final NetworkTableEntry pEntry = ShuffleBoardConfig.diagnosticsTab.add("P", P).getEntry();
-    // private final NetworkTableEntry iEntry = ShuffleBoardConfig.diagnosticsTab.add("I", 0).getEntry();
-    // private final NetworkTableEntry dEntry = ShuffleBoardConfig.diagnosticsTab.add("D", 0).getEntry();
+    // Limit switches
+    private LimitSwitch lowerLimit = new LimitSwitch(RobotMap.LOWER_CARGO_LIMIT);
+    private LimitSwitch upperLimit = new LimitSwitch(RobotMap.UPPER_CARGO_LIMIT);
+
+    // Subsystem state
+    private CargoState cargoState = CargoState.NOT_ZEROED;
+
+    private final NetworkTableEntry encoderEntry = ShuffleBoardConfig.diagnosticsTab.add("Arm Encoder", 0)
+            .withWidget(BuiltInWidgets.kGraph).getEntry();
+    // private final NetworkTableEntry pEntry =
+    // ShuffleBoardConfig.diagnosticsTab.add("P", P).getEntry();
+    // private final NetworkTableEntry iEntry =
+    // ShuffleBoardConfig.diagnosticsTab.add("I", 0).getEntry();
+    // private final NetworkTableEntry dEntry =
+    // ShuffleBoardConfig.diagnosticsTab.add("D", 0).getEntry();
 
     /* SUBSYSTEM CONSTRUCTOR */
 
@@ -66,8 +79,8 @@ public class Cargo extends Subsystem {
      * subsystem as described by comments below.
      */
     public Cargo() {
-        
-        // Arm Talon inversions
+
+        // Arm Talon inversions TODO: Check inversion on actual robot
         leftArm.setInverted(true);
         rightArm.setInverted(true);
 
@@ -101,6 +114,7 @@ public class Cargo extends Subsystem {
         rightArm.config_kP(0, P);
         rightArm.config_kI(0, I);
         rightArm.config_kD(0, D);
+        rightArm.config_kF(0, F);
 
         rightArm.configMotionAcceleration(MAX_ACCEL);
         rightArm.configMotionCruiseVelocity(MAX_VEL);
@@ -114,13 +128,14 @@ public class Cargo extends Subsystem {
      * @param power The power at which to move the Talons, range [-1, 1]
      */
     public void moveArm(double power) {
-        leftArm.set(power * MOVE_SCALAR);
+        rightArm.set(power * MOVE_SCALAR);
     }
 
     @Override
     public void periodic() {
         encoderEntry.setNumber(rightArm.getSelectedSensorPosition(0));
-        // F = (rightArm.getSelectedSensorVelocity() < 0) ? -Math.cos((rightArm.getSelectedSensorPosition() / 7908) * (Math.PI / 2)) : 0;
+        // F = (rightArm.getSelectedSensorVelocity() < 0) ?
+        // -Math.cos((rightArm.getSelectedSensorPosition() / 7908) * (Math.PI / 2)) : 0;
         // F = -Math.cos((rightArm.getSelectedSensorPosition() / 7908) * (Math.PI / 2));
         // F = (rightArm.getSelectedSensorPosition() / 7908) * (Math.PI / 2);
         // F = (rightArm.getSelectedSensorVelocity() >= 0) ? Math.cos(F) : Math.sin(F);
@@ -132,6 +147,37 @@ public class Cargo extends Subsystem {
         // rightArm.config_kI(0, I);
         // rightArm.config_kD(0, D);
         // rightArm.config_kF(0, F);
+
+        // Set to limit switch states
+        if (lowerLimit.get()) {
+            cargoState = CargoState.LOWER_LIMIT;
+        } else if (upperLimit.get()) {
+            cargoState = CargoState.UPPER_LIMIT;
+        } else {
+            cargoState = CargoState.FREE;
+        }
+
+        // State machine
+        switch (cargoState) {
+            case NOT_ZEROED:
+                zeroArmEncoder();
+                break;
+
+            case LOWER_LIMIT:
+                if (rightArm.getSelectedSensorVelocity() < 0) { // TODO: Check 0 and possibly change to some negative constant
+                    rightArm.set(0);
+                }
+                break;
+
+            case UPPER_LIMIT:
+                if (rightArm.getSelectedSensorVelocity() > 0) { // TODO: Check 0 and possibly change to some positive constant
+                    rightArm.set(0);
+                }
+                break;
+
+            case FREE:
+                break;
+        }
     }
 
     /**
@@ -145,6 +191,19 @@ public class Cargo extends Subsystem {
 
     public void setArmPosition(int pos) {
         rightArm.set(ControlMode.Position, pos);
+    }
+
+    private void zeroArmEncoder() {
+        // Rotate arm down maximum amount of encoder ticks possible
+        setArmPosition(-MAX_ARM_POS);
+        if (lowerLimit.get()) {
+            rightArm.setSelectedSensorPosition(0);
+            setArmPosition(0);
+        }
+    }
+
+    public enum CargoState {
+        NOT_ZEROED, LOWER_LIMIT, UPPER_LIMIT, FREE;
     }
 
     /* IMPLEMENTED METHODS */
