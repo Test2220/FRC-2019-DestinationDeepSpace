@@ -44,7 +44,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    ShuffleBoardConfig.updateMatchDetails();
   }
 
   /**
@@ -60,6 +59,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledPeriodic() {
     Scheduler.getInstance().run();
+    ShuffleBoardConfig.updateMatchDetails();
     Robot.limelight.setCameraMode(Limelight.CameraMode.DRIVER_CAMERA);
     Robot.limelight.setLEDMode(Limelight.LEDMode.OFF);
   }
