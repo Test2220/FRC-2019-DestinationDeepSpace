@@ -34,6 +34,7 @@ public class OI {
     // Limelight automation
     driver.getButton(Button.A).whileHeld(new AlignToVisionTarget());
     driver.getButton(Button.B).whileHeld(new DriveToLoadingStation());
+    driver.getButton(Button.X).whileHeld(new DriveToCargoShip());
 
     // Turning to angles
     driver.getButton(Button.RIGHT_BUMPER).whenPressed(new TurnToAngle(180));

@@ -115,13 +115,13 @@ public class DriveToCargoShip extends Command {
     @Override
     protected void initialize() {
         Robot.shield.setPusher(Value.kReverse);
-        Robot.shield.releaseHP();
         pidControllerDrive.enable();
         pidControllerTurn.enable();
     }
 
     @Override
     protected void execute() {
+        if (Math.sqrt(Robot.limelight.getTargetSize()) >= Math.sqrt(35)) { drive *= 0.5; turn *= 0.5; }
         Robot.drivetrain.drive(drive, turn);
         targetAreaEntry.setDouble(Robot.limelight.getTargetSize());
         targetOffsetEntry.setDouble(Robot.limelight.getHOffset());
