@@ -33,10 +33,10 @@ public class Cargo extends Subsystem {
 
     // Arm position constants
     private static final int MAX_ARM_POS = 7908;
-    public static final int ARM_FLOOR = MAX_ARM_POS;
-    public static final int ARM_ROCKET = MAX_ARM_POS - 3600;
-    public static final int ARM_CARGOSHIP = MAX_ARM_POS - 6000;
-    public static final int ARM_UP = MAX_ARM_POS - 7700;
+    public static final int ARM_FLOOR = -(MAX_ARM_POS);
+    public static final int ARM_ROCKET = -(MAX_ARM_POS - 3600);
+    public static final int ARM_CARGOSHIP = -(MAX_ARM_POS - 6000);
+    public static final int ARM_UP = -(MAX_ARM_POS - 7700);
 
     // Arm PID constants
     private static double P = 1023.0 / MAX_ARM_POS * 4;
