@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import frc.robot.commands.TurnToAngle;
 import frc.robot.commands.cargo.ArmToPosition;
+import frc.robot.commands.cargo.ReZeroArm;
 import frc.robot.commands.limelight.*;
 import frc.robot.commands.shield.*;
 import frc.robot.subsystems.Cargo;
@@ -37,10 +38,6 @@ public class OI {
     // Turning to angles
     driver.getButton(Button.RIGHT_BUMPER).whenPressed(new TurnToAngle(180));
 
-    // Camera swiching
-    // driver.getTriggerButton(Hand.kRight).whenPressed();
-    // driver.getTriggerButton(Hand.kRight).whenReleased();
-
     /* MANIPULATOR CONROLS */
     
     // SHIELD pusher piston controls
@@ -56,5 +53,11 @@ public class OI {
     manipulator.getDpad(Dpad.RIGHT).whenPressed(new ArmToPosition(Cargo.ARM_ROCKET));
     manipulator.getDpad(Dpad.UP).whenPressed(new ArmToPosition(Cargo.ARM_CARGOSHIP));
     manipulator.getDpad(Dpad.LEFT).whenPressed(new ArmToPosition(Cargo.ARM_UP));
+
+    // Rezero cargo arm
+    manipulator.getButton(Button.START).whenPressed(new ReZeroArm());
+
+    // Take limelight snapshot
+    manipulator.getButton(Button.LEFT_BUMPER).whenPressed(new TakeSnapshot());
   }
 }

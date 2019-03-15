@@ -29,6 +29,9 @@ public class XboxWrapper {
     // Length of controller rumble in seconds
     public static final double RUMBLE_TIME = 0.5;
 
+    // Length of controller rumble for warnings
+    public static final double WARNING_RUMBLE = 1.5;
+
     /* INSTANCE VARIABLES */
 
     // Instance xbox controller member

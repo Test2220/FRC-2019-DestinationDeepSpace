@@ -7,10 +7,12 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.ShuffleBoardConfig;
 import frc.robot.commands.cargo.ManipulateCargo;
-import frc.robot.utils.LimitSwitch;;
+import frc.robot.utils.LimitSwitch;
+import frc.robot.utils.XboxWrapper;;
 
 /**
  * The cargo subsystem sets up all hardware related to the physical subsystem.
@@ -36,7 +38,7 @@ public class Cargo extends Subsystem {
     public static final int ARM_FLOOR = -(MAX_ARM_POS);
     public static final int ARM_ROCKET = -(MAX_ARM_POS - 3600);
     public static final int ARM_CARGOSHIP = -(MAX_ARM_POS - 6000);
-    public static final int ARM_UP = -(MAX_ARM_POS - 7700);
+    public static final int ARM_UP = -(MAX_ARM_POS - 7800);
 
     // Arm PID constants
     private static double P = 1023.0 / MAX_ARM_POS * 4;
@@ -75,8 +77,6 @@ public class Cargo extends Subsystem {
 
     // Last position
     private int lastPosition = 0;
-
-
 
     private final NetworkTableEntry encoderEntry = ShuffleBoardConfig.diagnosticsTab.add("Arm Encoder", 0).getEntry();
     private final NetworkTableEntry stateEntry = ShuffleBoardConfig.cargoLayout.add("Cargo State", cargoState.toString()).getEntry();
@@ -228,8 +228,18 @@ public class Cargo extends Subsystem {
     private void setState(CargoState state) {
         if (cargoState != state) {
             System.out.println(cargoState.toString() + " -> " + state.toString());
+            if (state == CargoState.UPPER_LIMIT || state == CargoState.LOWER_LIMIT) {
+                Robot.oi.manipulator.rumbleFor(XboxWrapper.RUMBLE_TIME);
+            }
         }
         cargoState = state;
+    }
+
+    public void reZeroArm() {
+        lastPosition = 0;
+        requestedPosition = 0;
+        processedRequestedPosition = true;
+        setState(CargoState.NOT_ZEROED);
     }
 
     /**

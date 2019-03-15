@@ -62,6 +62,7 @@ public class AlignToVisionTarget extends PIDCommand {
     @Override
     protected void execute() {
         SmartDashboard.putNumber("PID Output", super.getPIDController().get());
+        // Robot.limelight.takeSnapshot();
     }
 
     @Override
