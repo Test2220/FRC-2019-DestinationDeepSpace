@@ -1,5 +1,7 @@
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.subsystems.*;
@@ -44,7 +46,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    ShuffleBoardConfig.updateMatchDetails();
   }
 
   /**
@@ -52,8 +53,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
-    Robot.limelight.setCameraMode(Limelight.CameraMode.DRIVER_CAMERA);
-    Robot.limelight.setLEDMode(Limelight.LEDMode.OFF);
+    cargo.setNeutral(NeutralMode.Coast);
   }
 
   /**
@@ -62,6 +62,9 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledPeriodic() {
     Scheduler.getInstance().run();
+    ShuffleBoardConfig.updateMatchDetails();
+    Robot.limelight.setCameraMode(Limelight.CameraMode.DRIVER_CAMERA);
+    Robot.limelight.setLEDMode(Limelight.LEDMode.OFF);
   }
 
   /**
@@ -69,10 +72,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+    shield.grabHP();
   }
 
   /**
-   * Loops during autonomous.
+   * ep Loops during autonomous.
    */
   @Override
   public void autonomousPeriodic() {
@@ -84,6 +88,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopInit() {
+    cargo.setNeutral(NeutralMode.Brake);
   }
 
   /**
