@@ -1,5 +1,7 @@
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.subsystems.*;
@@ -51,6 +53,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    cargo.setNeutral(NeutralMode.Coast);
   }
 
   /**
@@ -85,6 +88,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopInit() {
+    cargo.setNeutral(NeutralMode.Brake);
   }
 
   /**

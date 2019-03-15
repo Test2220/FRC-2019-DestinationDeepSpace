@@ -52,9 +52,9 @@ public class OI {
     manipulator.getButton(Button.Y).whenPressed(new SetShieldGrabber(GrabberState.RELEASED));
 
     // Cargo arm preset positions
-    manipulator.getDpad(Dpad.DOWN).whenPressed(new ArmToPosition(Cargo.ARM_FLOOR));
-    manipulator.getDpad(Dpad.RIGHT).whenPressed(new ArmToPosition(Cargo.ARM_ROCKET));
-    manipulator.getDpad(Dpad.UP).whenPressed(new ArmToPosition(Cargo.ARM_CARGOSHIP));
-    manipulator.getDpad(Dpad.LEFT).whenPressed(new ArmToPosition(Cargo.ARM_UP));
+    manipulator.getDpad(Dpad.DOWN).whenPressed(new ArmToPosition(-Cargo.ARM_FLOOR));
+    manipulator.getDpad(Dpad.RIGHT).whenPressed(new ArmToPosition(-Cargo.ARM_ROCKET));
+    manipulator.getDpad(Dpad.UP).whenPressed(new ArmToPosition(-Cargo.ARM_CARGOSHIP));
+    manipulator.getDpad(Dpad.LEFT).whenPressed(new ArmToPosition(-Cargo.ARM_UP));
   }
 }

@@ -18,7 +18,7 @@ public class RobotMap {
   // Talon IDs
   public static final int LEFT_ARM_FOLLOWER = 6;
   public static final int RIGHT_ARM_MASTER = 13;    // On the external CAN Bus -- has encoders
-  public static final int INTAKE = 8;
+  public static final int INTAKE = 5;
 
   // Limit switch IDs
   public static final int UPPER_CARGO_LIMIT = 2;

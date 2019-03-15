@@ -7,7 +7,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import frc.robot.RobotMap;
 import frc.robot.ShuffleBoardConfig;
 import frc.robot.commands.cargo.ManipulateCargo;
@@ -25,7 +24,7 @@ public class Cargo extends Subsystem {
     /* CONSTANTS */
 
     // Joystick value scalars
-    private static final double SPIN_SCALAR = 0.75;
+    private static final double SPIN_SCALAR = 1;
     private static final double MOVE_SCALAR = 0.3;
 
     // Current limits
@@ -33,11 +32,11 @@ public class Cargo extends Subsystem {
     private static final int INTAKE_MAX_AMPS = 10;
 
     // Arm position constants
-    public static final int ARM_FLOOR = 59;
-    public static final int ARM_ROCKET = 3600;
-    public static final int ARM_CARGOSHIP = 6000;
-    public static final int ARM_UP = 7700;
     private static final int MAX_ARM_POS = 7908;
+    public static final int ARM_FLOOR = MAX_ARM_POS;
+    public static final int ARM_ROCKET = MAX_ARM_POS - 3600;
+    public static final int ARM_CARGOSHIP = MAX_ARM_POS - 6000;
+    public static final int ARM_UP = MAX_ARM_POS - 7700;
 
     // Arm PID constants
     private static double P = 1023.0 / MAX_ARM_POS * 4;
@@ -46,6 +45,9 @@ public class Cargo extends Subsystem {
     private static double F = 0;
     private static final int MAX_VEL = 750;
     private static final int MAX_ACCEL = 350;
+
+    // Zero arm speed
+    private final double ZERO_SPEED = 0.2;
 
     /* INSTANCE VARIABLES */
 
@@ -57,14 +59,28 @@ public class Cargo extends Subsystem {
     private WPI_TalonSRX intake = new WPI_TalonSRX(RobotMap.INTAKE);
 
     // Limit switches
-    private LimitSwitch lowerLimit = new LimitSwitch(RobotMap.LOWER_CARGO_LIMIT);
-    private LimitSwitch upperLimit = new LimitSwitch(RobotMap.UPPER_CARGO_LIMIT);
+    private LimitSwitch lowerLimit = new LimitSwitch(RobotMap.LOWER_CARGO_LIMIT, true);
+    private LimitSwitch upperLimit = new LimitSwitch(RobotMap.UPPER_CARGO_LIMIT, true);
+
+    /* STATE MACHINE MEMBERS */
 
     // Subsystem state
     private CargoState cargoState = CargoState.NOT_ZEROED;
 
-    private final NetworkTableEntry encoderEntry = ShuffleBoardConfig.diagnosticsTab.add("Arm Encoder", 0)
-            .withWidget(BuiltInWidgets.kGraph).getEntry();
+    // Requested position
+    private int requestedPosition = 0;
+
+    // Processed requested position
+    private boolean processedRequestedPosition = true;
+
+    // Last position
+    private int lastPosition = 0;
+
+
+
+    private final NetworkTableEntry encoderEntry = ShuffleBoardConfig.diagnosticsTab.add("Arm Encoder", 0).getEntry();
+    private final NetworkTableEntry stateEntry = ShuffleBoardConfig.cargoLayout.add("Cargo State", cargoState.toString()).getEntry();
+    private final NetworkTableEntry encoderVelocity = ShuffleBoardConfig.cargoLayout.add("Encoder Velocity", rightArm.getSelectedSensorVelocity()).getEntry();
     // private final NetworkTableEntry pEntry =
     // ShuffleBoardConfig.diagnosticsTab.add("P", P).getEntry();
     // private final NetworkTableEntry iEntry =
@@ -81,13 +97,13 @@ public class Cargo extends Subsystem {
     public Cargo() {
 
         // Arm Talon inversions TODO: Check inversion on actual robot
-        leftArm.setInverted(true);
-        rightArm.setInverted(true);
+        leftArm.setInverted(false);
+        rightArm.setInverted(false);
 
         // Don't invert intake Talon
         intake.setInverted(false);
 
-        // Set arm Talons to break when no power
+        // Set arm Talons to break when no power TODO: Set back to brake
         leftArm.setNeutralMode(NeutralMode.Brake);
         rightArm.setNeutralMode(NeutralMode.Brake);
 
@@ -99,9 +115,13 @@ public class Cargo extends Subsystem {
 
         rightArm.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
         rightArm.setSelectedSensorPosition(0, 0, 0);
+        rightArm.setSensorPhase(true);
 
         ShuffleBoardConfig.cargoLayout.add("Arm", rightArm);
         ShuffleBoardConfig.cargoLayout.add("Intake", intake);
+
+        ShuffleBoardConfig.cargoLayout.add("Upper Limit", upperLimit);
+        ShuffleBoardConfig.cargoLayout.add("Lower Limit", lowerLimit);
 
         leftArm.enableCurrentLimit(true);
         rightArm.enableCurrentLimit(true);
@@ -122,18 +142,11 @@ public class Cargo extends Subsystem {
 
     /* CONTROL METHODS */
 
-    /**
-     * Moves arm by setting power to Talons.
-     * 
-     * @param power The power at which to move the Talons, range [-1, 1]
-     */
-    public void moveArm(double power) {
-        rightArm.set(power * MOVE_SCALAR);
-    }
-
     @Override
     public void periodic() {
         encoderEntry.setNumber(rightArm.getSelectedSensorPosition(0));
+        stateEntry.setString(cargoState.toString());
+        encoderVelocity.setNumber(rightArm.getSelectedSensorVelocity());
         // F = (rightArm.getSelectedSensorVelocity() < 0) ?
         // -Math.cos((rightArm.getSelectedSensorPosition() / 7908) * (Math.PI / 2)) : 0;
         // F = -Math.cos((rightArm.getSelectedSensorPosition() / 7908) * (Math.PI / 2));
@@ -151,33 +164,72 @@ public class Cargo extends Subsystem {
         // State machine
         switch (cargoState) {
             case NOT_ZEROED:
-                zeroArmEncoder();
-                break;
-
-            case LOWER_LIMIT:
-                if (rightArm.getSelectedSensorVelocity() <= 0) { // TODO: Check 0 and possibly change to some negative constant
-                    rightArm.set(0);
-                } if (!lowerLimit.get()) {
-                    cargoState = CargoState.FREE;
+                rightArm.set(ZERO_SPEED);
+                if (upperLimit.get()) {
+                    rightArm.setSelectedSensorPosition(0);
+                    rightArm.set(ControlMode.Position, 0);
+                    setState(CargoState.UPPER_LIMIT);
                 }
                 break;
 
             case UPPER_LIMIT:
-                if (rightArm.getSelectedSensorVelocity() >= 0) { // TODO: Check 0 and possibly change to some positive constant
-                    rightArm.set(0);
-                } if (!upperLimit.get()) {
-                    cargoState = CargoState.FREE;
+                // if (rightArm.getSelectedSensorVelocity() >= 0) { // TODO: Check 0 and possibly change to some positive constant
+                //     rightArm.set(0);
+                // }
+                
+                // if (!upperLimit.get()) {
+                //     setState(CargoState.FREE);
+                // } else {
+                //     rightArm.setSelectedSensorPosition(0);
+                // }
+
+                if (requestedPosition < lastPosition) {
+                    setArmPosition(requestedPosition);
+                }
+
+                if (!upperLimit.get()) {
+                    setState(CargoState.FREE);
                 }
                 break;
 
-            case FREE:
-                if (lowerLimit.get()) {
-                    cargoState = CargoState.LOWER_LIMIT;
-                } else if (upperLimit.get()) {
-                    cargoState = CargoState.UPPER_LIMIT;
+            case LOWER_LIMIT:
+                // if (rightArm.getSelectedSensorVelocity() <= 0) { // TODO: Check 0 and possibly change to some negative constant
+                //     rightArm.set(0);
+                // }
+
+                // if (!lowerLimit.get()) {
+                //     setState(CargoState.FREE);
+                // }
+
+                if (requestedPosition > lastPosition) {
+                    setArmPosition(requestedPosition);
                 }
+
+                if (!lowerLimit.get()) {
+                    setState(CargoState.FREE);
+                }
+
                 break;
+
+            case FREE:
+                setArmPosition(requestedPosition);
+
+                if (upperLimit.get()) {
+                    setState(CargoState.UPPER_LIMIT);
+                    rightArm.set(ControlMode.Position, rightArm.getSelectedSensorPosition());
+                } else if (lowerLimit.get()) {
+                    setState(CargoState.LOWER_LIMIT);
+                    rightArm.set(ControlMode.Position, rightArm.getSelectedSensorPosition());
+                } 
+                break; 
         }
+    }
+
+    private void setState(CargoState state) {
+        if (cargoState != state) {
+            System.out.println(cargoState.toString() + " -> " + state.toString());
+        }
+        cargoState = state;
     }
 
     /**
@@ -189,21 +241,35 @@ public class Cargo extends Subsystem {
         intake.set(speed * SPIN_SCALAR);
     }
 
-    public void setArmPosition(int pos) {
-        if (cargoState != CargoState.NOT_ZEROED) {
-            rightArm.set(ControlMode.Position, pos);
+    public void requestArmPosition(int pos) {
+        if (requestedPosition != pos) {
+            requestedPosition = pos;
+            processedRequestedPosition = false;
         }
     }
 
-    private void zeroArmEncoder() {
-        // Rotate arm down maximum amount of encoder ticks possible TODO: Check MAX_ARM_POS works
-        rightArm.set(ControlMode.Position, -MAX_ARM_POS);
-        if (lowerLimit.get()) {
-            rightArm.setSelectedSensorPosition(0);
-            setArmPosition(0);
-            cargoState = CargoState.LOWER_LIMIT;
+    private void setArmPosition(int pos) { //TODO: remove parameter?
+        if (!processedRequestedPosition) {
+            rightArm.set(ControlMode.Position, pos);
+            processedRequestedPosition = true;
+            lastPosition = pos;
         }
     }
+
+    public void setNeutral(NeutralMode neutralMode) {
+        leftArm.setNeutralMode(neutralMode);
+        rightArm.setNeutralMode(neutralMode);
+    }
+
+    // private void zeroArmEncoder() {
+    //     // Rotate arm down maximum amount of encoder ticks possible TODO: Check MAX_ARM_POS works
+    //     rightArm.set(ControlMode.Position, -ZERO_TICK_AMOUNT);
+    //     if (lowerLimit.get()) {
+    //         rightArm.setSelectedSensorPosition(0);
+    //         setArmPosition(0);
+    //         cargoState = CargoState.LOWER_LIMIT;
+    //     }
+    // }
 
     public enum CargoState {
         NOT_ZEROED, LOWER_LIMIT, UPPER_LIMIT, FREE;

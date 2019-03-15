@@ -17,6 +17,6 @@ public class ArmToPosition extends InstantCommand {
 
     @Override
     protected void execute() {
-        Robot.cargo.setArmPosition(pos);
+        Robot.cargo.requestArmPosition(pos);
     }
 }
