@@ -29,15 +29,21 @@ public class XboxWrapper {
     // Length of controller rumble in seconds
     public static final double RUMBLE_TIME = 0.5;
 
+    // Length of controller rumble for warnings
+    public static final double WARNING_RUMBLE = 1.5;
+
     /* INSTANCE VARIABLES */
 
     // Instance xbox controller member
     private final XboxController xb;
 
-    /* TIMING HANDLERS */
+    /* RUMBLE HANDLERS */
 
     // Notifier to stop rumble after certain amount of time
     private final Notifier stopRumble = new Notifier(() -> rumble(0));
+
+    // Controller is rumbling
+    private boolean isRumbling = false;
 
     /* CONSTRUCTOR */
 
@@ -121,8 +127,10 @@ public class XboxWrapper {
      * @param seconds How long to rumble the controller for
      */
     public void rumbleFor(double seconds) {
-        rumble(RUMBLE_INTENSITY);
-        stopRumble.startSingle(seconds);
+        if (!isRumbling) {
+            rumble(RUMBLE_INTENSITY);
+            stopRumble.startSingle(seconds);
+        }
     }
 
     /**
@@ -133,6 +141,11 @@ public class XboxWrapper {
     private void rumble(double intensity) {
         xb.setRumble(RumbleType.kLeftRumble, intensity);
         xb.setRumble(RumbleType.kRightRumble, intensity);
+        isRumbling = intensity != 0;
+    }
+
+    public void stopRumble() {
+        rumble(0);
     }
 
     /* CONTROL ENUMERATION */

@@ -146,6 +146,10 @@ public class Limelight extends Subsystem {
         limelight.getEntry("pipeline").setNumber(pipeline);
     }
 
+    public void takeSnapshot() {
+        limelight.getEntry("snapshot").setNumber(1);
+    }
+
     /* LIMELIGHT DATA STATES ENUMERATION */
 
     /**

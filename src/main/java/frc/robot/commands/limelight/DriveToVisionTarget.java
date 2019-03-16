@@ -135,6 +135,7 @@ public class DriveToVisionTarget extends Command {
         Robot.drivetrain.drive(drive, turn);
         targetAreaEntry.setDouble(Robot.limelight.getTargetSize());
         targetOffsetEntry.setDouble(Robot.limelight.getHOffset());
+        // Robot.limelight.takeSnapshot();
     }
 
     @Override
