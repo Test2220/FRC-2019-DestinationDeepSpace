@@ -213,6 +213,7 @@ public class Cargo extends Subsystem {
 
             case FREE:
                 setArmPosition(requestedPosition);
+                Robot.oi.manipulator.stopRumble();
 
                 if (upperLimit.get()) {
                     setState(CargoState.UPPER_LIMIT);
