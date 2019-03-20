@@ -27,7 +27,6 @@ public class Cargo extends Subsystem {
 
     // Joystick value scalars
     private static final double SPIN_SCALAR = 1;
-    private static final double MOVE_SCALAR = 0.3;
 
     // Current limits
     private static final int ARM_MAX_AMPS = 2;
@@ -49,7 +48,7 @@ public class Cargo extends Subsystem {
     private static final int MAX_ACCEL = 350;
 
     // Zero arm speed
-    private final double ZERO_SPEED = 0.2;
+    private final double ZERO_SPEED = 0.3;
 
     /* INSTANCE VARIABLES */
 
@@ -80,13 +79,6 @@ public class Cargo extends Subsystem {
 
     private final NetworkTableEntry encoderEntry = ShuffleBoardConfig.diagnosticsTab.add("Arm Encoder", 0).getEntry();
     private final NetworkTableEntry stateEntry = ShuffleBoardConfig.cargoLayout.add("Cargo State", cargoState.toString()).getEntry();
-    private final NetworkTableEntry encoderVelocity = ShuffleBoardConfig.cargoLayout.add("Encoder Velocity", rightArm.getSelectedSensorVelocity()).getEntry();
-    // private final NetworkTableEntry pEntry =
-    // ShuffleBoardConfig.diagnosticsTab.add("P", P).getEntry();
-    // private final NetworkTableEntry iEntry =
-    // ShuffleBoardConfig.diagnosticsTab.add("I", 0).getEntry();
-    // private final NetworkTableEntry dEntry =
-    // ShuffleBoardConfig.diagnosticsTab.add("D", 0).getEntry();
 
     /* SUBSYSTEM CONSTRUCTOR */
 
@@ -96,14 +88,14 @@ public class Cargo extends Subsystem {
      */
     public Cargo() {
 
-        // Arm Talon inversions TODO: Check inversion on actual robot
+        // Arm Talon inversions
         leftArm.setInverted(false);
         rightArm.setInverted(false);
 
         // Don't invert intake Talon
         intake.setInverted(false);
 
-        // Set arm Talons to break when no power TODO: Set back to brake
+        // Set arm Talons to break when no power
         leftArm.setNeutralMode(NeutralMode.Brake);
         rightArm.setNeutralMode(NeutralMode.Brake);
 
@@ -146,20 +138,6 @@ public class Cargo extends Subsystem {
     public void periodic() {
         encoderEntry.setNumber(rightArm.getSelectedSensorPosition(0));
         stateEntry.setString(cargoState.toString());
-        encoderVelocity.setNumber(rightArm.getSelectedSensorVelocity());
-        // F = (rightArm.getSelectedSensorVelocity() < 0) ?
-        // -Math.cos((rightArm.getSelectedSensorPosition() / 7908) * (Math.PI / 2)) : 0;
-        // F = -Math.cos((rightArm.getSelectedSensorPosition() / 7908) * (Math.PI / 2));
-        // F = (rightArm.getSelectedSensorPosition() / 7908) * (Math.PI / 2);
-        // F = (rightArm.getSelectedSensorVelocity() >= 0) ? Math.cos(F) : Math.sin(F);
-        // P = pEntry.getDouble(P);
-        // I = iEntry.getDouble(I);
-        // D = dEntry.getDouble(D);
-
-        // rightArm.config_kP(0, P);
-        // rightArm.config_kI(0, I);
-        // rightArm.config_kD(0, D);
-        // rightArm.config_kF(0, F);
 
         // State machine
         switch (cargoState) {
@@ -167,24 +145,15 @@ public class Cargo extends Subsystem {
                 rightArm.set(ZERO_SPEED);
                 if (upperLimit.get()) {
                     rightArm.setSelectedSensorPosition(0);
-                    rightArm.set(ControlMode.Position, 0);
+                    rightArm.set(ControlMode.Position, -50);
+                    rightArm.setSelectedSensorPosition(0);
                     setState(CargoState.UPPER_LIMIT);
                 }
                 break;
 
             case UPPER_LIMIT:
-                // if (rightArm.getSelectedSensorVelocity() >= 0) { // TODO: Check 0 and possibly change to some positive constant
-                //     rightArm.set(0);
-                // }
-                
-                // if (!upperLimit.get()) {
-                //     setState(CargoState.FREE);
-                // } else {
-                //     rightArm.setSelectedSensorPosition(0);
-                // }
-
                 if (requestedPosition < lastPosition) {
-                    setArmPosition(requestedPosition);
+                    setArmPosition();
                 }
 
                 if (!upperLimit.get()) {
@@ -193,16 +162,8 @@ public class Cargo extends Subsystem {
                 break;
 
             case LOWER_LIMIT:
-                // if (rightArm.getSelectedSensorVelocity() <= 0) { // TODO: Check 0 and possibly change to some negative constant
-                //     rightArm.set(0);
-                // }
-
-                // if (!lowerLimit.get()) {
-                //     setState(CargoState.FREE);
-                // }
-
                 if (requestedPosition > lastPosition) {
-                    setArmPosition(requestedPosition);
+                    setArmPosition();
                 }
 
                 if (!lowerLimit.get()) {
@@ -212,7 +173,7 @@ public class Cargo extends Subsystem {
                 break;
 
             case FREE:
-                setArmPosition(requestedPosition);
+                setArmPosition();
                 Robot.oi.manipulator.stopRumble();
 
                 if (upperLimit.get()) {
@@ -259,11 +220,11 @@ public class Cargo extends Subsystem {
         }
     }
 
-    private void setArmPosition(int pos) { //TODO: remove parameter?
+    private void setArmPosition() { //TODO: remove parameter?
         if (!processedRequestedPosition) {
-            rightArm.set(ControlMode.Position, pos);
+            rightArm.set(ControlMode.Position, requestedPosition);
+            lastPosition = requestedPosition;
             processedRequestedPosition = true;
-            lastPosition = pos;
         }
     }
 

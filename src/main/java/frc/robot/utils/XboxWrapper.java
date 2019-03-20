@@ -146,6 +146,7 @@ public class XboxWrapper {
 
     public void stopRumble() {
         rumble(0);
+        stopRumble.stop();
     }
 
     /* CONTROL ENUMERATION */
