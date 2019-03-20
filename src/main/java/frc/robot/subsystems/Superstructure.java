@@ -26,10 +26,10 @@ public class Superstructure extends Subsystem {
     
       
     private static final NetworkTableEntry hasEverBrownedOutEntry = ShuffleBoardConfig.driverTab
-            .add("has browned out", false).withSize(1, 1).withPosition(8, 0).withWidget(BuiltInWidgets.kBooleanBox)
+            .add("has browned out", false).withSize(2, 2).withPosition(14, 0).withWidget(BuiltInWidgets.kBooleanBox)
             .withProperties(Map.of("Color when true", "#FF0000","Color when false", "#00FF00")).getEntry();
     private static final NetworkTableEntry secondsSinceLastBrownOutEntry = ShuffleBoardConfig.driverTab
-            .add("brown out time", -1).withSize(1, 1).withPosition(8, 1).getEntry();
+            .add("brown out time", -1).withSize(2, 2).withPosition(14, 2).getEntry();
 
     public Superstructure() {
 
@@ -44,14 +44,13 @@ public class Superstructure extends Subsystem {
         camera.setResolution(320, 240);
         server.getProperty("fps").set(22);
         camera.setFPS(22);
-        ShuffleBoardConfig.driverTab.add(camera).withSize(4, 4).withPosition(0, 0);
-
+        ShuffleBoardConfig.driverTab.add(camera).withSize(7, 7).withPosition(0, 0);
         HttpCamera httpCamera = new HttpCamera("LimeLightCamera", "http://10.22.20.68:5800");
         httpCamera.setFPS(30);
         httpCamera.setResolution(320, 240);
         httpCamera.setPixelFormat(PixelFormat.kMJPEG);
         CameraServer.getInstance().addCamera(httpCamera);
-        ShuffleBoardConfig.driverTab.add(httpCamera).withSize(4, 4).withPosition(4, 0);
+        ShuffleBoardConfig.driverTab.add(httpCamera).withSize(7, 7).withPosition(7, 0);
 
         ShuffleBoardConfig.diagnosticsTab.add("PDP", pdp);
         
