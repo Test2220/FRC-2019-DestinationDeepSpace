@@ -42,7 +42,6 @@ public class DriveWithXbox extends Command {
         double turn = Robot.oi.driver.getX(Hand.kRight);
 
         if (Robot.oi.driver.getTriggerAxis(Hand.kLeft) >= 0.25) {
-            power *= 0.5;
             turn *= 0.5;
         }
         
