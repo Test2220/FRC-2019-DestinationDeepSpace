@@ -16,22 +16,17 @@ import frc.robot.utils.BrownOutMonitor;
 
 public class Superstructure extends Subsystem {
 
-    /**
-     *
-     */
-
     private BrownOutMonitor brownOutMonitor = new BrownOutMonitor();
 
     PowerDistributionPanel pdp = new PowerDistributionPanel();
 
-    private static final NetworkTableEntry hasEverBrownedOutEntry = ShuffleBoardConfig.driverTab
-            .add("has browned out", false).withSize(1, 1).withPosition(8, 0).withWidget(BuiltInWidgets.kBooleanBox)
-            .withProperties(Map.of("Color when true", "#FF0000", "Color when false", "#00FF00")).getEntry();
+    //private static final NetworkTableEntry hasEverBrownedOutEntry = ShuffleBoardConfig.driverTab
+            //.add("has browned out", false).withSize(1, 1).withPosition(8, 0).withWidget(BuiltInWidgets.kBooleanBox)
+            //.withProperties(Map.of("Color when true", "#FF0000", "Color when false", "#00FF00")).getEntry();
     private static final NetworkTableEntry secondsSinceLastBrownOutEntry = ShuffleBoardConfig.driverTab
             .add("brown out time", -1).withSize(1, 1).withPosition(8, 1).getEntry();
 
     public Superstructure() {
-
         MjpegServer server = CameraServer.getInstance().addServer("USB server 0");
         UsbCamera camera = new UsbCamera("USB Camera 0", 0);
         CameraServer.getInstance().addCamera(camera);
@@ -53,20 +48,16 @@ public class Superstructure extends Subsystem {
         ShuffleBoardConfig.driverTab.add(httpCamera).withSize(4, 4).withPosition(4, 0);
 
         ShuffleBoardConfig.diagnosticsTab.add("PDP", pdp);
-
     }
 
     @Override
     public void periodic() {
         brownOutMonitor.update();
-        hasEverBrownedOutEntry.setBoolean(brownOutMonitor.hasEverBrownedOut());
+        //hasEverBrownedOutEntry.setBoolean(brownOutMonitor.hasEverBrownedOut());
         secondsSinceLastBrownOutEntry.setDouble(brownOutMonitor.getSecondsSinceLastBrownOut());
-
     }
 
     @Override
     protected void initDefaultCommand() {
-
     }
-
 }
