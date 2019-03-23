@@ -24,6 +24,7 @@ public class Robot extends TimedRobot {
   public static Shield shield;
   public static Cargo cargo;
   public static Superstructure superstructure;
+  public static Leds leds;
   public static OI oi;
 
   /**
@@ -38,6 +39,7 @@ public class Robot extends TimedRobot {
     shield = new Shield();
     cargo = new Cargo();
     superstructure = new Superstructure();
+    leds = new Leds();
     oi = new OI();
   }
 
@@ -65,6 +67,8 @@ public class Robot extends TimedRobot {
     ShuffleBoardConfig.updateMatchDetails();
     Robot.limelight.setCameraMode(Limelight.CameraMode.DRIVER_CAMERA);
     Robot.limelight.setLEDMode(Limelight.LEDMode.OFF);
+
+    leds.test();
   }
 
   /**

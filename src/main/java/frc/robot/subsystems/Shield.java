@@ -36,10 +36,13 @@ public class Shield extends Subsystem {
      * Subsystem constructor, no parameters or configuration necessary.
      */
     public Shield() {
-        ShuffleBoardConfig.shieldLayout.add("Pusher", pusher);
-        ShuffleBoardConfig.shieldLayout.add("Grabber", grabber);
-        ShuffleBoardConfig.shieldLayout.add("Left Switch", leftSwitch);
-        ShuffleBoardConfig.shieldLayout.add("Right Switch", rightSwitch);
+        ShuffleBoardConfig.shield.add("Pusher", pusher).withSize(2, 1).withPosition(2,0);
+        ShuffleBoardConfig.shield.add("Grabber", grabber).withSize(2, 1).withPosition(4, 0);
+        ShuffleBoardConfig.shield.add("Left Switch", leftSwitch).withSize(2, 1).withPosition(6, 0);
+        ShuffleBoardConfig.shield.add("Right Switch", rightSwitch).withSize(2, 1).withPosition(0, 1);
+
+        ShuffleBoardConfig.shield.add(this);
+
     }
 
     /* CONTROL METHODS */

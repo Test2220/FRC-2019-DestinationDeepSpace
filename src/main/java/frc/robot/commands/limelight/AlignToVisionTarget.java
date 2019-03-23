@@ -3,6 +3,7 @@ package frc.robot.commands.limelight;
 import edu.wpi.first.wpilibj.command.PIDCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
+import frc.robot.ShuffleBoardConfig;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 
 /**
@@ -28,7 +29,7 @@ public class AlignToVisionTarget extends PIDCommand {
         requires(Robot.limelight);
         requires(Robot.drivetrain);
 
-        SmartDashboard.putData("Correct Position PID Controller", super.getPIDController());
+        ShuffleBoardConfig.pidTuningTab.add("Correct Position PID Controller", super.getPIDController()).withSize(2, 2).withPosition(6, 0);
     }
 
     /* INSTANCE METHODS */
