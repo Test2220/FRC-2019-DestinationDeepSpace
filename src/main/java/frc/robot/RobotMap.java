@@ -20,9 +20,9 @@ public class RobotMap {
   public static final int RIGHT_ARM_MASTER = 13;    // On the external CAN Bus -- has encoders
   public static final int INTAKE = 5;
 
-  // Limit switch IDs
-  public static final int UPPER_CARGO_LIMIT = 2;
-  public static final int LOWER_CARGO_LIMIT = 3;
+  /* CARGO ARM SWITCH DIGITAL INPUT IDS */
+  public static final int CARGO_ARM_UPPER_LIMIT_SWITCH = 2;
+  public static final int CARGO_ARM_LOWER_LIMIT_SWITCH = 3;
 
   /* SHIELD SUBSYSTEM IDS */
 
@@ -32,9 +32,9 @@ public class RobotMap {
   public static final int GRABBER_FORWARD = 4;
   public static final int GRABBER_REVERSE = 5;
 
-  /* LIMIT SWITCH DIGITAL INPUT IDS */
-  public static final int LEFT_SWITCH = 0;
-  public static final int RIGHT_SWITCH = 1;
+  /* SHIELD LIMIT SWITCH DIGITAL INPUT IDS */
+  public static final int SHIELD_LEFT_SWITCH = 0;
+  public static final int SHIELD_RIGHT_SWITCH = 1;
 
   /* DRIVETRAIN SUBSYSTEM IDS -- TALON SRX CAN IDS */
   public static final int LEFT_MASTER = 11;       // On the external CAN Bus -- has encoders
