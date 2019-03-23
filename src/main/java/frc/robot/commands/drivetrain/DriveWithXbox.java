@@ -15,9 +15,8 @@ public class DriveWithXbox extends Command {
 
     /* CONSTANTS */
 
-    // Power to raise driving and turning to (handles all powers)
-    private static final double EXP_DRIVE_POWER = 1.4; // TODO -> Choose final value for driving and turning exp power
-    private static final double EXP_TURN_POWER = 1.6;
+    // Turning multiplier
+    private static final double TURN_MULTIPLIER = 0.9;
 
     /* COMMAND CONSTRUCTOR */
 
@@ -39,19 +38,17 @@ public class DriveWithXbox extends Command {
     protected void execute() {
         // Grab joystick values used for curvature drive calculation
         double power = -Robot.oi.driver.getY(Hand.kLeft);
-        double turn = Robot.oi.driver.getX(Hand.kRight);
+        double turn = Robot.oi.driver.getX(Hand.kRight) * TURN_MULTIPLIER;
 
-        if (Robot.oi.driver.getTriggerAxis(Hand.kLeft) >= 0.25) {
+        //Slow mode for turning only
+        if (Robot.oi.driver.getControllerObject().getTriggerAxis(Hand.kLeft) >= 0.25) {
             turn *= 0.5;
         }
         
-        if (Robot.oi.driver.getTriggerAxis(Hand.kRight) >= 0.25) {
+        //reverse mode
+        if (Robot.oi.driver.getControllerObject().getTriggerAxis(Hand.kRight) >= 0.25) {
             power *= -1;
         }
-
-        // Exponential driving and turning calculations
-        power = Math.pow(Math.abs(power), EXP_DRIVE_POWER) * Math.signum(power);
-        turn = Math.pow(Math.abs(turn), EXP_TURN_POWER) * Math.signum(turn);
 
         // Run curvature drive off of drivetrain subsystem
         Robot.drivetrain.drive(power, turn);

@@ -1,12 +1,16 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commands.*;
+import frc.robot.commands.TurnToAngle;
+import frc.robot.commands.cargo.ArmToPosition;
+import frc.robot.commands.cargo.ReZeroArm;
 import frc.robot.commands.limelight.*;
 import frc.robot.commands.shield.*;
+import frc.robot.subsystems.Cargo;
 import frc.robot.subsystems.Shield.GrabberState;
+import frc.robot.utils.XboxWrapper;
+import frc.robot.utils.XboxWrapper.Button;
+import frc.robot.utils.XboxWrapper.Dpad;
 
 /**
  * Stands for Operator Interface, this class is where code relating the gamepad
@@ -17,36 +21,43 @@ import frc.robot.subsystems.Shield.GrabberState;
 public class OI {
 
   // Xbox controllers
-  public final XboxController driver = new XboxController(RobotMap.DRIVER_CONTROLLER);
-  public final XboxController manipulator = new XboxController(RobotMap.MANIPULATOR_CONTROLLER);
-
-  // Joystick buttons
-  private final JoystickButton aButtonManipulator = new JoystickButton(manipulator, 1);
-  private final JoystickButton bButtonManipulator = new JoystickButton(manipulator, 2);
-  private final JoystickButton xButtonManipulator = new JoystickButton(manipulator, 3);
-  private final JoystickButton yButtonManipulator = new JoystickButton(manipulator, 4);
-  private final JoystickButton aButtonDriver = new JoystickButton(driver, 1);
-  private final JoystickButton bButtonDriver = new JoystickButton(driver, 2);
+  public final XboxWrapper driver = new XboxWrapper(RobotMap.DRIVER_CONTROLLER);
+  public final XboxWrapper manipulator = new XboxWrapper(RobotMap.MANIPULATOR_CONTROLLER);
 
   /**
-   * Static constructor that initializes the function of each button. TODO -> COMMENTS!
+   * OI constructor that maps functions to controller buttons
    */
   public OI() {
-    //manipulator controls
-    aButtonManipulator.whenPressed(new SetShieldPusher(Value.kForward));
-    bButtonManipulator.whenPressed(new SetShieldPusher(Value.kReverse));
-    xButtonManipulator.whenPressed(new SetShieldGrabber(GrabberState.GRABBED));
-    yButtonManipulator.whenPressed(new SetShieldGrabber(GrabberState.RELEASED));
 
-    //driver controls
-    aButtonDriver.whileHeld(new AlignToVisionTarget());
-    bButtonDriver.whileHeld(new DriveToLoadingStation());
+    /* DRIVER CONTROLS */
+
+    // Limelight automation
+    driver.getButton(Button.A).whileHeld(new AlignToVisionTarget());
+    driver.getButton(Button.B).whileHeld(new DriveToLoadingStation());
+
+    // Turning to angles
+    driver.getButton(Button.RIGHT_BUMPER).whenPressed(new TurnToAngle(180));
+
+    /* MANIPULATOR CONROLS */
+    
+    // SHIELD pusher piston controls
+    manipulator.getButton(Button.A).whenPressed(new SetShieldPusher(Value.kForward));
+    manipulator.getButton(Button.A).whenReleased(new SetShieldPusher(Value.kReverse));
+
+    // SHIELD grabber piston controls
+    manipulator.getButton(Button.X).whenPressed(new SetShieldGrabber(GrabberState.GRABBED));
+    manipulator.getButton(Button.Y).whenPressed(new SetShieldGrabber(GrabberState.RELEASED));
+
+    // Cargo arm preset positions
+    manipulator.getDpad(Dpad.DOWN).whenPressed(new ArmToPosition(Cargo.ARM_FLOOR));
+    manipulator.getDpad(Dpad.RIGHT).whenPressed(new ArmToPosition(Cargo.ARM_ROCKET));
+    manipulator.getDpad(Dpad.UP).whenPressed(new ArmToPosition(Cargo.ARM_CARGOSHIP));
+    manipulator.getDpad(Dpad.LEFT).whenPressed(new ArmToPosition(Cargo.ARM_UP));
+
+    // Rezero cargo arm
+    manipulator.getButton(Button.START).whenPressed(new ReZeroArm());
+
+    // Take limelight snapshot
+    manipulator.getButton(Button.LEFT_BUMPER).whenPressed(new TakeSnapshot());
   }
-
-  /*
-   * Xbox controller button map:
-   * 
-   * kBumperLeft(5), kBumperRight(6), kStickLeft(9), kStickRight(10), kA(1),
-   * kB(2), kX(3), kY(4), kBack(7), kStart(8);
-   */
 }

@@ -1,12 +1,13 @@
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.Shield;
 import frc.robot.subsystems.Cargo;
 import frc.robot.subsystems.Drivetrain;
-import edu.wpi.first.cameraserver.CameraServer;
 
 /**
  * Main robot class, root of the whole robot and calls all subsystems and
@@ -22,6 +23,7 @@ public class Robot extends TimedRobot {
   public static NavX navX;
   public static Shield shield;
   public static Cargo cargo;
+  public static Superstructure superstructure;
   public static OI oi;
 
   /**
@@ -29,20 +31,14 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    // m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
-    // chooser.addOption("My Auto", new MyAutoCommand());
-    // SmartDashboard.putData("Auto mode", m_chooser);
-
     // Initialize subsystem members
     limelight = new Limelight();
-    navX = new NavX();
     drivetrain = new Drivetrain();
+    navX = new NavX();
     shield = new Shield();
     cargo = new Cargo();
+    superstructure = new Superstructure();
     oi = new OI();
-
-    // Start USB camera recording
-    CameraServer.getInstance().startAutomaticCapture();
   }
 
   /**
@@ -50,7 +46,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    ShuffleBoardConfig.updateMatchDetails();
   }
 
   /**
@@ -58,7 +53,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
-
+    cargo.setNeutral(NeutralMode.Coast);
   }
 
   /**
@@ -67,6 +62,9 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledPeriodic() {
     Scheduler.getInstance().run();
+    ShuffleBoardConfig.updateMatchDetails();
+    Robot.limelight.setCameraMode(Limelight.CameraMode.DRIVER_CAMERA);
+    Robot.limelight.setLEDMode(Limelight.LEDMode.OFF);
   }
 
   /**
@@ -74,10 +72,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+    shield.grabHP();
+    cargo.setNeutral(NeutralMode.Brake);
   }
 
   /**
-   * Loops during autonomous.
+   * ep Loops during autonomous.
    */
   @Override
   public void autonomousPeriodic() {
@@ -89,7 +89,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopInit() {
-
+    cargo.setNeutral(NeutralMode.Brake);
   }
 
   /**

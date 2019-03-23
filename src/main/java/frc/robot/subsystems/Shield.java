@@ -1,13 +1,14 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.ShuffleBoardConfig;
 import frc.robot.utils.LimitSwitch;
+import frc.robot.utils.XboxWrapper;
 
 /**
  * Hatch panel manipulator subsystem built on basis of SHIELD manipulator
@@ -67,16 +68,19 @@ public class Shield extends Subsystem {
      * @param direction The state to actuate the grabber piston to
      */
     public void setGrabber(GrabberState state) {
+        if (grabber.get() != state.val) {
+            Robot.oi.driver.rumbleFor(XboxWrapper.RUMBLE_TIME);
+        }
         grabber.set(state.val);
     }
 
     public void grabHP() {
-        grabber.set(GrabberState.GRABBED.val);
+        setGrabber(GrabberState.GRABBED);
         shieldState = ShieldState.GRABBED;
     }
 
     public void releaseHP() {
-        grabber.set(GrabberState.RELEASED.val);
+        setGrabber(GrabberState.RELEASED);
         shieldState = ShieldState.RELEASE_PENDING;
     }
 
@@ -133,7 +137,7 @@ public class Shield extends Subsystem {
     }
 
     /**
-     * Enumeration of the possible states of the shield's central.
+     * Enumeration of the possible states of the shield's central plunger.
      */
     public enum GrabberState {
         GRABBED(Value.kForward), RELEASED(Value.kReverse);
