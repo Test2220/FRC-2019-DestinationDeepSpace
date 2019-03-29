@@ -47,4 +47,8 @@ public class RobotMap {
 
   /* LIMELIGHT SUBSYSTEM IDS */
   public static final String LIMELIGHT_TABLE_NAME = "limelight";
+
+  /* LIMELIGHT VISION PIPELINE IDs */
+  public static final int CARGO_SHIP_PIPELINE = 0;
+  public static final int LOADING_STATION_AND_ROCKET_PIPELINE = 1;
 }

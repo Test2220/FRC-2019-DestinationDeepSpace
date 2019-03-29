@@ -68,7 +68,7 @@ public class Robot extends TimedRobot {
     Robot.limelight.setCameraMode(Limelight.CameraMode.DRIVER_CAMERA);
     Robot.limelight.setLEDMode(Limelight.LEDMode.OFF);
 
-    leds.test();
+    // leds.test();
   }
 
   /**
