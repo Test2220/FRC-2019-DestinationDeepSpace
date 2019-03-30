@@ -33,9 +33,9 @@ public class Cargo extends Subsystem {
     private static final int INTAKE_MAX_AMPS = 10;
 
     // Arm position constants
-    private static final int MAX_ARM_POS = 7908;
+    private static final int MAX_ARM_POS = 8150; //7908;
     public static int armFloor = -(MAX_ARM_POS);
-    public static final int ARM_ROCKET = -(MAX_ARM_POS - 3600);
+    public static final int ARM_ROCKET = -4466; //(MAX_ARM_POS - 3600);
     public static final int ARM_CARGOSHIP = -(MAX_ARM_POS - 6000);
     public static final int ARM_UP = -(MAX_ARM_POS - 7800);
 
