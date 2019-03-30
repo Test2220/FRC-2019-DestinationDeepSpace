@@ -154,11 +154,6 @@ public class XboxWrapper {
         isRumbling = intensity != 0;
     }
 
-    public void stopRumble() {
-        rumble(0);
-        stopRumble.stop();
-    }
-
     /* CONTROL ENUMERATION */
 
     /**

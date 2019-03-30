@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.ShuffleBoardConfig;
-import frc.robot.commands.cargo.ManipulateCargo;
+import frc.robot.commands.cargo.SuckySuckCargo;
 import frc.robot.utils.LimitSwitch;
 import frc.robot.utils.XboxWrapper;;
 
@@ -295,6 +295,6 @@ public class Cargo extends Subsystem {
      */
     @Override
     protected void initDefaultCommand() {
-        setDefaultCommand(new ManipulateCargo());
+        setDefaultCommand(new SuckySuckCargo());
     }
 }
