@@ -52,7 +52,10 @@ public class Cargo extends Subsystem {
     private final double DOWN_SPEED = -0.15;
 
     // Holding PID change maximum change in position TODO: Check values in shuffleboard to properly tune
-    private final double MAX_HOLD_ERROR_CHANGE = 10; 
+    private final double MAX_HOLD_ERROR_CHANGE = 0.1;
+
+    // Maximum error derivative in arm PID loop
+    double maxErrorDerivative = 0;
 
     /* INSTANCE VARIABLES */
 
@@ -73,6 +76,9 @@ public class Cargo extends Subsystem {
     private CargoDesiredState desiredState = CargoDesiredState.UPPER_LIMIT;
     private CargoSystemState systemState = CargoSystemState.NOT_ZEROED;
 
+    /* SHUFFLEBOARD ENTRIES */
+
+    // Shuffleboard diagnostic values
     private final NetworkTableEntry encoderEntry = ShuffleBoardConfig.cargo.add("Arm Encoder", 0).getEntry();
     private final NetworkTableEntry desiredStateEntry = ShuffleBoardConfig.cargo.add("Cargo Desired State", desiredState.toString()).getEntry();
     private final NetworkTableEntry systemStateEntry = ShuffleBoardConfig.cargo.add("Cargo System State", systemState.toString()).getEntry();
@@ -85,7 +91,6 @@ public class Cargo extends Subsystem {
      * subsystem as described by comments below.
      */
     public Cargo() {
-
         // Arm Talon inversions
         leftArm.setInverted(false);
         rightArm.setInverted(false);
@@ -134,8 +139,6 @@ public class Cargo extends Subsystem {
 
     /* CONTROL METHODS */
 
-    double maxErrorDerivative = 0;
-
     @Override
     public void periodic() {
         encoderEntry.setNumber(rightArm.getSelectedSensorPosition(0));
@@ -146,9 +149,9 @@ public class Cargo extends Subsystem {
         if (errorDerivative > maxErrorDerivative) {
             maxErrorDerivative = errorDerivative;
         }
-        errorDerivativeEntry.setNumber(errorDerivative);
+        errorDerivativeEntry.setDouble(errorDerivative);
 
-        switch(systemState) {
+        switch (systemState) {
             case UP_PID:
                 if (upperLimit.get()) {
                     transitionSystemState(CargoSystemState.UP_LIMIT);
@@ -205,7 +208,7 @@ public class Cargo extends Subsystem {
 
     private void transitionSystemState(CargoSystemState state) {
         if (state == systemState) return;
-        switch(state) {
+        switch (state) {
             case UP_PID:
                 maxErrorDerivative = 0;
                 rightArm.set(ControlMode.Position, ARM_UP);
@@ -242,7 +245,7 @@ public class Cargo extends Subsystem {
 
     public void setArmState(CargoDesiredState state) {
         if (state == desiredState || systemState == CargoSystemState.NOT_ZEROED) return;
-        switch(state) {
+        switch (state) {
             case UPPER_LIMIT: 
                 transitionSystemState(CargoSystemState.UP_PID);
                 break;
@@ -284,7 +287,7 @@ public class Cargo extends Subsystem {
         UPPER_LIMIT, CARGO_SHIP, ROCKET, LOWER_LIMIT;
     }
 
-    public enum CargoSystemState {
+    private enum CargoSystemState {
         NOT_ZEROED, ROCKET_PID, CARGO_SHIP_PID, UP_PID, DOWN_PID, UP_PO, DOWN_PO, UP_LIMIT, DOWN_LIMIT;
     }
 
