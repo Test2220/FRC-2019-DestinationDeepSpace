@@ -31,7 +31,7 @@ public class AlignToVisionTarget extends PIDCommand {
 
         Robot.limelight.setPipeline(pipeline);
 
-        ShuffleBoardConfig.pidTuningTab.add("Correct Position PID Controller", super.getPIDController()).withSize(2, 2).withPosition(6, 0);
+        ShuffleBoardConfig.pidTuningTab.add("Correct Position PID Controller" + pipeline, super.getPIDController()).withSize(2, 2).withPosition(6, 0);
     }
 
     /* INSTANCE METHODS */
