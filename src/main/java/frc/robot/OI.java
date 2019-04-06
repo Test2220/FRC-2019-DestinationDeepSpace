@@ -32,8 +32,9 @@ public class OI {
     /* DRIVER CONTROLS */
 
     // Limelight automation
-    driver.getButton(Button.A).whileHeld(new AlignToVisionTarget());
-    driver.getButton(Button.B).whileHeld(new DriveToLoadingStation());
+    driver.getButton(Button.A).whileHeld(new AlignToVisionTarget(RobotMap.LOADING_STATION_AND_ROCKET_PIPELINE));
+    // driver.getButton(Button.B).whileHeld(new DriveToLoadingStation());
+    driver.getButton(Button.B).whileHeld(new AlignToVisionTarget(RobotMap.CARGO_SHIP_PIPELINE));
 
     // Turning to angles
     driver.getButton(Button.RIGHT_BUMPER).whenPressed(new TurnToAngle(180));

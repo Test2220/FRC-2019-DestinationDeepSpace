@@ -77,8 +77,8 @@ public class Cargo extends Subsystem {
     // Last position
     private int lastPosition = 0;
 
-    private final NetworkTableEntry encoderEntry = ShuffleBoardConfig.diagnosticsTab.add("Arm Encoder", 0).getEntry();
-    private final NetworkTableEntry stateEntry = ShuffleBoardConfig.cargoLayout.add("Cargo State", cargoState.toString()).getEntry();
+    private final NetworkTableEntry encoderEntry = ShuffleBoardConfig.cargo.add("Arm Encoder", 0).getEntry();
+    private final NetworkTableEntry stateEntry = ShuffleBoardConfig.cargo.add("Cargo State", cargoState.toString()).getEntry();
 
     /* SUBSYSTEM CONSTRUCTOR */
 
@@ -109,11 +109,11 @@ public class Cargo extends Subsystem {
         rightArm.setSelectedSensorPosition(0, 0, 0);
         rightArm.setSensorPhase(true);
 
-        ShuffleBoardConfig.cargoLayout.add("Arm", rightArm);
-        ShuffleBoardConfig.cargoLayout.add("Intake", intake);
+        ShuffleBoardConfig.cargo.add("Arm", rightArm);
+        ShuffleBoardConfig.cargo.add("Intake", intake);
 
-        ShuffleBoardConfig.cargoLayout.add("Upper Limit", upperLimit);
-        ShuffleBoardConfig.cargoLayout.add("Lower Limit", lowerLimit);
+        ShuffleBoardConfig.cargo.add("Upper Limit", upperLimit).withSize(2, 1).withPosition(1, 0);
+        ShuffleBoardConfig.cargo.add("Lower Limit", lowerLimit).withSize(2, 1).withPosition(3, 0);
 
         leftArm.enableCurrentLimit(true);
         rightArm.enableCurrentLimit(true);
@@ -130,6 +130,9 @@ public class Cargo extends Subsystem {
 
         rightArm.configMotionAcceleration(MAX_ACCEL);
         rightArm.configMotionCruiseVelocity(MAX_VEL);
+
+        ShuffleBoardConfig.cargo.add(this).withPosition(4, 1);
+
     }
 
     /* CONTROL METHODS */

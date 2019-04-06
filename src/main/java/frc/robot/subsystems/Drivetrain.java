@@ -29,9 +29,9 @@ public class Drivetrain extends Subsystem {
     // Drivetrain controller member
     private DifferentialDrive drive;
 
-    private final NetworkTableEntry leftEncoderEntry = ShuffleBoardConfig.diagnosticsTab.add("Left Encoder", 0)
+    private final NetworkTableEntry leftEncoderEntry = ShuffleBoardConfig.driveTrain.add("Left Encoder", 0)
             .getEntry();
-    private final NetworkTableEntry rightEncoderEntry = ShuffleBoardConfig.diagnosticsTab.add("Right Encoder", 0)
+    private final NetworkTableEntry rightEncoderEntry = ShuffleBoardConfig.driveTrain.add("Right Encoder", 0)
             .getEntry();
 
     /*
@@ -56,8 +56,8 @@ public class Drivetrain extends Subsystem {
         // Initialize drivetrain controller member (our robot uses differential drive)
         drive = new DifferentialDrive(leftMaster, rightMaster);
 
-        ShuffleBoardConfig.driveTrainLayout.add(drive);
-        ShuffleBoardConfig.driveTrainLayout.add(this);
+        ShuffleBoardConfig.driveTrain.add(drive);
+        ShuffleBoardConfig.driveTrain.add(this);
     }
 
     public void periodic() {

@@ -11,7 +11,7 @@ import frc.robot.subsystems.Shield.GrabberState;
 public class PutHatchPanelAuto extends CommandGroup {
 
     public PutHatchPanelAuto() {
-        addSequential(new AlignToVisionTarget());
+        // addSequential(new AlignToVisionTarget());
         addSequential(new SetShieldPusher(Value.kForward));
         addSequential(new SetShieldGrabber(GrabberState.RELEASED));
         addSequential(new MoveBack(2));

@@ -2,26 +2,19 @@ package frc.robot;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 public class ShuffleBoardConfig {
-        public static final ShuffleboardTab subsystemsTab = Shuffleboard.getTab("subsystems");
         public static final ShuffleboardTab driverTab = Shuffleboard.getTab("Driver");
         public static final ShuffleboardTab diagnosticsTab = Shuffleboard.getTab("Diagnostics Tab");
         public static final ShuffleboardTab pidTuningTab = Shuffleboard.getTab("PID Tuning");
         public static final ShuffleboardTab matchDetailsTab = Shuffleboard.getTab("MatchDetails");
+        public static final ShuffleboardTab driveTrain = Shuffleboard.getTab("Drive Train");
+        public static final ShuffleboardTab shield = Shuffleboard.getTab("Shield Tab");
+        public static final ShuffleboardTab cargo = Shuffleboard.getTab("Cargo Tab");
 
-        public static final ShuffleboardLayout driveTrainLayout = subsystemsTab
-                        .getLayout("Drive Train", BuiltInLayouts.kList).withSize(3, 4).withPosition(0, 0);
-        public static final ShuffleboardLayout shieldLayout = ShuffleBoardConfig.subsystemsTab
-                        .getLayout("Shield", BuiltInLayouts.kList).withSize(3, 4).withPosition(3, 0);
-        public static final ShuffleboardLayout cargoLayout = ShuffleBoardConfig.subsystemsTab
-                        .getLayout("Cargo", BuiltInLayouts.kList).withSize(3, 4).withPosition(6, 0);
-
-        public static final NetworkTableEntry armUpPos = diagnosticsTab.add("Raised Encoder Position", 0).getEntry();
+        public static final NetworkTableEntry armUpPos = cargo.add("Raised Encoder Position", 0).withSize(2, 1).withPosition(2, 1).getEntry();
 
         private static final NetworkTableEntry allianceEntry = matchDetailsTab.add("Alliance", "").getEntry();
         private static final NetworkTableEntry eventNameEntry = matchDetailsTab.add("Event name", "").getEntry();
