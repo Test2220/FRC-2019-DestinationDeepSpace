@@ -11,7 +11,7 @@ import frc.robot.Robot;
  * 
  * @author Muaad
  */
-public class ManipulateCargo extends Command {
+public class SuckySuckCargo extends Command {
 
     /* CONSTANTS */
 
@@ -24,7 +24,7 @@ public class ManipulateCargo extends Command {
      * Manipulate cargo command constructor passes cargo subsystem to super
      * constructor. (requires cargo subsystem)
      */
-    public ManipulateCargo() {
+    public SuckySuckCargo() {
         super(Robot.cargo);
     }
 

@@ -2,11 +2,11 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import frc.robot.commands.TurnToAngle;
-import frc.robot.commands.cargo.ArmToPosition;
+import frc.robot.commands.cargo.ControlArm;
 import frc.robot.commands.cargo.ReZeroArm;
 import frc.robot.commands.limelight.*;
 import frc.robot.commands.shield.*;
-import frc.robot.subsystems.Cargo;
+import frc.robot.subsystems.Cargo.CargoDesiredState;
 import frc.robot.subsystems.Shield.GrabberState;
 import frc.robot.utils.XboxWrapper;
 import frc.robot.utils.XboxWrapper.Button;
@@ -50,10 +50,10 @@ public class OI {
     manipulator.getButton(Button.Y).whenPressed(new SetShieldGrabber(GrabberState.RELEASED));
 
     // Cargo arm preset positions
-    manipulator.getDpad(Dpad.DOWN).whenPressed(new ArmToPosition(Cargo.ARM_FLOOR));
-    manipulator.getDpad(Dpad.RIGHT).whenPressed(new ArmToPosition(Cargo.ARM_ROCKET));
-    manipulator.getDpad(Dpad.UP).whenPressed(new ArmToPosition(Cargo.ARM_CARGOSHIP));
-    manipulator.getDpad(Dpad.LEFT).whenPressed(new ArmToPosition(Cargo.ARM_UP));
+    manipulator.getDpad(Dpad.DOWN).whenPressed(new ControlArm(CargoDesiredState.LOWER_LIMIT));
+    manipulator.getDpad(Dpad.RIGHT).whenPressed(new ControlArm(CargoDesiredState.ROCKET));
+    manipulator.getDpad(Dpad.UP).whenPressed(new ControlArm(CargoDesiredState.CARGO_SHIP));
+    manipulator.getDpad(Dpad.LEFT).whenPressed(new ControlArm(CargoDesiredState.UPPER_LIMIT));
 
     // Rezero cargo arm
     manipulator.getButton(Button.START).whenPressed(new ReZeroArm());
