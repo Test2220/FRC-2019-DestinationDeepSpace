@@ -2,7 +2,6 @@ package frc.robot.commands.cargo;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
-import frc.robot.subsystems.Cargo;
 import frc.robot.subsystems.Cargo.CargoDesiredState;
 
 /**
