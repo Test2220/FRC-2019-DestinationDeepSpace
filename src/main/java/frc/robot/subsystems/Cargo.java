@@ -6,6 +6,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
@@ -16,10 +17,10 @@ import frc.robot.utils.XboxWrapper;;
 
 /**
  * The cargo subsystem sets up all hardware related to the physical subsystem.
- * Creates methods to control arm and intake. Calls default command to control
- * subsystem.
+ * Creates methods to control arm and intake. Runs most functions through in-class
+ * state machine. Calls default command to control intake.
  * 
- * @author Muaad
+ * @author Muaad and Reece
  */
 public class Cargo extends Subsystem {
 
@@ -29,7 +30,7 @@ public class Cargo extends Subsystem {
     private static final double SPIN_SCALAR = 1;
 
     // Current limits
-    private static final int ARM_MAX_AMPS = 2;
+    private static final int ARM_MAX_AMPS = 5;
     private static final int INTAKE_MAX_AMPS = 10;
 
     // Arm position constants
@@ -74,7 +75,7 @@ public class Cargo extends Subsystem {
 
     // Subsystem state
     private CargoDesiredState desiredState = CargoDesiredState.UPPER_LIMIT;
-    private CargoSystemState systemState = CargoSystemState.NOT_ZEROED;
+    private CargoSystemState systemState = CargoSystemState.MANUAL;
 
     /* SHUFFLEBOARD ENTRIES */
 
@@ -152,6 +153,18 @@ public class Cargo extends Subsystem {
         errorDerivativeEntry.setDouble(errorDerivative);
 
         switch (systemState) {
+            case MANUAL:
+                double power = Robot.oi.manipulator.getY(Hand.kRight);
+                rightArm.set(power * 0.5);
+                if (power > 0) {
+                    leftArm.configContinuousCurrentLimit(25);
+                    rightArm.configContinuousCurrentLimit(25);
+                } else {
+                    leftArm.configContinuousCurrentLimit(ARM_MAX_AMPS);
+                    rightArm.configContinuousCurrentLimit(ARM_MAX_AMPS);
+                }
+                break;
+
             case UP_PID:
                 if (upperLimit.get()) {
                     transitionSystemState(CargoSystemState.UP_LIMIT);
@@ -207,7 +220,14 @@ public class Cargo extends Subsystem {
     }
 
     private void transitionSystemState(CargoSystemState state) {
-        if (state == systemState) return;
+        if (state == systemState || state == CargoSystemState.MANUAL) return;
+        if (state == CargoSystemState.DOWN_PID || state == CargoSystemState.DOWN_PO) {
+            leftArm.configContinuousCurrentLimit(20);
+            rightArm.configContinuousCurrentLimit(20);
+        } else {
+            leftArm.configContinuousCurrentLimit(ARM_MAX_AMPS);
+            rightArm.configContinuousCurrentLimit(ARM_MAX_AMPS);
+        }
         switch (state) {
             case UP_PID:
                 maxErrorDerivative = 0;
@@ -288,7 +308,7 @@ public class Cargo extends Subsystem {
     }
 
     private enum CargoSystemState {
-        NOT_ZEROED, ROCKET_PID, CARGO_SHIP_PID, UP_PID, DOWN_PID, UP_PO, DOWN_PO, UP_LIMIT, DOWN_LIMIT;
+        MANUAL, NOT_ZEROED, ROCKET_PID, CARGO_SHIP_PID, UP_PID, DOWN_PID, UP_PO, DOWN_PO, UP_LIMIT, DOWN_LIMIT;
     }
 
     /* IMPLEMENTED METHODS */
