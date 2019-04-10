@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.Shield;
+import frc.robot.subsystems.leds.Leds;
 import frc.robot.subsystems.Cargo;
 import frc.robot.subsystems.Drivetrain;
 
@@ -68,7 +69,6 @@ public class Robot extends TimedRobot {
     Robot.limelight.setCameraMode(Limelight.CameraMode.DRIVER_CAMERA);
     Robot.limelight.setLEDMode(Limelight.LEDMode.OFF);
 
-    // leds.test();
   }
 
   /**
