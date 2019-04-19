@@ -31,6 +31,8 @@ public class RobotMap {
   public static final int PUSHER_REVERSE = 1;
   public static final int GRABBER_FORWARD = 4;
   public static final int GRABBER_REVERSE = 5;
+  public static final int PISTON_FORWARD = 2;
+  public static final int PISTON_REVERSE = 3;
 
   /* LIMIT SWITCH DIGITAL INPUT IDS */
   public static final int LEFT_SWITCH = 0;

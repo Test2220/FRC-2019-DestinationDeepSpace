@@ -77,6 +77,9 @@ public class Cargo extends Subsystem {
     private CargoDesiredState desiredState = CargoDesiredState.UPPER_LIMIT;
     private CargoSystemState systemState = CargoSystemState.MANUAL;
 
+    // Climbing
+    private DoubleSolenoid climbingPiston = new DoubleSolenoid(RobotMap.PISTON_REVERSE,RobotMap.PISTON_FORWARD)
+
     /* SHUFFLEBOARD ENTRIES */
 
     // Shuffleboard diagnostic values
@@ -139,6 +142,10 @@ public class Cargo extends Subsystem {
     }
 
     /* CONTROL METHODS */
+
+    public void setClimber(Value val) {
+        climbingPiston.set(val);
+    }
 
     @Override
     public void periodic() {
