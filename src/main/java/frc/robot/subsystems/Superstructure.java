@@ -63,7 +63,12 @@ public class Superstructure extends Subsystem {
         secondsSinceLastBrownOutEntry.setDouble(brownOutMonitor.getSecondsSinceLastBrownOut());
 
     }
-
+    /**
+     * @return the brownOutMonitor
+     */
+    public BrownOutMonitor getBrownOutMonitor() {
+        return brownOutMonitor;
+    }
     @Override
     protected void initDefaultCommand() {
 
