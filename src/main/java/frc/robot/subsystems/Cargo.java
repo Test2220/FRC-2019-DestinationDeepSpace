@@ -6,6 +6,8 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.Robot;
@@ -78,7 +80,8 @@ public class Cargo extends Subsystem {
     private CargoSystemState systemState = CargoSystemState.MANUAL;
 
     // Climbing
-    private DoubleSolenoid climbingPiston = new DoubleSolenoid(RobotMap.PISTON_REVERSE,RobotMap.PISTON_FORWARD)
+    private DoubleSolenoid leftClimber = new DoubleSolenoid(RobotMap.LEFT_CLIMBER_FORWARD, RobotMap.LEFT_CLIMBER_REVERSE);
+    private DoubleSolenoid rightClimber = new DoubleSolenoid(RobotMap.RIGHT_CLIMBER_FORWARD, RobotMap.RIGHT_CLIMBER_REVERSE);
 
     /* SHUFFLEBOARD ENTRIES */
 
@@ -144,7 +147,8 @@ public class Cargo extends Subsystem {
     /* CONTROL METHODS */
 
     public void setClimber(Value val) {
-        climbingPiston.set(val);
+        leftClimber.set(val);
+        rightClimber.set(val);
     }
 
     @Override
