@@ -24,6 +24,14 @@ public class RobotMap {
   public static final int CARGO_ARM_UPPER_LIMIT_SWITCH = 2;
   public static final int CARGO_ARM_LOWER_LIMIT_SWITCH = 3;
 
+  /* HAB CLIMBER IDS */
+
+  // Piston channel IDs
+  public static final int LEFT_CLIMBER_FORWARD = 2;
+  public static final int LEFT_CLIMBER_REVERSE = 3;
+  public static final int RIGHT_CLIMBER_FORWARD = 6;
+  public static final int RIGHT_CLIMBER_REVERSE = 7;
+
   /* SHIELD SUBSYSTEM IDS */
 
   // Double solenoid channel IDs

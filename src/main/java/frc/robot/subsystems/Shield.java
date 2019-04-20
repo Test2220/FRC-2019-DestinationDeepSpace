@@ -36,7 +36,7 @@ public class Shield extends Subsystem {
      * Subsystem constructor, no parameters or configuration necessary.
      */
     public Shield() {
-        ShuffleBoardConfig.shield.add("Pusher", pusher).withSize(2, 1).withPosition(2,0);
+        ShuffleBoardConfig.shield.add("Pusher", pusher).withSize(2, 1).withPosition(2, 0);
         ShuffleBoardConfig.shield.add("Grabber", grabber).withSize(2, 1).withPosition(4, 0);
         ShuffleBoardConfig.shield.add("Left Switch", leftSwitch).withSize(2, 1).withPosition(6, 0);
         ShuffleBoardConfig.shield.add("Right Switch", rightSwitch).withSize(2, 1).withPosition(0, 1);
@@ -117,26 +117,30 @@ public class Shield extends Subsystem {
 
     @Override
     public void periodic() {
-        if (getSwitchPressed(LimitSwitchCombination.EITHER_SWITCH_PRESSED)) 
+        if (getSwitchPressed(LimitSwitchCombination.EITHER_SWITCH_PRESSED))
             lastLimitSwitchPressTime = Timer.getFPGATimestamp();
 
         switch (shieldState) {
-            case GRABBED:
-                break;
+        case GRABBED:
+            break;
 
-            case RELEASED_READY_TO_AUT0_GRAB:
-                if (getSwitchPressed(LimitSwitchCombination.EITHER_SWITCH_PRESSED)) {
-                    grabHP(); 
-                    setPusher(Value.kReverse);
-                }
+        case RELEASED_READY_TO_AUT0_GRAB:
+            if (getSwitchPressed(LimitSwitchCombination.EITHER_SWITCH_PRESSED)) {
+                grabHP();
+                setPusher(Value.kReverse);
+            }
 
-                break;
+            break;
 
-            case RELEASE_PENDING:
-                if (getSwitchPressed(LimitSwitchCombination.NEITHER_SWITCH_PRESSED) && hasWaitedLongEnough()) 
-                    shieldState = ShieldState.RELEASED_READY_TO_AUT0_GRAB;
-                break;
+        case RELEASE_PENDING:
+            if (getSwitchPressed(LimitSwitchCombination.NEITHER_SWITCH_PRESSED) && hasWaitedLongEnough())
+                shieldState = ShieldState.RELEASED_READY_TO_AUT0_GRAB;
+            break;
         }
+    }
+
+    public boolean isGrabbed() {
+        return shieldState == ShieldState.GRABBED;
     }
 
     /**

@@ -6,20 +6,23 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.ShuffleBoardConfig;
-import frc.robot.commands.cargo.ManipulateCargo;
+import frc.robot.commands.cargo.SuckySuckCargo;
 import frc.robot.utils.LimitSwitch;
 import frc.robot.utils.XboxWrapper;;
 
 /**
  * The cargo subsystem sets up all hardware related to the physical subsystem.
- * Creates methods to control arm and intake. Calls default command to control
- * subsystem.
+ * Creates methods to control arm and intake. Runs most functions through
+ * in-class state machine. Calls default command to control intake.
  * 
- * @author Muaad
+ * @author Muaad and Reece
  */
 public class Cargo extends Subsystem {
 
@@ -29,13 +32,13 @@ public class Cargo extends Subsystem {
     private static final double SPIN_SCALAR = 1;
 
     // Current limits
-    private static final int ARM_MAX_AMPS = 2;
+    private static final int ARM_MAX_AMPS = 5;
     private static final int INTAKE_MAX_AMPS = 10;
 
     // Arm position constants
-    private static final int MAX_ARM_POS = 7908;
-    public static final int ARM_FLOOR = -(MAX_ARM_POS);
-    public static final int ARM_ROCKET = -(MAX_ARM_POS - 3600);
+    private static final int MAX_ARM_POS = 8150; // 7908;
+    public static int armFloor = -(MAX_ARM_POS);
+    public static final int ARM_ROCKET = -4466; // (MAX_ARM_POS - 3600);
     public static final int ARM_CARGOSHIP = -(MAX_ARM_POS - 6000);
     public static final int ARM_UP = -(MAX_ARM_POS - 7800);
 
@@ -48,7 +51,15 @@ public class Cargo extends Subsystem {
     private static final int MAX_ACCEL = 350;
 
     // Zero arm speed
-    private final double ZERO_SPEED = 0.3;
+    private final double UP_SPEED = 0.35;
+    private final double DOWN_SPEED = -0.15;
+
+    // Holding PID change maximum change in position TODO: Check values in
+    // shuffleboard to properly tune
+    private final double MAX_HOLD_ERROR_CHANGE = 0.1;
+
+    // Maximum error derivative in arm PID loop
+    double maxErrorDerivative = 0;
 
     /* INSTANCE VARIABLES */
 
@@ -66,19 +77,25 @@ public class Cargo extends Subsystem {
     /* STATE MACHINE MEMBERS */
 
     // Subsystem state
-    private CargoState cargoState = CargoState.NOT_ZEROED;
+    private CargoDesiredState desiredState = CargoDesiredState.UPPER_LIMIT;
+    private CargoSystemState systemState = CargoSystemState.MANUAL;
 
-    // Requested position
-    private int requestedPosition = 0;
+    // Climbing
+    private DoubleSolenoid leftClimber = new DoubleSolenoid(RobotMap.LEFT_CLIMBER_FORWARD,
+            RobotMap.LEFT_CLIMBER_REVERSE);
+    private DoubleSolenoid rightClimber = new DoubleSolenoid(RobotMap.RIGHT_CLIMBER_FORWARD,
+            RobotMap.RIGHT_CLIMBER_REVERSE);
 
-    // Processed requested position
-    private boolean processedRequestedPosition = true;
+    /* SHUFFLEBOARD ENTRIES */
 
-    // Last position
-    private int lastPosition = 0;
-
+    // Shuffleboard diagnostic values
     private final NetworkTableEntry encoderEntry = ShuffleBoardConfig.cargo.add("Arm Encoder", 0).getEntry();
-    private final NetworkTableEntry stateEntry = ShuffleBoardConfig.cargo.add("Cargo State", cargoState.toString()).getEntry();
+    private final NetworkTableEntry desiredStateEntry = ShuffleBoardConfig.cargo
+            .add("Cargo Desired State", desiredState.toString()).getEntry();
+    private final NetworkTableEntry systemStateEntry = ShuffleBoardConfig.cargo
+            .add("Cargo System State", systemState.toString()).getEntry();
+    private final NetworkTableEntry errorDerivativeEntry = ShuffleBoardConfig.cargo.add("PID Error Derivative", 0)
+            .getEntry();
 
     /* SUBSYSTEM CONSTRUCTOR */
 
@@ -87,7 +104,6 @@ public class Cargo extends Subsystem {
      * subsystem as described by comments below.
      */
     public Cargo() {
-
         // Arm Talon inversions
         leftArm.setInverted(false);
         rightArm.setInverted(false);
@@ -132,79 +148,160 @@ public class Cargo extends Subsystem {
         rightArm.configMotionCruiseVelocity(MAX_VEL);
 
         ShuffleBoardConfig.cargo.add(this).withPosition(4, 1);
-
     }
 
     /* CONTROL METHODS */
 
+    public void setClimber(Value val) {
+        leftClimber.set(val);
+        rightClimber.set(val);
+    }
+
     @Override
     public void periodic() {
         encoderEntry.setNumber(rightArm.getSelectedSensorPosition(0));
-        stateEntry.setString(cargoState.toString());
+        desiredStateEntry.setString(desiredState.toString());
+        systemStateEntry.setString(systemState.toString());
 
-        // State machine
-        switch (cargoState) {
-            case NOT_ZEROED:
-                rightArm.set(ZERO_SPEED);
-                if (upperLimit.get()) {
-                    rightArm.setSelectedSensorPosition(0);
-                    rightArm.set(ControlMode.Position, -50);
-                    rightArm.setSelectedSensorPosition(0);
-                    setState(CargoState.UPPER_LIMIT);
-                }
-                break;
-
-            case UPPER_LIMIT:
-                if (requestedPosition < lastPosition) {
-                    setArmPosition();
-                }
-
-                if (!upperLimit.get()) {
-                    setState(CargoState.FREE);
-                }
-                break;
-
-            case LOWER_LIMIT:
-                if (requestedPosition > lastPosition) {
-                    setArmPosition();
-                }
-
-                if (!lowerLimit.get()) {
-                    setState(CargoState.FREE);
-                }
-
-                break;
-
-            case FREE:
-                setArmPosition();
-                Robot.oi.manipulator.stopRumble();
-
-                if (upperLimit.get()) {
-                    setState(CargoState.UPPER_LIMIT);
-                    rightArm.set(ControlMode.Position, rightArm.getSelectedSensorPosition());
-                } else if (lowerLimit.get()) {
-                    setState(CargoState.LOWER_LIMIT);
-                    rightArm.set(ControlMode.Position, rightArm.getSelectedSensorPosition());
-                } 
-                break; 
+        double errorDerivative = Math.abs(rightArm.getErrorDerivative());
+        if (errorDerivative > maxErrorDerivative) {
+            maxErrorDerivative = errorDerivative;
         }
-    }
+        errorDerivativeEntry.setDouble(errorDerivative);
 
-    private void setState(CargoState state) {
-        if (cargoState != state) {
-            System.out.println(cargoState.toString() + " -> " + state.toString());
-            if (state == CargoState.UPPER_LIMIT || state == CargoState.LOWER_LIMIT) {
-                Robot.oi.manipulator.rumbleFor(XboxWrapper.RUMBLE_TIME);
+        switch (systemState) {
+        case MANUAL:
+            double power = Robot.oi.manipulator.getY(Hand.kRight);
+            rightArm.set(power * 0.5);
+            if (power > 0) {
+                leftArm.configContinuousCurrentLimit(25);
+                rightArm.configContinuousCurrentLimit(25);
+            } else {
+                leftArm.configContinuousCurrentLimit(ARM_MAX_AMPS);
+                rightArm.configContinuousCurrentLimit(ARM_MAX_AMPS);
             }
+            break;
+
+        case UP_PID:
+            if (upperLimit.get()) {
+                transitionSystemState(CargoSystemState.UP_LIMIT);
+            } else if (errorDerivative < maxErrorDerivative && errorDerivative <= MAX_HOLD_ERROR_CHANGE) {
+                transitionSystemState(CargoSystemState.UP_PO);
+            }
+            break;
+
+        case NOT_ZEROED:
+            // Fall through
+        case UP_PO:
+            if (upperLimit.get()) {
+                transitionSystemState(CargoSystemState.UP_LIMIT);
+            } else {
+                rightArm.set(UP_SPEED);
+            }
+            break;
+
+        case UP_LIMIT:
+            if (upperLimit.get()) {
+                rightArm.set(ControlMode.Position, 0);
+            } else {
+                transitionSystemState(CargoSystemState.UP_PO);
+            }
+            break;
+
+        case DOWN_PID:
+            if (lowerLimit.get()) {
+                transitionSystemState(CargoSystemState.DOWN_LIMIT);
+            } else if (errorDerivative < maxErrorDerivative && errorDerivative <= MAX_HOLD_ERROR_CHANGE) {
+                transitionSystemState(CargoSystemState.DOWN_PO);
+            }
+            break;
+
+        case DOWN_PO:
+            if (lowerLimit.get()) {
+                transitionSystemState(CargoSystemState.DOWN_LIMIT);
+            } else {
+                rightArm.set(DOWN_SPEED);
+            }
+            break;
+
+        case DOWN_LIMIT:
+            if (lowerLimit.get()) {
+                rightArm.set(ControlMode.Position, armFloor);
+            } else {
+                transitionSystemState(CargoSystemState.DOWN_PO);
+            }
+
+        default:
+            break;
         }
-        cargoState = state;
     }
 
-    public void reZeroArm() {
-        lastPosition = 0;
-        requestedPosition = 0;
-        processedRequestedPosition = true;
-        setState(CargoState.NOT_ZEROED);
+    private void transitionSystemState(CargoSystemState state) {
+        if (state == systemState || state == CargoSystemState.MANUAL)
+            return;
+        if (state == CargoSystemState.DOWN_PID || state == CargoSystemState.DOWN_PO) {
+            leftArm.configContinuousCurrentLimit(20);
+            rightArm.configContinuousCurrentLimit(20);
+        } else {
+            leftArm.configContinuousCurrentLimit(ARM_MAX_AMPS);
+            rightArm.configContinuousCurrentLimit(ARM_MAX_AMPS);
+        }
+        switch (state) {
+        case UP_PID:
+            maxErrorDerivative = 0;
+            rightArm.set(ControlMode.Position, ARM_UP);
+            break;
+
+        case DOWN_PID:
+            maxErrorDerivative = 0;
+            rightArm.set(ControlMode.Position, armFloor);
+            break;
+
+        case ROCKET_PID:
+            rightArm.set(ControlMode.Position, ARM_ROCKET);
+            break;
+
+        case CARGO_SHIP_PID:
+            rightArm.set(ControlMode.Position, ARM_CARGOSHIP);
+            break;
+
+        case UP_LIMIT:
+            rightArm.setSelectedSensorPosition(0);
+            Robot.oi.manipulator.rumbleFor(XboxWrapper.RUMBLE_TIME);
+            break;
+
+        case DOWN_LIMIT:
+            armFloor = rightArm.getSelectedSensorPosition();
+            Robot.oi.manipulator.rumbleFor(XboxWrapper.RUMBLE_TIME);
+            break;
+
+        default:
+            break;
+        }
+        systemState = state;
+    }
+
+    public void setArmState(CargoDesiredState state) {
+        if (state == desiredState || systemState == CargoSystemState.NOT_ZEROED)
+            return;
+        switch (state) {
+        case UPPER_LIMIT:
+            transitionSystemState(CargoSystemState.UP_PID);
+            break;
+
+        case LOWER_LIMIT:
+            transitionSystemState(CargoSystemState.DOWN_PID);
+            break;
+
+        case ROCKET:
+            transitionSystemState(CargoSystemState.ROCKET_PID);
+            break;
+
+        case CARGO_SHIP:
+            transitionSystemState(CargoSystemState.CARGO_SHIP_PID);
+            break;
+        }
+        desiredState = state;
     }
 
     /**
@@ -216,19 +313,8 @@ public class Cargo extends Subsystem {
         intake.set(speed * SPIN_SCALAR);
     }
 
-    public void requestArmPosition(int pos) {
-        if (requestedPosition != pos) {
-            requestedPosition = pos;
-            processedRequestedPosition = false;
-        }
-    }
-
-    private void setArmPosition() { //TODO: remove parameter?
-        if (!processedRequestedPosition) {
-            rightArm.set(ControlMode.Position, requestedPosition);
-            lastPosition = requestedPosition;
-            processedRequestedPosition = true;
-        }
+    public void reZeroArm() {
+        transitionSystemState(CargoSystemState.NOT_ZEROED);
     }
 
     public void setNeutral(NeutralMode neutralMode) {
@@ -236,18 +322,20 @@ public class Cargo extends Subsystem {
         rightArm.setNeutralMode(neutralMode);
     }
 
-    // private void zeroArmEncoder() {
-    //     // Rotate arm down maximum amount of encoder ticks possible TODO: Check MAX_ARM_POS works
-    //     rightArm.set(ControlMode.Position, -ZERO_TICK_AMOUNT);
-    //     if (lowerLimit.get()) {
-    //         rightArm.setSelectedSensorPosition(0);
-    //         setArmPosition(0);
-    //         cargoState = CargoState.LOWER_LIMIT;
-    //     }
-    // }
+    public boolean isNotZeroed() {
+        return systemState == CargoSystemState.NOT_ZEROED;
+    }
 
-    public enum CargoState {
-        NOT_ZEROED, LOWER_LIMIT, UPPER_LIMIT, FREE;
+    public boolean isManualMode() {
+        return systemState == CargoSystemState.MANUAL;
+    }
+
+    public enum CargoDesiredState {
+        UPPER_LIMIT, CARGO_SHIP, ROCKET, LOWER_LIMIT;
+    }
+
+    private enum CargoSystemState {
+        MANUAL, NOT_ZEROED, ROCKET_PID, CARGO_SHIP_PID, UP_PID, DOWN_PID, UP_PO, DOWN_PO, UP_LIMIT, DOWN_LIMIT;
     }
 
     /* IMPLEMENTED METHODS */
@@ -257,6 +345,6 @@ public class Cargo extends Subsystem {
      */
     @Override
     protected void initDefaultCommand() {
-        setDefaultCommand(new ManipulateCargo());
+        setDefaultCommand(new SuckySuckCargo());
     }
 }
