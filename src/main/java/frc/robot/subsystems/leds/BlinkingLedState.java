@@ -14,11 +14,12 @@ public class BlinkingLedState implements TimedLedState {
     }
 
     @Override
-    public Color getColor(double timeInState) {
-        if ((int) (timeInState / duration) % 2 == 0) {
+    public Color getColor(double time) {
+        if ((int) (time / duration) % 2 == 0) {
             return color1;
         }
         return color2;
     }
 
+    public static final BlinkingLedState orange = new BlinkingLedState(Color.orange, Color.black, 0.5);
 }

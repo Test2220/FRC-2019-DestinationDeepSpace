@@ -3,7 +3,7 @@ package frc.robot.utils;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Timer;
  
-public class BrownOutMonitor{
+public class BrownOutMonitor {
     private boolean hasEverBrownedOut = false;
     private double lastBrownOutTime = -1;
 

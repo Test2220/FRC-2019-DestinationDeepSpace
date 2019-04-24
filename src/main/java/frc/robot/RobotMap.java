@@ -59,4 +59,7 @@ public class RobotMap {
   /* LIMELIGHT VISION PIPELINE IDs */
   public static final int CARGO_SHIP_PIPELINE = 0;
   public static final int LOADING_STATION_AND_ROCKET_PIPELINE = 1;
+
+  /* */
+  public static final int ANALOG_INPUT = 0;
 }

@@ -321,6 +321,14 @@ public class Cargo extends Subsystem {
         rightArm.setNeutralMode(neutralMode);
     }
 
+    public boolean isNotZeroed() {
+        return systemState == CargoSystemState.NOT_ZEROED;
+    }
+
+    public boolean isManualMode() {
+        return systemState == CargoSystemState.MANUAL;
+    }
+
     public enum CargoDesiredState {
         MANUAL, UPPER_LIMIT, CARGO_SHIP, ROCKET, LOWER_LIMIT;
     }

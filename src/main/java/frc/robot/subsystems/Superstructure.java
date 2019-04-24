@@ -8,31 +8,36 @@ import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.robot.ShuffleBoardConfig;
 import frc.robot.utils.BrownOutMonitor;
+import frc.robot.utils.PressureMonitor;
 
 public class Superstructure extends Subsystem {
 
-    /**
-     *
-     */
+    
 
     private BrownOutMonitor brownOutMonitor = new BrownOutMonitor();
 
     PowerDistributionPanel pdp = new PowerDistributionPanel();
     
-      
     private static final NetworkTableEntry hasEverBrownedOutEntry = ShuffleBoardConfig.driverTab
             .add("has browned out", false).withSize(2, 2).withPosition(14, 0).withWidget(BuiltInWidgets.kBooleanBox)
             .withProperties(Map.of("Color when true", "#FF0000","Color when false", "#00FF00")).getEntry();
     private static final NetworkTableEntry secondsSinceLastBrownOutEntry = ShuffleBoardConfig.driverTab
-            .add("brown out time", -1).withSize(2, 2).withPosition(14, 2).getEntry();
+            .add("brown out time", -1).withSize(1, 2).withPosition(14, 2).getEntry();
+    public static final NetworkTableEntry pressureMonitorEntry = ShuffleBoardConfig.driverTab
+            .add("Pressure: ", 0).withSize(1,2).withPosition(14, 4)
+            .withWidget(BuiltInWidgets.kTextView).getEntry();
+            public static final NetworkTableEntry isLowPressureEntry = ShuffleBoardConfig.driverTab
+            .add("LowPressure", false).withSize(1,2).withPosition(14,3).withWidget(BuiltInWidgets.kBooleanBox).
+            withProperties(Map.of("Color when true", "#FF0000","Color when false", "#00FF00")).getEntry();
 
     public Superstructure() {
-
         MjpegServer server = CameraServer.getInstance().addServer("USB server 0");
         UsbCamera camera = new UsbCamera("USB Camera 0", 0);
         CameraServer.getInstance().addCamera(camera);
@@ -59,14 +64,19 @@ public class Superstructure extends Subsystem {
     @Override
     public void periodic() {
         brownOutMonitor.update();
-        hasEverBrownedOutEntry.setBoolean(brownOutMonitor.hasEverBrownedOut());
+        hasEverBrownedOutEntry.setBoolean(brownOutMonitor.hasEverBrownedOut()); 
         secondsSinceLastBrownOutEntry.setDouble(brownOutMonitor.getSecondsSinceLastBrownOut());
-
+        pressureMonitorEntry.setNumber(PressureMonitor.getPressure());
+        isLowPressureEntry.setBoolean(PressureMonitor.isLowPressure());
     }
-
+    /**
+     * @return the brownOutMonitor
+     */
+    public BrownOutMonitor getBrownOutMonitor() {
+        return brownOutMonitor;
+    }
     @Override
     protected void initDefaultCommand() {
 
     }
-
 }
