@@ -38,9 +38,9 @@ public class Leds extends Subsystem {
         Color color = state.getColor(Timer.getFPGATimestamp());
 
         lightDrive.SetColor(1, color, 0.5);
+        lightDrive.SetColor(2, color, 0.5);
 
         lightDrive.Update();
-
     }
 
     @Override
