@@ -9,7 +9,10 @@ import frc.robot.utils.XboxWrapper;
  */
 public class TakeSnapshot extends InstantCommand {
 
-    public TakeSnapshot() {
+    private final boolean rumble;
+
+    public TakeSnapshot(boolean rumble) {
+        this.rumble = rumble;
         // Not requiring the limelight subsystem allow this
         // command to run in parallel with other commands
         // using the limelight subsytem
@@ -18,7 +21,8 @@ public class TakeSnapshot extends InstantCommand {
     @Override
     protected void execute() {
         Robot.limelight.takeSnapshot();
-        Robot.oi.manipulator.rumbleFor(XboxWrapper.RUMBLE_TIME);
+        if (rumble) Robot.oi.manipulator.rumbleFor(XboxWrapper.RUMBLE_TIME);
     }
+
 
 }

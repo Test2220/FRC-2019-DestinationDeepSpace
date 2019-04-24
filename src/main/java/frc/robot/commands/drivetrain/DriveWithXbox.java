@@ -41,14 +41,14 @@ public class DriveWithXbox extends Command {
         double turn = Robot.oi.driver.getX(Hand.kRight) * TURN_MULTIPLIER;
 
         //Slow mode for turning only
-        if (Robot.oi.driver.getControllerObject().getTriggerAxis(Hand.kLeft) >= 0.25) {
-            turn *= 0.5;
-        }
+        // if (Robot.oi.driver.getTrigger(Hand.kLeft) >= 0.25) {
+        //     turn *= 0.5;
+        // }
         
         //reverse mode
-        if (Robot.oi.driver.getControllerObject().getTriggerAxis(Hand.kRight) >= 0.25) {
-            power *= -1;
-        }
+        // if (Robot.oi.driver.getTrigger(Hand.kRight) >= 0.25) {
+        //     power *= -1;
+        // }
 
         // Run curvature drive off of drivetrain subsystem
         Robot.drivetrain.drive(power, turn);

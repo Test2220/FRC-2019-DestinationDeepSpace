@@ -35,8 +35,10 @@ public class OI {
 
     // Limelight automation
     driver.getButton(Button.A).whileHeld(new AlignToVisionTarget(RobotMap.LOADING_STATION_AND_ROCKET_PIPELINE));
+    driver.getButton(Button.A).whileHeld(new TakeSnapshot(false));
     // driver.getButton(Button.B).whileHeld(new DriveToLoadingStation());
     driver.getButton(Button.B).whileHeld(new AlignToVisionTarget(RobotMap.CARGO_SHIP_PIPELINE));
+    driver.getButton(Button.B).whileHeld(new TakeSnapshot(false));
 
     // Turning to angles
     driver.getButton(Button.RIGHT_BUMPER).whenPressed(new TurnToAngle(180));
@@ -66,6 +68,6 @@ public class OI {
     manipulator.getButton(Button.START).whenPressed(new ArmManual());
 
     // Take limelight snapshot
-    manipulator.getButton(Button.LEFT_BUMPER).whenPressed(new TakeSnapshot());
+    manipulator.getButton(Button.LEFT_BUMPER).whenPressed(new TakeSnapshot(true));
   }
 }
