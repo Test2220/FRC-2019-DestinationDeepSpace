@@ -1,9 +1,11 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import frc.robot.commands.TurnToAngle;
+import frc.robot.commands.cargo.ArmManual;
 import frc.robot.commands.cargo.ControlArm;
-import frc.robot.commands.cargo.ReZeroArm;
+import frc.robot.commands.cargo.SetHabPiston;
 import frc.robot.commands.limelight.*;
 import frc.robot.commands.shield.*;
 import frc.robot.subsystems.Cargo.CargoDesiredState;
@@ -55,8 +57,12 @@ public class OI {
     manipulator.getDpad(Dpad.UP).whenPressed(new ControlArm(CargoDesiredState.CARGO_SHIP));
     manipulator.getDpad(Dpad.LEFT).whenPressed(new ControlArm(CargoDesiredState.UPPER_LIMIT));
 
-    // Rezero cargo arm
-    manipulator.getButton(Button.START).whenPressed(new ReZeroArm());
+    // Hab climber controls
+    manipulator.getTriggerButton(Hand.kRight).whenPressed(new SetHabPiston(Value.kForward));
+    manipulator.getTriggerButton(Hand.kLeft).whenPressed(new SetHabPiston(Value.kReverse));
+
+    // Set arm to manual mode
+    manipulator.getButton(Button.START).whenPressed(new ArmManual());
 
     // Take limelight snapshot
     manipulator.getButton(Button.LEFT_BUMPER).whenPressed(new TakeSnapshot());
