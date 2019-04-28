@@ -31,16 +31,16 @@ public class Cargo extends Subsystem {
     private static final double SPIN_SCALAR = 1;
 
     // Current limits
-    private static final int ARM_MAX_AMPS = 5;
+    private static final int ARM_MAX_AMPS = 10;
     private static final int ARM_CLIMB_AMPS = 25;
-    private static final int INTAKE_MAX_AMPS = 10;
+    private static final int INTAKE_MAX_AMPS = 15;
 
     // Arm position constants
     private static final int MAX_ARM_POS = 8150;
     public static int armFloor = -(MAX_ARM_POS);
-    public static final int ARM_ROCKET = -4466; // (MAX_ARM_POS - 3600);
-    public static final int ARM_CARGOSHIP = -(MAX_ARM_POS - 6000);
-    public static final int ARM_UP = -(MAX_ARM_POS - 7800);
+    public static final int ARM_ROCKET = -4577; //-4466
+    public static final int ARM_CARGOSHIP = -(MAX_ARM_POS - 6300);
+    public static final int ARM_UP = -100;
 
     // Arm PID constants
     private static double P = 1023.0 / MAX_ARM_POS * 4;
@@ -81,8 +81,8 @@ public class Cargo extends Subsystem {
     private CargoSystemState systemState = CargoSystemState.NOT_ZEROED;
 
     // Climbing
-    private DoubleSolenoid leftClimber = new DoubleSolenoid(RobotMap.LEFT_CLIMBER_FORWARD,
-            RobotMap.LEFT_CLIMBER_REVERSE);
+    // private DoubleSolenoid leftClimber = new DoubleSolenoid(RobotMap.LEFT_CLIMBER_FORWARD,
+            // RobotMap.LEFT_CLIMBER_REVERSE);
     private DoubleSolenoid rightClimber = new DoubleSolenoid(RobotMap.RIGHT_CLIMBER_FORWARD,
             RobotMap.RIGHT_CLIMBER_REVERSE);
 
@@ -148,12 +148,14 @@ public class Cargo extends Subsystem {
         rightArm.configMotionCruiseVelocity(MAX_VEL);
 
         ShuffleBoardConfig.cargo.add(this).withPosition(4, 1);
+
+        setClimber(Value.kForward);
     }
 
     /* CONTROL METHODS */
 
     public void setClimber(Value val) {
-        leftClimber.set(val);
+        // leftClimber.set(val);
         rightClimber.set(val);
     }
 

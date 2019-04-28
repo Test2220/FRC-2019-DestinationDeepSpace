@@ -34,11 +34,11 @@ public class OI {
     /* DRIVER CONTROLS */
 
     // Limelight automation
-    driver.getButton(Button.A).whileHeld(new AlignToVisionTarget(RobotMap.LOADING_STATION_AND_ROCKET_PIPELINE));
-    driver.getButton(Button.A).whileHeld(new TakeSnapshot(false));
+    driver.getButton(Button.A).whileHeld(new AlignToVisionTarget(RobotMap.CARGO_SHIP_PIPELINE));
+    // driver.getButton(Button.A).whileHeld(new TakeSnapshot(false));
     // driver.getButton(Button.B).whileHeld(new DriveToLoadingStation());
-    driver.getButton(Button.B).whileHeld(new AlignToVisionTarget(RobotMap.CARGO_SHIP_PIPELINE));
-    driver.getButton(Button.B).whileHeld(new TakeSnapshot(false));
+    // driver.getButton(Button.B).whileHeld(new AlignToVisionTarget(RobotMap.CARGO_SHIP_PIPELINE));
+    // driver.getButton(Button.B).whileHeld(new TakeSnapshot(false));
 
     // Turning to angles
     driver.getButton(Button.RIGHT_BUMPER).whenPressed(new TurnToAngle(180));
@@ -61,8 +61,8 @@ public class OI {
     manipulator.getDpad(Dpad.LEFT).whenPressed(new ControlArm(CargoDesiredState.UPPER_LIMIT));
 
     // Hab climber controls
-    manipulator.getTriggerButton(Hand.kRight).whenPressed(new SetHabPiston(Value.kForward));
-    manipulator.getTriggerButton(Hand.kLeft).whenPressed(new SetHabPiston(Value.kReverse));
+    manipulator.getTriggerButton(Hand.kRight).whenPressed(new SetHabPiston(Value.kReverse));  // Extend
+    manipulator.getTriggerButton(Hand.kLeft).whenPressed(new SetHabPiston(Value.kForward)); // Retract
 
     // Set arm to manual mode
     manipulator.getButton(Button.START).whenPressed(new ArmManual());
