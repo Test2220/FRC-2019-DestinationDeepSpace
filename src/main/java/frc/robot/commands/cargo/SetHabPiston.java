@@ -7,11 +7,11 @@ import frc.robot.Robot;
 /**
  * ControlHabPiston
  */
-public class ControlHabPiston extends InstantCommand {
+public class SetHabPiston extends InstantCommand {
 
     private Value value;
 
-    public ControlHabPiston(Value value) {
+    public SetHabPiston(Value value) {
         super(Robot.cargo);
         this.value = value;
     }

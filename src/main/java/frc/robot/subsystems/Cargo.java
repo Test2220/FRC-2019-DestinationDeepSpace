@@ -4,7 +4,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -33,10 +32,11 @@ public class Cargo extends Subsystem {
 
     // Current limits
     private static final int ARM_MAX_AMPS = 5;
+    private static final int ARM_CLIMB_AMPS = 25;
     private static final int INTAKE_MAX_AMPS = 10;
 
     // Arm position constants
-    private static final int MAX_ARM_POS = 8150; // 7908;
+    private static final int MAX_ARM_POS = 8150;
     public static int armFloor = -(MAX_ARM_POS);
     public static final int ARM_ROCKET = -4466; // (MAX_ARM_POS - 3600);
     public static final int ARM_CARGOSHIP = -(MAX_ARM_POS - 6000);
@@ -78,7 +78,7 @@ public class Cargo extends Subsystem {
 
     // Subsystem state
     private CargoDesiredState desiredState = CargoDesiredState.UPPER_LIMIT;
-    private CargoSystemState systemState = CargoSystemState.MANUAL;
+    private CargoSystemState systemState = CargoSystemState.NOT_ZEROED;
 
     // Climbing
     private DoubleSolenoid leftClimber = new DoubleSolenoid(RobotMap.LEFT_CLIMBER_FORWARD,
@@ -169,13 +169,18 @@ public class Cargo extends Subsystem {
         }
         errorDerivativeEntry.setDouble(errorDerivative);
 
+        if (systemState != CargoSystemState.MANUAL) {
+            leftArm.configContinuousCurrentLimit(ARM_MAX_AMPS);
+            rightArm.configContinuousCurrentLimit(ARM_MAX_AMPS);
+        }
+ 
         switch (systemState) {
         case MANUAL:
             double power = Robot.oi.manipulator.getY(Hand.kRight);
-            rightArm.set(power * 0.5);
+            rightArm.set(power * 0.6);
             if (power > 0) {
-                leftArm.configContinuousCurrentLimit(25);
-                rightArm.configContinuousCurrentLimit(25);
+                leftArm.configContinuousCurrentLimit(ARM_CLIMB_AMPS);
+                rightArm.configContinuousCurrentLimit(ARM_CLIMB_AMPS);
             } else {
                 leftArm.configContinuousCurrentLimit(ARM_MAX_AMPS);
                 rightArm.configContinuousCurrentLimit(ARM_MAX_AMPS);
@@ -237,15 +242,8 @@ public class Cargo extends Subsystem {
     }
 
     private void transitionSystemState(CargoSystemState state) {
-        if (state == systemState || state == CargoSystemState.MANUAL)
+        if (state == systemState)
             return;
-        if (state == CargoSystemState.DOWN_PID || state == CargoSystemState.DOWN_PO) {
-            leftArm.configContinuousCurrentLimit(20);
-            rightArm.configContinuousCurrentLimit(20);
-        } else {
-            leftArm.configContinuousCurrentLimit(ARM_MAX_AMPS);
-            rightArm.configContinuousCurrentLimit(ARM_MAX_AMPS);
-        }
         switch (state) {
         case UP_PID:
             maxErrorDerivative = 0;
@@ -282,7 +280,7 @@ public class Cargo extends Subsystem {
     }
 
     public void setArmState(CargoDesiredState state) {
-        if (state == desiredState || systemState == CargoSystemState.NOT_ZEROED)
+        if (state == desiredState || (systemState == CargoSystemState.NOT_ZEROED && state != CargoDesiredState.MANUAL))
             return;
         switch (state) {
         case UPPER_LIMIT:
@@ -300,6 +298,11 @@ public class Cargo extends Subsystem {
         case CARGO_SHIP:
             transitionSystemState(CargoSystemState.CARGO_SHIP_PID);
             break;
+
+        case MANUAL:
+            rightArm.set(0);
+            transitionSystemState(CargoSystemState.MANUAL);
+            break;
         }
         desiredState = state;
     }
@@ -311,10 +314,6 @@ public class Cargo extends Subsystem {
      */
     public void spinIntake(double speed) {
         intake.set(speed * SPIN_SCALAR);
-    }
-
-    public void reZeroArm() {
-        transitionSystemState(CargoSystemState.NOT_ZEROED);
     }
 
     public void setNeutral(NeutralMode neutralMode) {
@@ -331,7 +330,7 @@ public class Cargo extends Subsystem {
     }
 
     public enum CargoDesiredState {
-        UPPER_LIMIT, CARGO_SHIP, ROCKET, LOWER_LIMIT;
+        MANUAL, UPPER_LIMIT, CARGO_SHIP, ROCKET, LOWER_LIMIT;
     }
 
     private enum CargoSystemState {

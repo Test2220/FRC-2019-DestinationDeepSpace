@@ -3,9 +3,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import frc.robot.commands.TurnToAngle;
+import frc.robot.commands.cargo.ArmManual;
 import frc.robot.commands.cargo.ControlArm;
-import frc.robot.commands.cargo.ControlHabPiston;
-import frc.robot.commands.cargo.ReZeroArm;
+import frc.robot.commands.cargo.SetHabPiston;
 import frc.robot.commands.limelight.*;
 import frc.robot.commands.shield.*;
 import frc.robot.subsystems.Cargo.CargoDesiredState;
@@ -35,8 +35,10 @@ public class OI {
 
     // Limelight automation
     driver.getButton(Button.A).whileHeld(new AlignToVisionTarget(RobotMap.LOADING_STATION_AND_ROCKET_PIPELINE));
+    driver.getButton(Button.A).whileHeld(new TakeSnapshot(false));
     // driver.getButton(Button.B).whileHeld(new DriveToLoadingStation());
     driver.getButton(Button.B).whileHeld(new AlignToVisionTarget(RobotMap.CARGO_SHIP_PIPELINE));
+    driver.getButton(Button.B).whileHeld(new TakeSnapshot(false));
 
     // Turning to angles
     driver.getButton(Button.RIGHT_BUMPER).whenPressed(new TurnToAngle(180));
@@ -59,13 +61,13 @@ public class OI {
     manipulator.getDpad(Dpad.LEFT).whenPressed(new ControlArm(CargoDesiredState.UPPER_LIMIT));
 
     // Hab climber controls
-    manipulator.getTriggerButton(Hand.kRight).whenPressed(new ControlHabPiston(Value.kForward));
-    manipulator.getTriggerButton(Hand.kLeft).whenPressed(new ControlHabPiston(Value.kReverse));
+    manipulator.getTriggerButton(Hand.kRight).whenPressed(new SetHabPiston(Value.kForward));
+    manipulator.getTriggerButton(Hand.kLeft).whenPressed(new SetHabPiston(Value.kReverse));
 
-    // Rezero cargo arm
-    manipulator.getButton(Button.START).whenPressed(new ReZeroArm());
+    // Set arm to manual mode
+    manipulator.getButton(Button.START).whenPressed(new ArmManual());
 
     // Take limelight snapshot
-    manipulator.getButton(Button.LEFT_BUMPER).whenPressed(new TakeSnapshot());
+    manipulator.getButton(Button.LEFT_BUMPER).whenPressed(new TakeSnapshot(true));
   }
 }

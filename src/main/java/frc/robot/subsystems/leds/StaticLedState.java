@@ -18,5 +18,6 @@ public class StaticLedState implements TimedLedState {
     public static final StaticLedState yellow = new StaticLedState(Color.yellow);
     public static final StaticLedState green = new StaticLedState(Color.green);
     public static final StaticLedState black = new StaticLedState(Color.black);
-    public static final StaticLedState magenta = new StaticLedState(Color.magenta);
+    public static final StaticLedState magenta = new StaticLedState(Color.magenta); 
+    public static final StaticLedState cyan = new StaticLedState(Color.cyan);
 }
