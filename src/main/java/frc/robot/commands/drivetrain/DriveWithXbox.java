@@ -17,6 +17,11 @@ public class DriveWithXbox extends Command {
 
     // Turning multiplier
     private static final double TURN_MULTIPLIER = 0.9;
+    private static final double MAX_CHANGE = 0.125;
+
+    private double lastDrivePower = 0;
+    private double lastTurnPower = 0;
+    // private final double MAX_CHANGE = 0.001;
 
     /* COMMAND CONSTRUCTOR */
 
@@ -37,21 +42,35 @@ public class DriveWithXbox extends Command {
     @Override
     protected void execute() {
         // Grab joystick values used for curvature drive calculation
-        double power = -Robot.oi.driver.getY(Hand.kLeft);
-        double turn = Robot.oi.driver.getX(Hand.kRight) * TURN_MULTIPLIER;
+        double drivePower = -Robot.oi.driver.getY(Hand.kLeft);
+        double turnPower = Robot.oi.driver.getX(Hand.kRight) * TURN_MULTIPLIER;
+
+        // Limit acceleration by limiting the power differential from the previous iteration 
+        double dpForward = (drivePower - lastDrivePower);
+        double dpTurn = (turnPower - lastTurnPower);
+
+        if (Math.abs(dpForward) > MAX_CHANGE) {
+            drivePower = lastDrivePower + Math.signum(dpForward) * MAX_CHANGE;
+        }
+
+        if (Math.abs(dpTurn) > MAX_CHANGE) {
+            turnPower = lastTurnPower + Math.signum(dpTurn) * MAX_CHANGE;
+        }
+
+        lastDrivePower = drivePower;
+        lastTurnPower = turnPower;
 
         //Slow mode for turning only
         if (Robot.oi.driver.getControllerObject().getTriggerAxis(Hand.kLeft) >= 0.25) {
-            turn *= 0.5;
+            turnPower *= 0.5;
         }
         
         //reverse mode
         if (Robot.oi.driver.getControllerObject().getTriggerAxis(Hand.kRight) >= 0.25) {
-            power *= -1;
+            drivePower *= -1;
         }
-
-        // Run curvature drive off of drivetrain subsystem
-        Robot.drivetrain.drive(power, turn);
+        
+        Robot.drivetrain.drive(drivePower, turnPower);
     }
 
     /**
