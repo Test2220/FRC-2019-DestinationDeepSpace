@@ -46,8 +46,8 @@ public class AlignToVisionTargetGyro extends PIDCommand {
 
     @Override
     protected void execute() {
-        System.out.println("Current Gyro val: " + Robot.navX.getAngle());
-        System.out.println("PID Get: " + getPIDController().get());
+        // System.out.println("Current Gyro val: " + Robot.navX.getAngle());
+        // System.out.println("PID Get: " + getPIDController().get());
 
         double setpoint = Robot.navX.getAngle() + Robot.limelight.getHOffset();
 

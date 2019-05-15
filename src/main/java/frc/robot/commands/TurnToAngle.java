@@ -85,8 +85,8 @@ public class TurnToAngle extends PIDCommand {
      */
     @Override
     protected void execute() {
-        System.out.println("Current Gyro val: " + Robot.navX.getAngle());
-        System.out.println("PID Get: " + getPIDController().get());
+        // System.out.println("Current Gyro val: " + Robot.navX.getAngle());
+        // System.out.println("PID Get: " + getPIDController().get());
     }
 
     /**
