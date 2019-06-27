@@ -71,8 +71,8 @@ public class Cargo extends Subsystem {
     private WPI_TalonSRX intake = new WPI_TalonSRX(RobotMap.INTAKE);
 
     // Limit switches
-    private LimitSwitch lowerLimit = new LimitSwitch(RobotMap.LOWER_CARGO_LIMIT, true);
-    private LimitSwitch upperLimit = new LimitSwitch(RobotMap.UPPER_CARGO_LIMIT, true);
+    private LimitSwitch lowerLimit = new LimitSwitch(RobotMap.CARGO_ARM_LOWER_LIMIT_SWITCH, true);
+    private LimitSwitch upperLimit = new LimitSwitch(RobotMap.CARGO_ARM_UPPER_LIMIT_SWITCH, true);
 
     /* STATE MACHINE MEMBERS */
 

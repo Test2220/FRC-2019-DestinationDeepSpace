@@ -25,8 +25,8 @@ public class Shield extends Subsystem {
     private DoubleSolenoid grabber = new DoubleSolenoid(RobotMap.GRABBER_FORWARD, RobotMap.GRABBER_REVERSE);
 
     // Limit switches
-    private LimitSwitch leftSwitch = new LimitSwitch(RobotMap.LEFT_SWITCH, true);
-    private LimitSwitch rightSwitch = new LimitSwitch(RobotMap.RIGHT_SWITCH, true);
+    private LimitSwitch leftSwitch = new LimitSwitch(RobotMap.SHIELD_LEFT_SWITCH, true);
+    private LimitSwitch rightSwitch = new LimitSwitch(RobotMap.SHIELD_RIGHT_SWITCH, true);
     private ShieldState shieldState = ShieldState.RELEASED_READY_TO_AUT0_GRAB;
     private double lastLimitSwitchPressTime = 0;
 
