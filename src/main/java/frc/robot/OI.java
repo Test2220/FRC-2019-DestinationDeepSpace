@@ -61,8 +61,8 @@ public class OI {
     manipulator.getDpad(Dpad.LEFT).whenPressed(new ControlArm(CargoDesiredState.UPPER_LIMIT));
 
     // Hab climber controls
-    manipulator.getTriggerButton(Hand.kRight).whenPressed(new SetHabPiston(Value.kReverse));  // Extend
-    manipulator.getTriggerButton(Hand.kLeft).whenPressed(new SetHabPiston(Value.kForward)); // Retract
+    // manipulator.getTriggerButton(Hand.kRight).whenPressed(new SetHabPiston(Value.kReverse));  // Extend
+    // manipulator.getTriggerButton(Hand.kLeft).whenPressed(new SetHabPiston(Value.kForward)); // Retract
 
     // Set arm to manual mode
     manipulator.getButton(Button.START).whenPressed(new ArmManual());
