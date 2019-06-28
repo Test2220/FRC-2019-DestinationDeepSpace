@@ -64,7 +64,7 @@ public class DriveWithXbox extends Command {
         lastPower = power;
         lastTurn = turn;
 
-        Robot.drivetrain.drive(power, turn * TURN_MULTIPLIER);
+        Robot.drivetrain.drive(power, turn);
     }
 
     /**
