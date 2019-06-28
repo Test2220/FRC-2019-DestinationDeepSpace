@@ -27,10 +27,8 @@ public class RobotMap {
   /* HAB CLIMBER IDS */
 
   // Piston channel IDs
-  // public static final int LEFT_CLIMBER_FORWARD = 2;
-  // public static final int LEFT_CLIMBER_REVERSE = 3;
-  public static final int RIGHT_CLIMBER_FORWARD = 6;
-  public static final int RIGHT_CLIMBER_REVERSE = 7;
+  public static final int CLIMB_PISTON_FORWARD = 6;
+  public static final int CLIMB_PISTON_REVERSE = 7;
 
   /* SHIELD SUBSYSTEM IDS */
 

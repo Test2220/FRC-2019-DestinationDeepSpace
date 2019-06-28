@@ -38,7 +38,7 @@ public class Cargo extends Subsystem {
     // Arm position constants
     private static final int MAX_ARM_POS = 8150;
     public static int armFloor = -(MAX_ARM_POS);
-    public static final int ARM_ROCKET = -4577; //-4466
+    public static final int ARM_ROCKET = -4577; // -4466
     public static final int ARM_CARGOSHIP = -(MAX_ARM_POS - 6300);
     public static final int ARM_UP = -100;
 
@@ -54,8 +54,7 @@ public class Cargo extends Subsystem {
     private final double UP_SPEED = 0.35;
     private final double DOWN_SPEED = -0.15;
 
-    // Holding PID change maximum change in position TODO: Check values in
-    // shuffleboard to properly tune
+    // Max holding change in error
     private final double MAX_HOLD_ERROR_CHANGE = 0.1;
 
     // Maximum error derivative in arm PID loop
@@ -80,11 +79,9 @@ public class Cargo extends Subsystem {
     private CargoDesiredState desiredState = CargoDesiredState.UPPER_LIMIT;
     private CargoSystemState systemState = CargoSystemState.NOT_ZEROED;
 
-    // Climbing
-    // private DoubleSolenoid leftClimber = new DoubleSolenoid(RobotMap.LEFT_CLIMBER_FORWARD,
-            // RobotMap.LEFT_CLIMBER_REVERSE);
-    private DoubleSolenoid rightClimber = new DoubleSolenoid(RobotMap.RIGHT_CLIMBER_FORWARD,
-            RobotMap.RIGHT_CLIMBER_REVERSE);
+    // Climbing piston
+    private DoubleSolenoid climbPiston = new DoubleSolenoid(RobotMap.CLIMB_PISTON_FORWARD,
+            RobotMap.CLIMB_PISTON_REVERSE);
 
     /* SHUFFLEBOARD ENTRIES */
 
@@ -155,8 +152,7 @@ public class Cargo extends Subsystem {
     /* CONTROL METHODS */
 
     public void setClimber(Value val) {
-        // leftClimber.set(val);
-        rightClimber.set(val);
+        climbPiston.set(val);
     }
 
     @Override
@@ -175,7 +171,7 @@ public class Cargo extends Subsystem {
             leftArm.configContinuousCurrentLimit(ARM_MAX_AMPS);
             rightArm.configContinuousCurrentLimit(ARM_MAX_AMPS);
         }
- 
+
         switch (systemState) {
         case MANUAL:
             double power = Robot.oi.manipulator.getY(Hand.kRight);
