@@ -3,6 +3,7 @@ package frc.robot.commands.drivetrain;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.utils.XboxWrapper.Button;
 
 /**
  * Drive with xbox command references driver controller xbox controller defined
@@ -21,6 +22,7 @@ public class DriveWithXbox extends Command {
 
     private double lastDrivePower = 0;
     private double lastTurnPower = 0;
+
     // private final double MAX_CHANGE = 0.001;
 
     /* COMMAND CONSTRUCTOR */
@@ -42,8 +44,12 @@ public class DriveWithXbox extends Command {
     @Override
     protected void execute() {
         // Grab joystick values used for curvature drive calculation
-        double drivePower = -Robot.oi.driver.getY(Hand.kLeft);
-        double turnPower = Robot.oi.driver.getX(Hand.kRight) * TURN_MULTIPLIER;
+
+        Robot.oi.childActive = Robot.oi.childMode && (Robot.oi.driver.getTrigger(Hand.kLeft) > 0.5);
+
+        double drivePower = Robot.oi.childActive ? -Robot.oi.manipulator.getY(Hand.kLeft) : -Robot.oi.driver.getY(Hand.kLeft);
+        double turnPower = Robot.oi.childActive ? Robot.oi.manipulator.getX(Hand.kRight) : Robot.oi.driver.getX(Hand.kRight);
+        turnPower *= TURN_MULTIPLIER;
 
         // Limit acceleration by limiting the power differential from the previous iteration 
         double dpForward = (drivePower - lastDrivePower);

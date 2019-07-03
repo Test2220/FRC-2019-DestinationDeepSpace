@@ -35,11 +35,12 @@ public class SuckySuckCargo extends Command {
      */
     @Override
     protected void execute() {
+
         // Grab joystick values from manipulator controller
         double spinSpeed = Robot.oi.manipulator.getY(Hand.kLeft);
 
         // Pass joystick values to and call control methods out of subsystem
-        if (Math.abs(spinSpeed) > INTAKE_DEADZONE) {
+        if (!Robot.oi.childMode && (Math.abs(spinSpeed) > INTAKE_DEADZONE)) {
             Robot.cargo.spinIntake(spinSpeed);
         } else {
             Robot.cargo.spinIntake(0);
