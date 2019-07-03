@@ -36,6 +36,7 @@ public class OI {
     /* DRIVER CONTROLS */
 
     // Limelight automation
+
     driver.getButton(Button.A).whileHeld(new AlignToVisionTarget(RobotMap.LOADING_STATION_AND_ROCKET_PIPELINE));
     driver.getButton(Button.A).whileHeld(new TakeSnapshot(false));
     // driver.getButton(Button.B).whileHeld(new DriveToLoadingStation());

@@ -77,8 +77,8 @@ public class Cargo extends Subsystem {
     /* STATE MACHINE MEMBERS */
 
     // Subsystem state
-    private CargoDesiredState desiredState = CargoDesiredState.UPPER_LIMIT;
-    private CargoSystemState systemState = CargoSystemState.NOT_ZEROED;
+    private CargoDesiredState desiredState = CargoDesiredState.MANUAL;
+    private CargoSystemState systemState = CargoSystemState.MANUAL;
 
     // Climbing
     private DoubleSolenoid leftClimber = new DoubleSolenoid(RobotMap.LEFT_CLIMBER_FORWARD,
@@ -176,7 +176,13 @@ public class Cargo extends Subsystem {
  
         switch (systemState) {
         case MANUAL:
-            double power = Robot.oi.manipulator.getY(Hand.kRight);
+            double power = 0;
+            if (Robot.oi.childMode) {
+                if (Robot.oi.childActive) power = -Robot.oi.driver.getY(Hand.kRight);
+            }
+            else {
+                power = -Robot.oi.manipulator.getY(Hand.kRight);
+            }
             rightArm.set(power * 0.6);
             if (power > 0) {
                 leftArm.configContinuousCurrentLimit(ARM_CLIMB_AMPS);

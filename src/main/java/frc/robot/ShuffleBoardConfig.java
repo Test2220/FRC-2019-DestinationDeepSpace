@@ -22,6 +22,7 @@ public class ShuffleBoardConfig {
         private static final NetworkTableEntry matchNumberEntry = matchDetailsTab.add("Match Number", 0).getEntry();
         private static final NetworkTableEntry matchTypeEntry = matchDetailsTab.add("Match Type", "").getEntry();
         private static final NetworkTableEntry replayNumberEntry = matchDetailsTab.add("Replay Number", 0).getEntry();
+        private static final NetworkTableEntry childModeToggleEntry = matchDetailsTab.add("Child Mode Toggle", true).getEntry();
 
         public static void updateMatchDetails() {
                 allianceEntry.setString(DriverStation.getInstance().getAlliance().toString());
@@ -30,5 +31,6 @@ public class ShuffleBoardConfig {
                 matchNumberEntry.setNumber(DriverStation.getInstance().getMatchNumber());
                 matchTypeEntry.setString(DriverStation.getInstance().getMatchType().toString());
                 replayNumberEntry.setNumber(DriverStation.getInstance().getReplayNumber());
+                childModeToggleEntry.setBoolean(Robot.oi.childMode);
         }
 }
