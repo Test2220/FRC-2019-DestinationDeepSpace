@@ -81,10 +81,7 @@ public class Cargo extends Subsystem {
     private CargoSystemState systemState = CargoSystemState.NOT_ZEROED;
 
     // Climbing
-    private DoubleSolenoid leftClimber = new DoubleSolenoid(RobotMap.LEFT_CLIMBER_FORWARD,
-            RobotMap.LEFT_CLIMBER_REVERSE);
-    private DoubleSolenoid rightClimber = new DoubleSolenoid(RobotMap.RIGHT_CLIMBER_FORWARD,
-            RobotMap.RIGHT_CLIMBER_REVERSE);
+    private DoubleSolenoid climber = new DoubleSolenoid(RobotMap.CLIMBER_EXTEND, RobotMap.CLIMBER_RETRACT);
 
     /* SHUFFLEBOARD ENTRIES */
 
@@ -121,6 +118,9 @@ public class Cargo extends Subsystem {
         // Set right arm Talon to follow left arm Talon
         leftArm.follow(rightArm);
 
+        // Make sure Hab piston is set to retracted
+        setClimber(Value.kReverse);
+
         rightArm.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
         rightArm.setSelectedSensorPosition(0, 0, 0);
         rightArm.setSensorPhase(true);
@@ -153,8 +153,7 @@ public class Cargo extends Subsystem {
     /* CONTROL METHODS */
 
     public void setClimber(Value val) {
-        leftClimber.set(val);
-        rightClimber.set(val);
+        climber.set(val);
     }
 
     @Override
@@ -173,12 +172,12 @@ public class Cargo extends Subsystem {
             leftArm.configContinuousCurrentLimit(ARM_MAX_AMPS);
             rightArm.configContinuousCurrentLimit(ARM_MAX_AMPS);
         }
- 
+
         switch (systemState) {
         case MANUAL:
-            double power = Robot.oi.manipulator.getY(Hand.kRight);
+            double power = -Robot.oi.manipulator.getY(Hand.kRight);
             rightArm.set(power * 0.6);
-            if (power > 0) {
+            if (power < 0) {
                 leftArm.configContinuousCurrentLimit(ARM_CLIMB_AMPS);
                 rightArm.configContinuousCurrentLimit(ARM_CLIMB_AMPS);
             } else {
